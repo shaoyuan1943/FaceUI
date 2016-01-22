@@ -19,6 +19,8 @@ namespace Face
 		WString wndEventClass;
 		bool	isMainWnd;
 		FaceWindowImpl *wnd{ nullptr };
+		fuint style{ 0 };
+		fuint exStyle{ 0 };
 	};
 }
 #endif // _WINDOWOBJECT_H_

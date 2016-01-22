@@ -41,7 +41,38 @@ namespace Face
 		
 		CHECK_ERROR(wndNode, L"Error in resource.xml file.");
 		CHECK_ERROR(fontNode, L"Error in resource.xml file.");
-
+		
+		auto fn = [](FaceWindowObject *wo, const wchar_t *name, const wchar_t *value) 
+		{
+			if (wcscmp(name, L"style") == 0)
+			{
+				Match(value)
+				{
+					Case(L"UI_WNDSTYLE_FRAME")
+						wo->style = UI_WNDSTYLE_EX_FRAME;
+					Case(L"UI_WNDSTYLE_CHILD")
+						wo->style = UI_WNDSTYLE_CHILD;
+					Case(L"UI_WNDSTYLE_DIALOG")
+						wo->style = UI_WNDSTYLE_DIALOG;
+					Otherwise()
+						wo->style = UI_WNDSTYLE_CONTAINER;
+				}
+				EndMatch
+			}
+			else if (wcscmp(name, L"exstyle") == 0)
+			{
+				Match(value)
+				{
+					Case(L"UI_WNDSTYLE_EX_FRAME")
+						wo->exStyle = UI_WNDSTYLE_EX_FRAME;
+					Case(L"UI_WNDSTYLE_EX_DIALOG")
+						wo->exStyle = UI_WNDSTYLE_EX_DIALOG;
+					Otherwise()
+						wo->exStyle = 0;
+				}
+				EndMatch
+			}
+		};
 		for (xml_node<wchar_t> *node = wndNode->first_node(); node != nullptr; node = node->next_sibling())
 		{
 			auto pwo = new FaceWindowObject;
@@ -60,6 +91,10 @@ namespace Face
 						wchar_t wszFile[MAX_PATH] = { 0 };
 						PathCombine(wszFile, FaceApp::getInstance()->GetResourcePath().GetFullPath().Buffer(), attr->value());
 						pwo->wndFile = wszFile;
+					Case(L"style")
+						fn(pwo, L"style", attr->value());
+					Case(L"exstyle")
+						fn(pwo, L"exstyle", attr->value());
 				}
 				EndMatch
 

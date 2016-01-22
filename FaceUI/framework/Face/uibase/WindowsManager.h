@@ -21,6 +21,10 @@ namespace Face
 
 		void RegisterMessageListener(const wchar_t* wndClassName, FaceMessageListener *listener);
 		FaceMessageListener* GetMessageListener(const wchar_t *wndClassName);
+
+		void ShowWindow(const wchar_t *wndClassName, bool bShow = true, bool bTakeFocus = true);
+		fuint ShowModal();
+		void CloseWindow(fuint ret = IDOK);
 	private:
 		typedef std::unordered_map<std::wstring, FaceWindowObject*> WindowsObjectMap;
 		typedef std::unordered_map<std::wstring, FaceMessageListener*> WindowsMessageListenersMap;
