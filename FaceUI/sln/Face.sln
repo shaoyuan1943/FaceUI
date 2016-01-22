@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Face", "..\framework\Face\Face.vcxproj", "{4B210283-22DD-440D-8A79-E9DFF5A779BA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test1", "..\..\Test1\Test1.vcxproj", "{019BE011-9DFA-4D65-A8EF-60AE296D6585}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		UnicodeDebug|Win32 = UnicodeDebug|Win32
+		UnicodeRelease|Win32 = UnicodeRelease|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B210283-22DD-440D-8A79-E9DFF5A779BA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B210283-22DD-440D-8A79-E9DFF5A779BA}.Debug|Win32.Build.0 = Debug|Win32
+		{4B210283-22DD-440D-8A79-E9DFF5A779BA}.Release|Win32.ActiveCfg = Release|Win32
+		{4B210283-22DD-440D-8A79-E9DFF5A779BA}.Release|Win32.Build.0 = Release|Win32
+		{4B210283-22DD-440D-8A79-E9DFF5A779BA}.UnicodeDebug|Win32.ActiveCfg = Debug|Win32
+		{4B210283-22DD-440D-8A79-E9DFF5A779BA}.UnicodeRelease|Win32.ActiveCfg = Release|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.Debug|Win32.ActiveCfg = Debug|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.Debug|Win32.Build.0 = Debug|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.Release|Win32.ActiveCfg = Release|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.Release|Win32.Build.0 = Release|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.UnicodeDebug|Win32.ActiveCfg = Debug|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.UnicodeDebug|Win32.Build.0 = Debug|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.UnicodeRelease|Win32.ActiveCfg = Release|Win32
+		{019BE011-9DFA-4D65-A8EF-60AE296D6585}.UnicodeRelease|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

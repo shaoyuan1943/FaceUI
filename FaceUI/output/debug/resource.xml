@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Component>
+	<Windows>
+		<MainWindow name="mainwindow" file=".\main_window.xml" event="MainWindow" />
+		<Window name="window1" file=".\window1.xml" event="Window1"/>
+		<Window name="window2" file=".\window2.xml" evemt="Window2"/>
+	</Windows>
+
+	<Fonts>
+		<Font name="yahei14"  face="微软雅黑" size="22" bold="false" italic="false" />
+		<Font name="yahei15"  face="微软雅黑" size="22" bold="true" italic="false" />
+	</Fonts>
+</Component>

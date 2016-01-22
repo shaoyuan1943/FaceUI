@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{5c966b2c-439e-4b7d-a51d-105395102da0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{dbe40101-5e5e-4dc4-aa62-c95c439c775b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="parse">
+      <UniqueIdentifier>{ec3256d2-ecaa-4821-b619-1516e6c517c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty">
+      <UniqueIdentifier>{00eab40e-5848-4814-8ddd-140619e94f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="app">
+      <UniqueIdentifier>{459cc6d5-032d-4a3d-86ff-272f9de6f9b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="uibase">
+      <UniqueIdentifier>{066202e8-303e-4b2b-8159-af099467ce74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\rapidxml">
+      <UniqueIdentifier>{e13fe969-b581-42db-8fc5-093211ebd87f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdparty\match">
+      <UniqueIdentifier>{c9c453b8-0fc8-40f9-85b2-1dcaeddf2d34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{759075a1-6feb-46e4-8408-c8e4265e91b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controls">
+      <UniqueIdentifier>{4e33b70f-24f5-49b1-afd3-4f46caa2117d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="base\Event.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Function.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Lazy.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Pointer.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Singleton.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Template.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Type.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Define.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\FileSystem.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Lock.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Object.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Strings.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="parse\ParseWindowIndexFileDelegate.h">
+      <Filter>parse</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceUI.h" />
+    <ClInclude Include="app\Application.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="uibase\FontObject.h">
+      <Filter>uibase</Filter>
+    </ClInclude>
+    <ClInclude Include="uibase\FontsManager.h">
+      <Filter>uibase</Filter>
+    </ClInclude>
+    <ClInclude Include="uibase\WindowsManager.h">
+      <Filter>uibase</Filter>
+    </ClInclude>
+    <ClInclude Include="uibase\WindowObject.h">
+      <Filter>uibase</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\rapidxml\rapidxml.hpp">
+      <Filter>3rdparty\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\rapidxml\rapidxml_iterators.hpp">
+      <Filter>3rdparty\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\rapidxml\rapidxml_print.hpp">
+      <Filter>3rdparty\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\rapidxml\rapidxml_utils.hpp">
+      <Filter>3rdparty\rapidxml</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\pattern-matching\match.hpp">
+      <Filter>3rdparty\match</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Window.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Utils.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="core\WindowImpl.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\MessgaeListener.h">
+      <Filter>core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="utils\FileSystem.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\Lock.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\Object.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="parse\ParseWindowIndexFileDelegate.cpp">
+      <Filter>parse</Filter>
+    </ClCompile>
+    <ClCompile Include="app\Application.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="uibase\FontObject.cpp">
+      <Filter>uibase</Filter>
+    </ClCompile>
+    <ClCompile Include="uibase\FontsManager.cpp">
+      <Filter>uibase</Filter>
+    </ClCompile>
+    <ClCompile Include="uibase\WindowsManager.cpp">
+      <Filter>uibase</Filter>
+    </ClCompile>
+    <ClCompile Include="uibase\WindowObject.cpp">
+      <Filter>uibase</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Window.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\Utils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="core\WindowImpl.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\MessgaeListener.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
