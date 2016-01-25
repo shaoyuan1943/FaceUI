@@ -14,23 +14,23 @@ namespace Face
 	ParseResourceIndexFileDelegate::~ParseResourceIndexFileDelegate()
 	{}
 
-	bool ParseResourceIndexFileDelegate::Parse(FaceString& _strPath)
+	bool ParseResourceIndexFileDelegate::Parse(String& _strPath)
 	{
 		CHECK_ERROR(_strPath.Length(), L"The resource index file is null.");
-		FaceFilePath path(_strPath);
+		FilePath path(_strPath);
 		CHECK_ERROR(!path.IsFolder(), L"The resource index file is folder.");
-		FaceFile file(path);
+		File file(path);
 		CHECK_ERROR(file.Exists(), L"The resource index file is not exists.");
 		_Parse(_strPath);
 
 		return  true;
 	}
 
-	void ParseResourceIndexFileDelegate::_Parse(FaceString& _strPath)
+	void ParseResourceIndexFileDelegate::_Parse(String& _strPath)
 	{
 		using namespace rapidxml;
 
-		rapidxml::file<wchar_t> xml(FaceString::W2A(_strPath.Buffer()).c_str());
+		rapidxml::file<wchar_t> xml(String::W2A(_strPath.Buffer()).c_str());
 		CHECK_ERROR(xml.size(), L"Error in resource.xml file.");
 		xml_document<wchar_t> doc;
 		doc.parse<0>(xml.data());
@@ -42,20 +42,20 @@ namespace Face
 		CHECK_ERROR(wndNode, L"Error in resource.xml file.");
 		CHECK_ERROR(fontNode, L"Error in resource.xml file.");
 		
-		auto fn = [](FaceWindowObject *wo, const wchar_t *name, const wchar_t *value) 
+		auto fn = [](WndConfig *wo, const wchar_t *name, const wchar_t *value) 
 		{
 			if (wcscmp(name, L"style") == 0)
 			{
 				Match(value)
 				{
 					Case(L"UI_WNDSTYLE_FRAME")
-						wo->style = UI_WNDSTYLE_EX_FRAME;
+						wo->style_ = UI_WNDSTYLE_EX_FRAME;
 					Case(L"UI_WNDSTYLE_CHILD")
-						wo->style = UI_WNDSTYLE_CHILD;
+						wo->style_ = UI_WNDSTYLE_CHILD;
 					Case(L"UI_WNDSTYLE_DIALOG")
-						wo->style = UI_WNDSTYLE_DIALOG;
+						wo->style_ = UI_WNDSTYLE_DIALOG;
 					Otherwise()
-						wo->style = UI_WNDSTYLE_CONTAINER;
+						wo->style_ = UI_WNDSTYLE_CONTAINER;
 				}
 				EndMatch
 			}
@@ -64,51 +64,65 @@ namespace Face
 				Match(value)
 				{
 					Case(L"UI_WNDSTYLE_EX_FRAME")
-						wo->exStyle = UI_WNDSTYLE_EX_FRAME;
+						wo->exStyle_ = UI_WNDSTYLE_EX_FRAME;
 					Case(L"UI_WNDSTYLE_EX_DIALOG")
-						wo->exStyle = UI_WNDSTYLE_EX_DIALOG;
+						wo->exStyle_ = UI_WNDSTYLE_EX_DIALOG;
 					Otherwise()
-						wo->exStyle = 0;
+						wo->exStyle_ = 0;
+				}
+				EndMatch
+			}
+			else if (wcscmp(name, L"classstyle") == 0)
+			{
+				Match(value)
+				{
+					Case(L"UI_CLASSSTYLE_FRAME")
+						wo->classStyle_ = UI_CLASSSTYLE_FRAME;
+					Case(L"UI_CLASSSTYLE_CHILD")
+						wo->classStyle_ = UI_CLASSSTYLE_CHILD;
+					Case(L"UI_CLASSSTYLE_DIALOG")
+						wo->classStyle_ = UI_CLASSSTYLE_DIALOG;
+					Otherwise()
+						wo->classStyle_ = 0;
 				}
 				EndMatch
 			}
 		};
 		for (xml_node<wchar_t> *node = wndNode->first_node(); node != nullptr; node = node->next_sibling())
 		{
-			auto pwo = new FaceWindowObject;
-			pwo->isMainWnd = wcscmp(node->name(), L"MainWindow") == 0 ? true:false;
+			auto pwo = new WndConfig;
+			pwo->isMainWnd_ = wcscmp(node->name(), L"MainWindow") == 0 ? true:false;
 			for (xml_attribute<wchar_t> *attr = node->first_attribute(); attr != nullptr; attr = attr->next_attribute())
 			{
 				Match(attr->name())
 				{
 					Case(L"name")
-						pwo->wndName = attr->value();
+						pwo->wndName_ = attr->value();
 					Case(L"classname")	
-						pwo->wndClassName = attr->value();
-					Case(L"event")	
-						pwo->wndEventClass = attr->value();
+						pwo->wndClassName_ = attr->value();
 					Case(L"file")	
 						wchar_t wszFile[MAX_PATH] = { 0 };
-						PathCombine(wszFile, FaceApp::getInstance()->GetResourcePath().GetFullPath().Buffer(), attr->value());
-						pwo->wndFile = wszFile;
+						PathCombine(wszFile, App::getInstance()->GetResourcePath().GetFullPath().Buffer(), attr->value());
+						pwo->wndXmlFile_ = wszFile;
 					Case(L"style")
 						fn(pwo, L"style", attr->value());
 					Case(L"exstyle")
 						fn(pwo, L"exstyle", attr->value());
+					Case(L"classstyle")
+						fn(pwo, L"classstyle", attr->value());
 				}
 				EndMatch
 
-				CHECK_ERROR(pwo->wndName.Length(), L"Error in resource.xml");
-				CHECK_ERROR(pwo->wndClassName.Length(), L"Error in resource.xml");
-				CHECK_ERROR(pwo->wndEventClass.Length(), L"Error in resource.xml");
-				CHECK_ERROR(pwo->wndFile.Length(), L"Error in resource.xml");
+				CHECK_ERROR(pwo->wndName_.Length(), L"Error in resource.xml");
+				CHECK_ERROR(pwo->wndClassName_.Length(), L"Error in resource.xml");
+				CHECK_ERROR(pwo->wndXmlFile_.Length(), L"Error in resource.xml");
 			}
-			FaceWndsMgr::getInstance()->AddWindow(pwo->wndClassName.Buffer(), pwo);
+			WndsMgr::getInstance()->AddWndConfig(pwo->wndClassName_.Buffer(), pwo);
 		}
 
 		for (xml_node<wchar_t> *node = fontNode->first_node(); node != nullptr; node = node->next_sibling())
 		{
-			auto pFont = new FaceFontObject;
+			auto pFont = new FontConfig;
 			for (xml_attribute<wchar_t> *attr = node->first_attribute(); attr != nullptr; attr = attr->next_attribute())
 			{
 				Match(attr->name())
@@ -130,7 +144,7 @@ namespace Face
 				}
 				EndMatch
 			}
-			FaceFontsMgr::getInstance()->AddFont(pFont->name.Buffer(), pFont);
+			FontsMgr::getInstance()->AddFont(pFont->name.Buffer(), pFont);
 		}
 	}
 }

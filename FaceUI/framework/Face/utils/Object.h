@@ -7,27 +7,27 @@
 
 namespace Face
 {
-	class FACE_API FaceObject
+	class FACE_API Object
 	{
 	public:
-		virtual ~FaceObject();
+		virtual ~Object();
 	};
 
-	class FACE_API FaceNotCopyable
+	class FACE_API NotCopyable
 	{
 	private:
-		FaceNotCopyable(const FaceNotCopyable&);
-		FaceNotCopyable& operator=(const FaceNotCopyable&);
+		NotCopyable(const NotCopyable&);
+		NotCopyable& operator=(const NotCopyable&);
 	public:
-		FaceNotCopyable();
+		NotCopyable();
 	};
 
-	class FACE_API FaceError
+	class FACE_API Error
 	{
 	private:
 		const wchar_t* description;
 	public:
-		FaceError(const wchar_t* _description);
+		Error(const wchar_t* _description);
 		const wchar_t* Description()const;
 	};
 }

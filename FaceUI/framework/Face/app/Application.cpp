@@ -3,7 +3,7 @@
 
 namespace Face
 {
-	void FaceApp::Init()
+	void App::Init()
 	{
 		parseDelegate_ = new ParseResourceIndexFileDelegate;
 		wchar_t szPath[MAX_PATH] = { 0 };
@@ -11,48 +11,41 @@ namespace Face
 		instancePath_ = szPath;
 	}
 
-	void FaceApp::Destory()
+	void App::Destory()
 	{
 		SAFE_DELETE(parseDelegate_);
 	}
 
-	void FaceApp::SetResourcePath(FaceFilePath& _path)
+	void App::SetResourcePath(FilePath& _path)
 	{
 		CHECK_ERROR(_path.IsFolder(), L"The skin path is not dirs");
-		FaceString path = _path.GetFullPath();
+		WString path = _path.GetFullPath();
 		path = path + L"\\resource.xml";
-		CHECK_ERROR(FaceFile(path).Exists(), L"The resource.xml is not exist");
+		CHECK_ERROR(File(path).Exists(), L"The resource.xml is not exist");
 		skinPath_ = _path;
 
 		parseDelegate_->Parse(path);
 	}
 
-	FaceFilePath& FaceApp::GetResourcePath()
+	FilePath& App::GetResourcePath()
 	{
 		return skinPath_;
 	}
 
-	FaceFilePath& FaceApp::GetInstancePath()
+	FilePath& App::GetInstancePath()
 	{
 		return instancePath_;
 	}
 
-	FaceWindowImpl* FaceApp::GetWindowImpl(const wchar_t* wndClassName)
-	{
-		CHECK_ERROR(wndClassName, L"");
-		auto wo = FaceWndsMgr::getInstance()->GetWindowObject(wndClassName);
-		return wo->wnd;
-	}
 
-	void FaceApp::Run()
+	void App::Run()
 	{
-		auto wo = FaceWndsMgr::getInstance()->GetMainWindowObject();
-		CHECK_ERROR(wo, L"Not main window.");
+
 
 
 	}
 
-	void FaceApp::SetInstance(HINSTANCE instance)
+	void App::SetInstance(HINSTANCE instance)
 	{
 		if (instance != instance_)
 		{
@@ -60,7 +53,7 @@ namespace Face
 		}
 	}
 
-	HINSTANCE FaceApp::GetAppInstance()
+	HINSTANCE App::GetAppInstance()
 	{
 		return instance_;
 	}

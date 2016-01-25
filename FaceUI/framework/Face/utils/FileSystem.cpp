@@ -5,7 +5,7 @@
 
 namespace Face
 {
-	void FaceFilePath::Initialize()
+	void FilePath::Initialize()
 	{
 		wchar_t* buffer = new wchar_t[_fullPath.Length() + 1];
 		wcscpy_s(&buffer[0], _fullPath.Length() + 1, _fullPath.Buffer());
@@ -43,38 +43,38 @@ namespace Face
 		SAFE_DELETE_ARRAY(buffer);
 	}
 
-	FaceFilePath::FaceFilePath()
+	FilePath::FilePath()
 	{
 	}
 
-	FaceFilePath::FaceFilePath(const WString& _filePath)
+	FilePath::FilePath(const WString& _filePath)
 		:_fullPath(_filePath)
 	{
 		Initialize();
 	}
 
-	FaceFilePath::FaceFilePath(const wchar_t* _filePath)
+	FilePath::FilePath(const wchar_t* _filePath)
 		:_fullPath(_filePath)
 	{
 		Initialize();
 	}
 
-	FaceFilePath::FaceFilePath(const FaceFilePath& _filePath)
+	FilePath::FilePath(const FilePath& _filePath)
 		:_fullPath(_filePath._fullPath)
 	{
 		Initialize();
 	}
 
-	FaceFilePath::~FaceFilePath()
+	FilePath::~FilePath()
 	{
 	}
 
-	fint FaceFilePath::Compare(const FaceFilePath& a, const FaceFilePath& b)
+	fint FilePath::Compare(const FilePath& a, const FilePath& b)
 	{
 		return WString::Compare(a._fullPath, b._fullPath);
 	}
 
-	FaceFilePath FaceFilePath::operator/(const WString& relativePath)const
+	FilePath FilePath::operator/(const WString& relativePath)const
 	{
 		if (IsRoot())
 		{
@@ -86,7 +86,7 @@ namespace Face
 		}
 	}
 
-	bool FaceFilePath::IsFile()const
+	bool FilePath::IsFile()const
 	{
 		WIN32_FILE_ATTRIBUTE_DATA info;
 		BOOL result = ::GetFileAttributesEx(_fullPath.Buffer(), GetFileExInfoStandard, &info);
@@ -95,7 +95,7 @@ namespace Face
 		return (info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0;
 	}
 
-	bool FaceFilePath::IsFolder()const
+	bool FilePath::IsFolder()const
 	{
 		WIN32_FILE_ATTRIBUTE_DATA info;
 		BOOL result = GetFileAttributesEx(_fullPath.Buffer(), GetFileExInfoStandard, &info);
@@ -104,12 +104,12 @@ namespace Face
 		return (info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
 	}
 
-	bool FaceFilePath::IsRoot()const
+	bool FilePath::IsRoot()const
 	{
 		return _fullPath == L"";
 	}
 
-	WString FaceFilePath::GetName()const
+	WString FilePath::GetName()const
 	{
 		WString delimiter = Delimiter;
 		fint pos = _fullPath.FindLast(L'\\');
@@ -119,21 +119,21 @@ namespace Face
 		return _fullPath.Right(_fullPath.Length() - pos - 1);
 	}
 
-	FaceFilePath FaceFilePath::GetFolder()const
+	FilePath FilePath::GetFolder()const
 	{
 		WString delimiter = Delimiter;
 		fint pos = _fullPath.FindLast(L'\\');
 		if (!pos)
-			return FaceFilePath();
+			return FilePath();
 		return _fullPath.Left(pos);
 	}
 
-	WString FaceFilePath::GetFullPath()const
+	WString FilePath::GetFullPath()const
 	{
 		return _fullPath;
 	}
 
-	WString FaceFilePath::GetRelativePathFor(const FaceFilePath& _filePath)
+	WString FilePath::GetRelativePathFor(const FilePath& _filePath)
 	{
 		if (_fullPath.Length()==0 || _filePath._fullPath.Length()==0 || _fullPath[0] != _filePath._fullPath[0])
 		{
@@ -150,60 +150,60 @@ namespace Face
 		return buffer;
 	}
 
-	FaceFile::FaceFile()
+	File::File()
 	{
 	}
 		
-	FaceFile::FaceFile(const FaceFilePath& _filePath)
+	File::File(const FilePath& _filePath)
 		:filePath_(_filePath)
 	{
 	}
 
-	FaceFile::~FaceFile()
+	File::~File()
 	{
 	}
 
-	const FaceFilePath& FaceFile::GetFilePath()const
+	const FilePath& File::GetFilePath()const
 	{
 		return filePath_;
 	}
 
-	bool FaceFile::Exists()const
+	bool File::Exists()const
 	{
 		return filePath_.IsFile();
 	}
 
-	bool FaceFile::Delete()const
+	bool File::Delete()const
 	{
 		return DeleteFile(filePath_.GetFullPath().Buffer()) != 0;
 	}
 
-	bool FaceFile::Rename(const WString& newName)const
+	bool File::Rename(const WString& newName)const
 	{
 		WString oldFileName = filePath_.GetFullPath();
 		WString newFileName = (filePath_.GetFolder() / newName).GetFullPath();
 		return MoveFile(oldFileName.Buffer(), newFileName.Buffer()) != 0;
 	}
 
-	FaceFolder::FaceFolder()
+	Folder::Folder()
 	{
 	}
 		
-	FaceFolder::FaceFolder(const FaceFilePath& _filePath)
+	Folder::Folder(const FilePath& _filePath)
 		:filePath_(_filePath)
 	{
 	}
 
-	FaceFolder::~FaceFolder()
+	Folder::~Folder()
 	{
 	}
 
-	const FaceFilePath& FaceFolder::GetFilePath()const
+	const FilePath& Folder::GetFilePath()const
 	{
 		return filePath_;
 	}
 
-	bool FaceFolder::GetFolders(std::list<Face::FaceFolder>& folders)const
+	bool Folder::GetFolders(std::list<Face::Folder>& folders)const
 	{
 		if (!Exists()) 
 			return false;
@@ -235,14 +235,14 @@ namespace Face
 			{
 				if (wcscmp(findData.cFileName, L".") != 0 && wcscmp(findData.cFileName, L"..") != 0)
 				{
-					folders.push_back(FaceFolder(filePath_ / findData.cFileName));
+					folders.push_back(Folder(filePath_ / findData.cFileName));
 				}
 			}
 		}
 		return true;
 	}
 
-	bool FaceFolder::GetFiles(std::list<Face::FaceFile>& files)const
+	bool Folder::GetFiles(std::list<Face::File>& files)const
 	{
 		if (!Exists()) 
 			return false;
@@ -272,25 +272,25 @@ namespace Face
 
 			if (!(findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
 			{
-				files.push_back(FaceFile(filePath_ / findData.cFileName));
+				files.push_back(File(filePath_ / findData.cFileName));
 			}
 		}
 		return true;
 	}
 
-	bool FaceFolder::Exists()const
+	bool Folder::Exists()const
 	{
 		return filePath_.IsFolder();
 	}
 
-	bool FaceFolder::Create(bool recursively)const
+	bool Folder::Create(bool recursively)const
 	{
 		if (recursively)
 		{
 			auto folder = filePath_.GetFolder();
 			if (folder.IsFile()) return false;
 			if (folder.IsFolder()) return Create(false);
-			return FaceFolder(folder).Create(true) && Create(false);
+			return Folder(folder).Create(true) && Create(false);
 		}
 		else
 		{
@@ -298,12 +298,12 @@ namespace Face
 		}
 	}
 
-	bool FaceFolder::Delete(bool recursively)const
+	bool Folder::Delete(bool recursively)const
 	{
 		if (!Exists()) return false;
 		if (recursively)
 		{
-			std::list<FaceFolder> folders;
+			std::list<Folder> folders;
 			GetFolders(folders);
 			for (auto iter = folders.begin(); iter != folders.end(); iter++)
 			{
@@ -313,7 +313,7 @@ namespace Face
 				}
 			}
 
-			std::list<FaceFile> files;
+			std::list<File> files;
 			GetFiles(files);
 			for (auto iter = files.begin(); iter != files.end(); iter++)
 			{
@@ -328,7 +328,7 @@ namespace Face
 		return RemoveDirectory(filePath_.GetFullPath().Buffer()) != 0;
 	}
 
-	bool FaceFolder::Rename(const WString& newName)const
+	bool Folder::Rename(const WString& newName)const
 	{
 		WString oldFileName = filePath_.GetFullPath();
 		WString newFileName = (filePath_.GetFolder() / newName).GetFullPath();

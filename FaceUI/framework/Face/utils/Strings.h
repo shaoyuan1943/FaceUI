@@ -8,7 +8,7 @@ namespace Face
 {
 	using namespace Face;
 
-	class FACE_API FaceString : public Face::FaceObject
+	class FACE_API String : public Face::Object
 	{
 	private:
 		static const wchar_t zero = 0;
@@ -26,7 +26,7 @@ namespace Face
 			return result;
 		}
 
-		static fint Compare(const wchar_t* bufA, const FaceString& strB)
+		static fint Compare(const wchar_t* bufA, const String& strB)
 		{
 			const wchar_t* bufB = strB.buffer_ + strB.start_;
 			const wchar_t* bufAOld = bufA;
@@ -44,7 +44,7 @@ namespace Face
 
 	public:
 
-		static fint Compare(const FaceString& strA, const FaceString& strB)
+		static fint Compare(const String& strA, const String& strB)
 		{
 			const wchar_t* bufA = strA.buffer_ + strA.start_;
 			const wchar_t* bufB = strB.buffer_ + strB.start_;
@@ -82,7 +82,7 @@ namespace Face
 			}
 		}
 
-		FaceString(const FaceString& string, fint _start, fint _length)
+		String(const String& string, fint _start, fint _length)
 		{
 			if (_length <= 0)
 			{
@@ -103,7 +103,7 @@ namespace Face
 			}
 		}
 
-		FaceString(const FaceString& dest, const FaceString& source, fint index, fint count)
+		String(const String& dest, const String& source, fint index, fint count)
 		{
 			if (index == 0 && count == dest.length_ && source.length_ == 0)
 			{
@@ -127,9 +127,9 @@ namespace Face
 			}
 		}
 	public:
-		static FaceString Empty;
+		static String Empty;
 
-		FaceString()
+		String()
 		{
 			buffer_ = (wchar_t*)&zero;
 			counter_ = 0;
@@ -138,7 +138,7 @@ namespace Face
 			realLength_ = 0;
 		}
 
-		FaceString(const wchar_t& _char)
+		String(const wchar_t& _char)
 		{
 			counter_ = new fint(1);
 			start_ = 0;
@@ -149,7 +149,7 @@ namespace Face
 			realLength_ = length_;
 		}
 
-		FaceString(const wchar_t* _buffer, fint _length)
+		String(const wchar_t* _buffer, fint _length)
 		{
 			if (_length <= 0)
 			{
@@ -171,9 +171,9 @@ namespace Face
 			}
 		}
 
-		FaceString(const wchar_t* _buffer, bool copy = true)
+		String(const wchar_t* _buffer, bool copy = true)
 		{
-			CHECK_ERROR(_buffer != 0, L"FaceString::FaceString(const wchar_t*, bool)#Cannot construct a string from nullptr.");
+			CHECK_ERROR(_buffer != 0, L"String::String(const wchar_t*, bool)#Cannot construct a string from nullptr.");
 			if (copy)
 			{
 				counter_ = new fint(1);
@@ -193,7 +193,7 @@ namespace Face
 			}
 		}
 
-		FaceString(const FaceString& string)
+		String(const String& string)
 		{
 			buffer_ = string.buffer_;
 			counter_ = string.counter_;
@@ -203,7 +203,7 @@ namespace Face
 			Inc();
 		}
 
-		FaceString(FaceString&& string)
+		String(String&& string)
 		{
 			buffer_ = string.buffer_;
 			counter_ = string.counter_;
@@ -218,7 +218,7 @@ namespace Face
 			string.realLength_ = 0;
 		}
 
-		~FaceString()
+		~String()
 		{
 			Dec();
 		}
@@ -239,7 +239,7 @@ namespace Face
 			return buffer_ + start_;
 		}
 
-		FaceString& operator=(const FaceString& string)
+		String& operator=(const String& string)
 		{
 			if (this != &string)
 			{
@@ -254,7 +254,7 @@ namespace Face
 			return *this;
 		}
 
-		FaceString& operator=(FaceString&& string)
+		String& operator=(String&& string)
 		{
 			if (this != &string)
 			{
@@ -274,42 +274,42 @@ namespace Face
 			return *this;
 		}
 
-		FaceString& operator+=(const FaceString& string)
+		String& operator+=(const String& string)
 		{
 			return *this = *this + string;
 		}
 
-		FaceString operator+(const FaceString& string)const
+		String operator+(const String& string)const
 		{
-			return FaceString(*this, string, length_, 0);
+			return String(*this, string, length_, 0);
 		}
 
-		bool operator==(const FaceString& string)const
+		bool operator==(const String& string)const
 		{
 			return Compare(*this, string) == 0;
 		}
 
-		bool operator!=(const FaceString& string)const
+		bool operator!=(const String& string)const
 		{
 			return Compare(*this, string) != 0;
 		}
 
-		bool operator>(const FaceString& string)const
+		bool operator>(const String& string)const
 		{
 			return Compare(*this, string) > 0;
 		}
 
-		bool operator>=(const FaceString& string)const
+		bool operator>=(const String& string)const
 		{
 			return Compare(*this, string) >= 0;
 		}
 
-		bool operator<(const FaceString& string)const
+		bool operator<(const String& string)const
 		{
 			return Compare(*this, string) < 0;
 		}
 
-		bool operator<=(const FaceString& string)const
+		bool operator<=(const String& string)const
 		{
 			return Compare(*this, string) <= 0;
 		}
@@ -346,7 +346,7 @@ namespace Face
 
 		wchar_t operator[](fint index)const
 		{
-			CHECK_ERROR(index >= 0 && index < length_, L"FaceString:<wchar_t>:operator[](fint)#Argument index not in range.");
+			CHECK_ERROR(index >= 0 && index < length_, L"String:<wchar_t>:operator[](fint)#Argument index not in range.");
 			return buffer_[start_ + index];
 		}
 
@@ -366,36 +366,36 @@ namespace Face
 			return -1;
 		}
 
-		FaceString Left(fint count)const
+		String Left(fint count)const
 		{
-			CHECK_ERROR(count >= 0 && count <= length_, L"FaceString::Left(fint)#Argument count not in range.");
-			return FaceString(*this, 0, count);
+			CHECK_ERROR(count >= 0 && count <= length_, L"String::Left(fint)#Argument count not in range.");
+			return String(*this, 0, count);
 		}
 
-		FaceString Right(fint count)const
+		String Right(fint count)const
 		{
-			CHECK_ERROR(count >= 0 && count <= length_, L"FaceString::Right(fint)#Argument count not in range.");
-			return FaceString(*this, length_ - count, count);
+			CHECK_ERROR(count >= 0 && count <= length_, L"String::Right(fint)#Argument count not in range.");
+			return String(*this, length_ - count, count);
 		}
 
-		FaceString Sub(fint index, fint count)const
+		String Sub(fint index, fint count)const
 		{
-			CHECK_ERROR(index >= 0 && index <= length_, L"FaceString::Sub(fint, fint)#Argument index not in range.");
-			CHECK_ERROR(index + count >= 0 && index + count <= length_, L"FaceString::Sub(fint, fint)#Argument count not in range.");
-			return FaceString(*this, index, count);
+			CHECK_ERROR(index >= 0 && index <= length_, L"String::Sub(fint, fint)#Argument index not in range.");
+			CHECK_ERROR(index + count >= 0 && index + count <= length_, L"String::Sub(fint, fint)#Argument count not in range.");
+			return String(*this, index, count);
 		}
 
-		FaceString Remove(fint index, fint count)const
+		String Remove(fint index, fint count)const
 		{
-			CHECK_ERROR(index >= 0 && index < length_, L"FaceString::Remove(fint, fint)#Argument index not in range.");
-			CHECK_ERROR(index + count >= 0 && index + count <= length_, L"FaceString::Remove(fint, fint)#Argument count not in range.");
-			return FaceString(*this, FaceString(), index, count);
+			CHECK_ERROR(index >= 0 && index < length_, L"String::Remove(fint, fint)#Argument index not in range.");
+			CHECK_ERROR(index + count >= 0 && index + count <= length_, L"String::Remove(fint, fint)#Argument count not in range.");
+			return String(*this, String(), index, count);
 		}
 
-		FaceString Insert(fint index, const FaceString& string)const
+		String Insert(fint index, const String& string)const
 		{
-			CHECK_ERROR(index >= 0 && index <= length_, L"FaceString::Insert(fint)#Argument count not in range.");
-			return FaceString(*this, string, index, 0);
+			CHECK_ERROR(index >= 0 && index <= length_, L"String::Insert(fint)#Argument count not in range.");
+			return String(*this, string, index, 0);
 		}
 
 		fint ToInt()const
@@ -463,39 +463,39 @@ namespace Face
 			return -1;
 		}
 
-		friend bool operator<(const wchar_t* left, const FaceString& right)
+		friend bool operator<(const wchar_t* left, const String& right)
 		{
 			return Compare(left, right)<0;
 		}
 
-		friend bool operator<=(const wchar_t* left, const FaceString& right)
+		friend bool operator<=(const wchar_t* left, const String& right)
 		{
 			return Compare(left, right) <= 0;
 		}
 
-		friend bool operator>(const wchar_t* left, const FaceString& right)
+		friend bool operator>(const wchar_t* left, const String& right)
 		{
 			return Compare(left, right) > 0;
 		}
 
-		friend bool operator>=(const wchar_t* left, const FaceString& right)
+		friend bool operator>=(const wchar_t* left, const String& right)
 		{
 			return Compare(left, right) >= 0;
 		}
 
-		friend bool operator==(const wchar_t* left, const FaceString& right)
+		friend bool operator==(const wchar_t* left, const String& right)
 		{
 			return Compare(left, right) == 0;
 		}
 
-		friend bool operator!=(const wchar_t* left, const FaceString& right)
+		friend bool operator!=(const wchar_t* left, const String& right)
 		{
 			return Compare(left, right) != 0;
 		}
 
-		friend FaceString operator+(const wchar_t* left, const FaceString& right)
+		friend String operator+(const wchar_t* left, const String& right)
 		{
-			return FaceString(left, false) + right;
+			return String(left, false) + right;
 		}
 
 		static std::wstring A2W(const char* lsz)
@@ -565,7 +565,7 @@ namespace Face
 		}
 	};
 
-	typedef Face::FaceString WString;
+	typedef Face::String WString;
 }
 
 #endif

@@ -1,66 +1,70 @@
-
 #include "stdafx.h"
 
 namespace Face
 {
-	void FaceWndsMgr::Init()
+	void WndsMgr::Init()
 	{
-		windowsObejctMap_ = new WindowsObjectMap;
-		windowsListenerMap_ = new WindowsMessageListenersMap;
+		wndsConfigMap_ = new WndsConfigMap;
 	}
 
-	void FaceWndsMgr::Destory()
+	void WndsMgr::Destory()
 	{
-		SAFE_DELETE(windowsObejctMap_);
+		SAFE_DELETE(wndsConfigMap_);
 	}
 
-	void FaceWndsMgr::AddWindow(const wchar_t* wndClassName, FaceWindowObject* _pWo)
+	void WndsMgr::AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo)
 	{
 		CHECK_ERROR(wndClassName, L"");
 		CHECK_ERROR(_pWo, L"");
 
-		windowsObejctMap_->insert(std::make_pair(wndClassName, _pWo));
+		wndsConfigMap_->insert(std::make_pair(wndClassName, _pWo));
 	}
 
-	void FaceWndsMgr::RegisterMessageListener(const wchar_t* wndClassName, FaceMessageListener *listener)
+	void WndsMgr::OnWndFinalMessage(LPCTSTR wndClassName)
 	{
 		CHECK_ERROR(wndClassName, L"");
-		CHECK_ERROR(listener, L"");
+		CHECK_ERROR(wndClassName != L"", L"");
 
-		windowsListenerMap_->insert(std::make_pair(wndClassName, listener));
+		auto wo = GetWndConfig(wndClassName);
+		SAFE_DELETE(wo->wnd_);
+		SAFE_DELETE(wo->listener_);
+
+		wo->wnd_ = nullptr;
+		wo->listener_ = nullptr;
 	}
 
-	FaceMessageListener* FaceWndsMgr::GetMessageListener(const wchar_t *wndClassName)
+	MessageListener* WndsMgr::GetMessageListener(LPCTSTR wndClassName)
 	{
 		CHECK_ERROR(wndClassName, L"");
+		CHECK_ERROR(wndClassName != L"", L"");
 
-		auto it = windowsListenerMap_->find(wndClassName);
-		if (it == windowsListenerMap_->end())
+		auto it = wndsConfigMap_->find(wndClassName);
+		if (it != wndsConfigMap_->end())
 		{
-			return nullptr;
+			return it->second->listener_;
 		}
 
-		return it->second;
+		return nullptr;
 	}
 
-	FaceWindowObject* FaceWndsMgr::GetWindowObject(const wchar_t* wndClassName)
+	WndConfig* WndsMgr::GetWndConfig(LPCTSTR wndClassName)
 	{
 		CHECK_ERROR(wndClassName, L"");
-		auto it = windowsObejctMap_->find(wndClassName);
-		if (it == windowsObejctMap_->end())
+		auto it = wndsConfigMap_->find(wndClassName);
+		if (it != wndsConfigMap_->end())
 		{
-			return nullptr;
+			return it->second;
 		}
 
-		return it->second;
+		return nullptr;
 	}
 
-	FaceWindowObject* FaceWndsMgr::GetMainWindowObject()
+	WndConfig* WndsMgr::GetMainWndConfig()
 	{
-		for (auto it = windowsObejctMap_->begin(); it != windowsObejctMap_->end(); it++)
+		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
 		{
 			auto wo = it->second;
-			if (wo->isMainWnd)
+			if (wo->isMainWnd_)
 			{
 				return wo;
 			}
@@ -68,4 +72,59 @@ namespace Face
 
 		return nullptr;
 	}
+
+	void WndsMgr::ShowWindow(LPCTSTR wndClassName, MessageListener *listener, bool bShow/* = true */, bool bTakeFocus/* = true */)
+	{
+		CHECK_ERROR(wndClassName, L"");
+		CHECK_ERROR(wndClassName != L"", L"");
+		CHECK_ERROR(listener, L"");
+
+		WndConfig *config = nullptr;
+		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
+		{
+			config = it->second;
+			if (wcscmp(config->wndClassName_.Buffer(), wndClassName) == 0)
+			{
+				break;
+			}
+		}
+
+		if (config)
+		{
+			auto wndImpl = new WindowImpl;
+			config->listener_ = listener;
+			config->wnd_ = wndImpl;
+			wndImpl->Create(nullptr, wndClassName, config->wndName_.Buffer(), L"", config->style_, config->exStyle_, config->classStyle_);
+			wndImpl->ShowWindow();
+			// TODO：进入消息循环
+		}
+	}
+
+	fuint WndsMgr::ShowModal(HWND hParent, LPCTSTR wndClassName, MessageListener *listener)
+	{
+		CHECK_ERROR(hParent, L"Create model window failed.");
+		CHECK_ERROR(wndClassName || wndClassName != L"", L"Create model window failed.");
+		WndConfig *config = nullptr;
+		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
+		{
+			config = it->second;
+			if (wcscmp(config->wndClassName_.Buffer(), wndClassName) == 0)
+			{
+				break;
+			}
+		}
+
+		if (config)
+		{
+			auto wndImpl = new WindowImpl;
+			config->listener_ = listener;
+			config->wnd_ = wndImpl;
+			wndImpl->Create(nullptr, wndClassName, config->wndName_.Buffer(), L"", config->style_, config->exStyle_, config->classStyle_);
+			return wndImpl->ShowModal();
+		}
+		return IDCANCEL;
+	}
+
+	void WndsMgr::CloseWindow(fuint ret/* = IDOK */)
+	{}
 }

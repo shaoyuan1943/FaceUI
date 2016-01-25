@@ -7,72 +7,72 @@
 namespace Face
 {
 	using namespace std;
-	class FACE_API FaceFilePath : public FaceObject
+	class FACE_API FilePath : public Object
 	{
 	protected:
-		FaceString	_fullPath;
+		String	_fullPath;
 		void Initialize();
 	public:
 		static const wchar_t Delimiter = L'\\';
 
-		FaceFilePath();
-		FaceFilePath(const FaceString& _filePath);
-		FaceFilePath(const wchar_t* _filePath);
-		FaceFilePath(const FaceFilePath& _filePath);
-		~FaceFilePath();
+		FilePath();
+		FilePath(const String& _filePath);
+		FilePath(const wchar_t* _filePath);
+		FilePath(const FilePath& _filePath);
+		~FilePath();
 
-		static fint Compare(const FaceFilePath& a, const FaceFilePath& b);
-		bool	 operator==(const FaceFilePath& filePath_){ return Compare(*this, filePath_) == 0; }
-		bool	 operator!=(const FaceFilePath& filePath_){ return Compare(*this, filePath_) != 0; }
-		bool	 operator< (const FaceFilePath& filePath_){ return Compare(*this, filePath_) <  0; }
-		bool	 operator<=(const FaceFilePath& filePath_){ return Compare(*this, filePath_) <= 0; }
-		bool	 operator> (const FaceFilePath& filePath_){ return Compare(*this, filePath_) >  0; }
-		bool	 operator>=(const FaceFilePath& filePath_){ return Compare(*this, filePath_) >= 0; }
-		FaceFilePath	operator/(const FaceString& relativePath)const;
+		static fint Compare(const FilePath& a, const FilePath& b);
+		bool	 operator==(const FilePath& filePath_){ return Compare(*this, filePath_) == 0; }
+		bool	 operator!=(const FilePath& filePath_){ return Compare(*this, filePath_) != 0; }
+		bool	 operator< (const FilePath& filePath_){ return Compare(*this, filePath_) <  0; }
+		bool	 operator<=(const FilePath& filePath_){ return Compare(*this, filePath_) <= 0; }
+		bool	 operator> (const FilePath& filePath_){ return Compare(*this, filePath_) >  0; }
+		bool	 operator>=(const FilePath& filePath_){ return Compare(*this, filePath_) >= 0; }
+		FilePath	operator/(const String& relativePath)const;
 
 		bool	IsFile()const;
 		bool	IsFolder()const;
 		bool	IsRoot()const;
-		FaceString		GetName()const;
-		FaceFilePath	GetFolder()const;
-		FaceString		GetFullPath()const;
-		FaceString		GetRelativePathFor(const FaceFilePath& _filePath);
+		String		GetName()const;
+		FilePath	GetFolder()const;
+		String		GetFullPath()const;
+		String		GetRelativePathFor(const FilePath& _filePath);
 	};
 
-	class FACE_API FaceFile : public FaceObject
+	class FACE_API File : public Object
 	{
 	private:
-		FaceFilePath	filePath_;
+		FilePath	filePath_;
 
 	public:
-		FaceFile();
-		FaceFile(const FaceFilePath& _filePath);
-		~FaceFile();
+		File();
+		File(const FilePath& _filePath);
+		~File();
 
-		const FaceFilePath& GetFilePath()const;
+		const FilePath& GetFilePath()const;
 		bool	Exists()const;
 		bool	Delete()const;
-		bool	Rename(const FaceString& newName)const;
+		bool	Rename(const String& newName)const;
 	};
 
-	class FACE_API FaceFolder : public FaceObject
+	class FACE_API Folder : public Object
 	{
 	private:
-		FaceFilePath filePath_;
+		FilePath filePath_;
 
 	public:
-		FaceFolder();
-		FaceFolder(const FaceFilePath& _filePath);
-		~FaceFolder();
+		Folder();
+		Folder(const FilePath& _filePath);
+		~Folder();
 
-		const FaceFilePath& GetFilePath()const;
-		bool GetFolders(std::list<FaceFolder>& folders)const;
-		bool GetFiles(std::list<FaceFile>& files)const;
+		const FilePath& GetFilePath()const;
+		bool GetFolders(std::list<Folder>& folders)const;
+		bool GetFiles(std::list<File>& files)const;
 			
 		bool Exists()const;
 		bool Create(bool recursively)const;
 		bool Delete(bool recursively)const;
-		bool Rename(const FaceString& newName)const;
+		bool Rename(const String& newName)const;
 	};
 }
 

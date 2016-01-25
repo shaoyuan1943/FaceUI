@@ -6,29 +6,30 @@
 
 namespace Face
 {
-	class FaceWindowObject;
-	class FaceMessageListener;
-	class FaceWindowImpl;
-	class FACE_API FaceWndsMgr : public FaceSingleton<FaceWndsMgr>
+	class WndConfig;
+	class MessageListener;
+	class WindowImpl;
+	class FACE_API WndsMgr : public Singleton<WndsMgr>
 	{
 	public:
-		virtual void Init();
+		virtual void Init(); 
 		virtual void Destory();
 
-		void AddWindow(const wchar_t* wndClassName, FaceWindowObject* _pWo);
-		FaceWindowObject* GetWindowObject(const wchar_t* wndClassName);
-		FaceWindowObject* GetMainWindowObject();
+		void AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo);
+		WndConfig* GetWndConfig(LPCTSTR wndClassName);
+		WndConfig* GetMainWndConfig();
 
-		void RegisterMessageListener(const wchar_t* wndClassName, FaceMessageListener *listener);
-		FaceMessageListener* GetMessageListener(const wchar_t *wndClassName);
+		MessageListener* GetMessageListener(LPCTSTR wndClassName);
 
-		void ShowWindow(const wchar_t *wndClassName, bool bShow = true, bool bTakeFocus = true);
-		fuint ShowModal();
+		void ShowWindow(LPCTSTR wndClassName, MessageListener *listener, bool bShow = true, bool bTakeFocus = true);
+		fuint ShowModal(HWND hParent, LPCTSTR wndClassName, MessageListener *listener);
 		void CloseWindow(fuint ret = IDOK);
+
+		void OnWndFinalMessage(LPCTSTR wndClassName);
 	private:
-		typedef std::unordered_map<std::wstring, FaceWindowObject*> WindowsObjectMap;
-		typedef std::unordered_map<std::wstring, FaceMessageListener*> WindowsMessageListenersMap;
-		WindowsObjectMap *windowsObejctMap_;
+		typedef std::unordered_map<std::wstring, WndConfig*> WndsConfigMap;
+		typedef std::unordered_map<std::wstring, MessageListener*> WindowsMessageListenersMap;
+		WndsConfigMap *wndsConfigMap_;
 		WindowsMessageListenersMap *windowsListenerMap_;
 
 	};

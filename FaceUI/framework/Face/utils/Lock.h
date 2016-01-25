@@ -6,13 +6,13 @@
 namespace Face
 {
 	/*
-		Note: FaceLock与FaceLock2的意图是简单锁，FaceSemaphore，FaceMutex则可以设定等待锁的时间
+		Note: Lock与FaceLock2的意图是简单锁，Semaphore，Mutex则可以设定等待锁的时间
 	*/
-	class FACE_API FaceLock : public FaceNotCopyable
+	class FACE_API Lock : public NotCopyable
 	{
 	public:
-		FaceLock();
-		~FaceLock();
+		Lock();
+		~Lock();
 
 	public:
 		void Enter();
@@ -21,22 +21,22 @@ namespace Face
 		CRITICAL_SECTION cs_;
 	};
 
-	class FACE_API FaceSemaphore : public FaceNotCopyable
+	class FACE_API Semaphore : public NotCopyable
 	{
 	public:
-		FaceSemaphore(int iMaxSources = 5, int iEnableSources = 0);
-		~FaceSemaphore();
+		Semaphore(int iMaxSources = 5, int iEnableSources = 0);
+		~Semaphore();
 		void Wait(unsigned long ultime = INFINITE);
 		void Release(int iEnableSources = 1);
 	private:
 		HANDLE hSemaphore_;
 	};
 
-	class FACE_API FaceMutex : public FaceNotCopyable
+	class FACE_API Mutex : public NotCopyable
 	{
 	public:
-		FaceMutex(bool bInitialOwner = false);
-		~FaceMutex();
+		Mutex(bool bInitialOwner = false);
+		~Mutex();
 	
 	public:
 		void Wait(unsigned long ultime = INFINITE);

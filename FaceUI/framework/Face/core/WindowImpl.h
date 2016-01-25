@@ -4,18 +4,20 @@
 
 namespace Face
 {
-	class FaceMessageListener;
-	class FACE_API FaceWindowImpl : public Face::Window
+	class MessageListener;
+	class FACE_API WindowImpl : public Face::Window
 	{
 	public:
-		FaceWindowImpl();
-		virtual ~FaceWindowImpl();
+		WindowImpl();
+		virtual ~WindowImpl();
+
+		virtual LRESULT OnCreate(WPARAM wParam, LPARAM lParam, BOOL& handled);
 
 		virtual void OnFinalMessage(HWND hWnd);
 		virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	private:
-		FaceMessageListener *listener_{ nullptr };
+		MessageListener *listener_{ nullptr };
 	};
 }
 #endif

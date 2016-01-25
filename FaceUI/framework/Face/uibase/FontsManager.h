@@ -6,19 +6,19 @@
 
 namespace Face
 {
-	class FaceFontObject;
-	class FACE_API FaceFontsMgr : public FaceSingleton<FaceFontsMgr>
+	class FontConfig;
+	class FACE_API FontsMgr : public Singleton<FontsMgr>
 	{
 	public:
 		virtual void Init();
 		virtual void Destory();
 
-		void AddFont(const wchar_t* _pwszFontId, FaceFontObject* _pFont);
-		HFONT GetFont(FaceString& _fontId);
-		TEXTMETRIC& GetTextMetric(FaceString& _fontId);
+		void AddFont(const wchar_t* _pwszFontId, FontConfig* _pFont);
+		HFONT GetFont(String& _fontId);
+		TEXTMETRIC& GetTextMetric(String& _fontId);
 
 	private:
-		typedef std::unordered_map<const wchar_t*, FaceFontObject*> FontsObjectMap;
+		typedef std::unordered_map<const wchar_t*, FontConfig*> FontsObjectMap;
 		FontsObjectMap* fontsMap_;
 	};
 }

@@ -2,60 +2,60 @@
 
 namespace Face
 {
-	FacePoint::FacePoint()
+	Point::Point()
 	{
 		x = y = 0;
 	}
 
-	FacePoint::FacePoint(const POINT& src)
+	Point::Point(const POINT& src)
 	{
 		x = src.x;
 		y = src.y;
 	}
 
-	FacePoint::FacePoint(int _x, int _y)
+	Point::Point(int _x, int _y)
 	{
 		x = _x;
 		y = _y;
 	}
 
-	FacePoint::FacePoint(LPARAM lParam)
+	Point::Point(LPARAM lParam)
 	{
 		x = GET_X_LPARAM(lParam);
 		y = GET_Y_LPARAM(lParam);
 	}
 
 	///////////////////////////////////////////////////
-	FaceSize::FaceSize()
+	Size::Size()
 	{
 		cx = cy = 0;
 	}
 
-	FaceSize::FaceSize(const SIZE& src)
+	Size::Size(const SIZE& src)
 	{
 		cx = src.cx;
 		cy = src.cy;
 	}
 
-	FaceSize::FaceSize(const RECT rc)
+	Size::Size(const RECT rc)
 	{
 		cx = rc.right - rc.left;
 		cy = rc.bottom - rc.top;
 	}
 
-	FaceSize::FaceSize(int _cx, int _cy)
+	Size::Size(int _cx, int _cy)
 	{
 		cx = _cx;
 		cy = _cy;
 	}
 
 	///////////////////////////////////////////////////
-	FaceRect::FaceRect()
+	Rect::Rect()
 	{
 		left = top = right = bottom = 0;
 	}
 
-	FaceRect::FaceRect(const RECT& src)
+	Rect::Rect(const RECT& src)
 	{
 		left = src.left;
 		top = src.top;
@@ -63,7 +63,7 @@ namespace Face
 		bottom = src.bottom;
 	}
 
-	FaceRect::FaceRect(int iLeft, int iTop, int iRight, int iBottom)
+	Rect::Rect(int iLeft, int iTop, int iRight, int iBottom)
 	{
 		left = iLeft;
 		top = iTop;
@@ -71,27 +71,27 @@ namespace Face
 		bottom = iBottom;
 	}
 
-	int FaceRect::GetWidth() const
+	int Rect::GetWidth() const
 	{
 		return right - left;
 	}
 
-	int FaceRect::GetHeight() const
+	int Rect::GetHeight() const
 	{
 		return bottom - top;
 	}
 
-	void FaceRect::Empty()
+	void Rect::Empty()
 	{
 		left = top = right = bottom = 0;
 	}
 
-	bool FaceRect::IsNull() const
+	bool Rect::IsNull() const
 	{
 		return (left == 0 && right == 0 && top == 0 && bottom == 0);
 	}
 
-	void FaceRect::Join(const RECT& rc)
+	void Rect::Join(const RECT& rc)
 	{
 		if (rc.left < left) left = rc.left;
 		if (rc.top < top) top = rc.top;
@@ -99,33 +99,33 @@ namespace Face
 		if (rc.bottom > bottom) bottom = rc.bottom;
 	}
 
-	void FaceRect::ResetOffset()
+	void Rect::ResetOffset()
 	{
 		::OffsetRect(this, -left, -top);
 	}
 
-	void FaceRect::Normalize()
+	void Rect::Normalize()
 	{
 		if (left > right) { int iTemp = left; left = right; right = iTemp; }
 		if (top > bottom) { int iTemp = top; top = bottom; bottom = iTemp; }
 	}
 
-	void FaceRect::Offset(int cx, int cy)
+	void Rect::Offset(int cx, int cy)
 	{
 		::OffsetRect(this, cx, cy);
 	}
 
-	void FaceRect::Inflate(int cx, int cy)
+	void Rect::Inflate(int cx, int cy)
 	{
 		::InflateRect(this, cx, cy);
 	}
 
-	void FaceRect::Deflate(int cx, int cy)
+	void Rect::Deflate(int cx, int cy)
 	{
 		::InflateRect(this, -cx, -cy);
 	}
 
-	void FaceRect::Union(FaceRect& rc)
+	void Rect::Union(Rect& rc)
 	{
 		::UnionRect(this, this, &rc);
 	}

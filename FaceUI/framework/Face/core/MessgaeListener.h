@@ -4,41 +4,38 @@
 
 namespace Face
 {
-	class FaceWindowImpl;
-	class FACE_API FaceMessageListener
+	class WindowImpl;
+	class FACE_API MessageListener
 	{
 	public:
-		FaceMessageListener();
-		virtual ~FaceMessageListener();
+		MessageListener();
+		virtual ~MessageListener();
 
 	public:
 		virtual void OnFinalMessage(HWND hWnd);
-		virtual LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcActivate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcCalcSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcPaint(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcHitTest(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnGetMinMaxInfo(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnMouseWheel(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnMouseHover(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnChar(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnKeyDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnKillFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnSetFocus(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnLButtonDown(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnLButtonUp(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-
-		void SetWindowImpl(FaceWindowImpl* wndImpl);
-		FaceWindowImpl* GetWindowImpl();
+		virtual LRESULT OnCreate(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnClose(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnDestroy(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnNcActivate(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnNcCalcSize(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnNcPaint(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnGetMinMaxInfo(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnMouseWheel(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnMouseHover(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnSize(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnChar(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnSysCommand(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnKeyDown(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnKillFocus(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnSetFocus(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnLButtonDown(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnLButtonUp(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT OnMouseMove(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+		virtual LRESULT HandleCustomMessage(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
 	protected:
-		FaceWindowImpl *wndOwner_{ nullptr };
+		WindowImpl *wndOwner_{ nullptr };
 	};
 }
 #endif

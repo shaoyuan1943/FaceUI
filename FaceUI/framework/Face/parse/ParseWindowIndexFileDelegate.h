@@ -8,17 +8,17 @@ class TemplateObject;
 namespace Face
 {
 	using namespace std;
-	class ParseResourceIndexFileDelegate : public Face::FaceObject, Face::FaceNotCopyable
+	class ParseResourceIndexFileDelegate : public Object, Face::NotCopyable
 	{
 	public:
 		ParseResourceIndexFileDelegate();
 		virtual ~ParseResourceIndexFileDelegate();
 	
 	public:
-		bool Parse(FaceString& _strPath);
+		bool Parse(String& _strPath);
 
 	private:
-		void _Parse(FaceString& _strPath);
+		void _Parse(String& _strPath);
 	
 	};
 }

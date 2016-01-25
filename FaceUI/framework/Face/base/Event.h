@@ -7,27 +7,27 @@
 namespace Face
 {
 	template<typename T>
-	class FaceEvent
+	class Event
 	{
 	};
  
-	class FaceEventHandler : public FaceObject
+	class EventHandler : public Object
 	{
 	public:
 		virtual bool IsAttached() = 0;
 	};
 
 	template<typename ...TArgs>
-	class FaceEvent<void(TArgs...)> : public FaceObject, private FaceNotCopyable
+	class Event<void(TArgs...)> : public Object, private NotCopyable
 	{
 	protected:
-		class EventHandlerImpl : public FaceEventHandler
+		class EventHandlerImpl : public EventHandler
 		{
 		public:
 			bool attached;
-			FaceFunc<void(TArgs...)> function;
+			Func<void(TArgs...)> function;
 
-			EventHandlerImpl(const FaceFunc<void(TArgs...)>& _function)
+			EventHandlerImpl(const Func<void(TArgs...)>& _function)
 				:attached(true)
 				, function(_function)
 			{
@@ -41,25 +41,25 @@ namespace Face
 		
 		std::list<Face::Ptr<EventHandlerImpl>> handlers;
 	public:
-		Ptr<FaceEventHandler> Add(const FaceFunc<void(TArgs...)>& function)
+		Ptr<EventHandler> Add(const Func<void(TArgs...)>& function)
 		{
 			Ptr<EventHandlerImpl> handler = new EventHandlerImpl(function);
 			handlers.push_back(handler);
 			return handler;
 		}
 	
-		Ptr<FaceEventHandler> Add(void(*function)(TArgs...))
+		Ptr<EventHandler> Add(void(*function)(TArgs...))
 		{
-			return Add(FaceFunc<void(TArgs...)>(function));
+			return Add(Func<void(TArgs...)>(function));
 		}
  
 		template<typename C>
-		Ptr<FaceEventHandler> Add(C* sender, void(C::*function)(TArgs...))
+		Ptr<EventHandler> Add(C* sender, void(C::*function)(TArgs...))
 		{
-			return Add(FaceFunc<void(TArgs...)>(sender, function));
+			return Add(Func<void(TArgs...)>(sender, function));
 		}
 		
-		bool Remove(Ptr<FaceEventHandler> handler)
+		bool Remove(Ptr<EventHandler> handler)
 		{
 			Ptr<EventHandlerImpl> impl = handler.Cast<EventHandlerImpl>();
 			if (!impl) 

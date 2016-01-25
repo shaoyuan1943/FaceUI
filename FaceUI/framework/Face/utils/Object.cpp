@@ -4,29 +4,29 @@
 
 namespace Face
 {
-	FaceObject::~FaceObject()
+	Object::~Object()
 	{
 	}
 
-	FaceNotCopyable::FaceNotCopyable()
+	NotCopyable::NotCopyable()
 	{
 	}
 
-	FaceNotCopyable::FaceNotCopyable(const FaceNotCopyable&)
+	NotCopyable::NotCopyable(const NotCopyable&)
 	{
 	}
 
-	FaceNotCopyable& FaceNotCopyable::operator=(const FaceNotCopyable&)
+	NotCopyable& NotCopyable::operator=(const NotCopyable&)
 	{
 		return *this;
 	}
 
-	FaceError::FaceError(const wchar_t* _description)
+	Error::Error(const wchar_t* _description)
 	{
 		description = _description;
 	}
 
-	const wchar_t* FaceError::Description()const
+	const wchar_t* Error::Description()const
 	{
 		return description;
 	}

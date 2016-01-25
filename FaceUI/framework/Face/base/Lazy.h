@@ -7,43 +7,43 @@
 namespace Face
 {
 	template<typename T>
-	class FaceLazy : public Face::FaceObject
+	class Lazy : public Object
 	{
 	protected:
 		class Internal
 		{
 		public:
-			Face::FaceFunc<T()> evaluator;
+			Face::Func<T()> evaluator;
 			T value;
 			bool evaluated;
 		};
 
 		Ptr<Internal>	_internalValue;
 	public:
-		FaceLazy()
+		Lazy()
 		{
 		}
 
-		FaceLazy(const Face::FaceFunc<T()>& evaluator)
+		Lazy(const Face::Func<T()>& evaluator)
 		{
 			_internalValue = new Internal;
 			_internalValue->evaluated = false;
 			_internalValue->evaluator = evaluator;
 		}
 
-		FaceLazy(const T& value)
+		Lazy(const T& value)
 		{
 			_internalValue = new Internal;
 			_internalValue->evaluated = true;
 			_internalValue->value = value;
 		}
 
-		FaceLazy(const FaceLazy<T>& lazy)
+		Lazy(const Lazy<T>& lazy)
 			:_internalValue(lazy._internalValue)
 		{
 		}
 
-		FaceLazy<T>& operator=(const Face::FaceFunc<T()>& evaluator)
+		Lazy<T>& operator=(const Face::Func<T()>& evaluator)
 		{
 			_internalValue = new Internal;
 			_internalValue->evaluated = false;
@@ -51,7 +51,7 @@ namespace Face
 			return *this;
 		}
 
-		FaceLazy<T>& operator=(const T& value)
+		Lazy<T>& operator=(const T& value)
 		{
 			_internalValue = new Internal;
 			_internalValue->evaluated = true;
@@ -59,7 +59,7 @@ namespace Face
 			return *this;
 		}
 
-		FaceLazy<T>& operator=(const FaceLazy<T>& lazy)
+		Lazy<T>& operator=(const Lazy<T>& lazy)
 		{
 			_internalValue = lazy._internalValue;
 			return *this;
@@ -71,7 +71,7 @@ namespace Face
 			{
 				_internalValue->evaluated = true;
 				_internalValue->value = _internalValue->evaluator();
-				_internalValue->evaluator = Face::FaceFunc<T()>();
+				_internalValue->evaluator = Face::Func<T()>();
 			}
 			return _internalValue->value;
 		}

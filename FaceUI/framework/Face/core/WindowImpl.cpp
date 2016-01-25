@@ -2,97 +2,109 @@
 
 namespace Face
 {
-	FaceWindowImpl::FaceWindowImpl()
+	WindowImpl::WindowImpl()
 	{}
 
-	FaceWindowImpl::~FaceWindowImpl()
+	WindowImpl::~WindowImpl()
 	{}
 
-	void FaceWindowImpl::OnFinalMessage(HWND hWnd)
+	void WindowImpl::OnFinalMessage(HWND hWnd)
 	{
 		if (listener_)
 		{
 			listener_->OnFinalMessage(hWnd);
+			WndsMgr::getInstance()->OnWndFinalMessage(GetWndClassName().Buffer());
 		}
 	}
 
-	LRESULT FaceWindowImpl::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+	LRESULT WindowImpl::OnCreate(WPARAM wParam, LPARAM lParam, BOOL& handled)
+	{
+		auto setting = WndsMgr::getInstance()->GetWndConfig(GetWndClassName().Buffer());
+		CHECK_ERROR(setting, L"Create window failed.");
+		listener_ = setting->GetMsgListener();
+		// TODO:开始创建Direct窗口
+
+		listener_->OnCreate(wParam, lParam, handled);
+		return 0;
+	}
+
+	LRESULT WindowImpl::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		LRESULT lRes = 0;
-		BOOL bHandled = TRUE;
-		WString& wndClassName = GetWndClassName();
+		BOOL bHandled = TRUE;	
 		switch (uMsg)
 		{
 		case WM_CREATE:	
-		{
-			if (listener_ == nullptr)
-			{
-				listener_ = FaceWndsMgr::getInstance()->GetMessageListener(wndClassName.Buffer());
-				listener_->SetWindowImpl(this);
-				auto wo = FaceWndsMgr::getInstance()->GetWindowObject(wndClassName.Buffer());
-				wo->wnd = this;
-			}
-			listener_->OnCreate(uMsg, wParam, lParam, bHandled);
-		}
+			lRes = OnCreate(wParam, lParam, bHandled);
 			break;
 		case WM_CLOSE:		
-			listener_->OnClose(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnClose(wParam, lParam, bHandled);
 			break;
 		case WM_DESTROY:
-			listener_->OnDestroy(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnDestroy(wParam, lParam, bHandled);
 			break;
 		case WM_NCACTIVATE:		
-			listener_->OnNcActivate(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnNcActivate(wParam, lParam, bHandled);
 			break;
 		case WM_NCCALCSIZE:		
-			listener_->OnNcCalcSize(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnNcCalcSize(wParam, lParam, bHandled);
 			break;
 		case WM_NCPAINT:		
-			listener_->OnNcPaint(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnNcPaint(wParam, lParam, bHandled);
 			break;
 		case WM_NCHITTEST:		
-			listener_->OnNcHitTest(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnNcHitTest(wParam, lParam, bHandled);
 			break;
 		case WM_GETMINMAXINFO:	
-			listener_->OnGetMinMaxInfo(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnGetMinMaxInfo(wParam, lParam, bHandled);
 			break;
 		case WM_MOUSEWHEEL:		
-			listener_->OnMouseWheel(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnMouseWheel(wParam, lParam, bHandled);
 			break;
 		case WM_SIZE:			
-			listener_->OnSize(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnSize(wParam, lParam, bHandled);
 			break;
 		case WM_CHAR:		
-			listener_->OnChar(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnChar(wParam, lParam, bHandled);
 			break;
 		case WM_SYSCOMMAND:		
-			listener_->OnSysCommand(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnSysCommand(wParam, lParam, bHandled);
 			break;
 		case WM_KEYDOWN:		
-			listener_->OnKeyDown(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnKeyDown(wParam, lParam, bHandled);
 			break;
 		case WM_KILLFOCUS:	
-			listener_->OnKillFocus(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnKillFocus(wParam, lParam, bHandled);
 			break;
 		case WM_SETFOCUS:		
-			listener_->OnSetFocus(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnSetFocus(wParam, lParam, bHandled);
 			break;
 		case WM_LBUTTONUP:		
-			listener_->OnLButtonUp(uMsg, wParam, lParam, bHandled);
+			listener_->OnLButtonUp(wParam, lParam, bHandled);
 			break;
 		case WM_LBUTTONDOWN:	
-			listener_->OnLButtonDown(uMsg, wParam, lParam, bHandled);
+			listener_->OnLButtonDown(wParam, lParam, bHandled);
 			break;
 		case WM_MOUSEMOVE:	
-			listener_->OnMouseMove(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnMouseMove(wParam, lParam, bHandled);
 			break;
 		case WM_MOUSEHOVER:	
-			listener_->OnMouseHover(uMsg, wParam, lParam, bHandled);
+			lRes = listener_->OnMouseHover(wParam, lParam, bHandled);
 			break;
 		default:				
 			bHandled = FALSE; 
 			break;
 		}
+
+		if (bHandled)
+		{
+			return lRes;
+		}
+
+		lRes = listener_->HandleCustomMessage(wParam, lParam, bHandled);
+		if (bHandled)
+			return lRes;
+
 
 		return __super::HandleMessage(uMsg, wParam, lParam);
 	}

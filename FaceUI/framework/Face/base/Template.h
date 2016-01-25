@@ -70,10 +70,10 @@ namespace Face
 
 	// interface
 	template<typename T>
-	class FaceInterface : public Face::FaceObject
+	class Interface : public Object
 	{
 	public:
-		virtual ~FaceInterface();
+		virtual ~Interface();
 	};
 }
 

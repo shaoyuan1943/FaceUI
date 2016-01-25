@@ -6,9 +6,9 @@
 
 namespace Face
 {
-	class FaceWindowImpl;
+	class WindowImpl;
 	class ParseResourceIndexFileDelegate;
-	class FACE_API FaceApp : public FaceSingleton<FaceApp>
+	class FACE_API App : public Singleton<App>
 	{
 	public:
 		virtual void Init();
@@ -17,19 +17,18 @@ namespace Face
 		以下是接口
 	*/
 	public:
-		void SetResourcePath(FaceFilePath& _path);
-		FaceFilePath& GetResourcePath();
+		void SetResourcePath(FilePath& _path);
+		FilePath& GetResourcePath();
 
-		FaceFilePath& GetInstancePath();
+		FilePath& GetInstancePath();
 		void SetInstance(HINSTANCE instance);
 		HINSTANCE GetAppInstance();
-		FaceWindowImpl* GetWindowImpl(const wchar_t* wndClassName);
 
 		void Run();
 	private:
-		FaceFilePath skinPath_;
+		FilePath skinPath_;
 		ParseResourceIndexFileDelegate* parseDelegate_{ nullptr };
-		FaceFilePath instancePath_;
+		FilePath instancePath_;
 		HINSTANCE instance_;
 	};
 }

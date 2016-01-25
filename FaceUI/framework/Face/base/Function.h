@@ -7,12 +7,12 @@
 namespace Face
 {
 	template<typename T>
-	class FaceFunc
+	class Func
 	{
 	};
 
 	template<typename R, typename ...TArgs>
-	class Invoker : public Face::FaceObject
+	class Invoker : public Object
 	{
 	public:
 		virtual R Invoke(TArgs&& ...args) = 0;
@@ -68,7 +68,7 @@ namespace Face
 
 		A a;
 		int i = 0;
-		FaceFunc<int(int)> func(&a, &A::operator());
+		Func<int(int)> func(&a, &A::operator());
 		int j = func(i);
 	*/
 	template<typename C, typename R, typename ...TArgs>
@@ -100,7 +100,7 @@ namespace Face
 
 		A a;
 		int i = 0;
-		FaceFunc<void(int)> func(&a, &A::operator());
+		Func<void(int)> func(&a, &A::operator());
 		func(i);
 	*/
 	template<typename C, typename ...TArgs>
@@ -123,7 +123,7 @@ namespace Face
 
 
 	template<typename R, typename ...TArgs>
-	class FaceFunc<R(TArgs...)> : public Face::FaceObject
+	class Func<R(TArgs...)> : public Face::Object
 	{
 	protected:
 		Ptr<Invoker<R, TArgs...>> invoker;
@@ -131,28 +131,28 @@ namespace Face
 		typedef R FunctionType(TArgs...);
 		typedef R ResultType;
 
-		FaceFunc()
+		Func()
 		{
 		}
 
-		FaceFunc(const FaceFunc<R(TArgs...)>& function)
+		Func(const Func<R(TArgs...)>& function)
 		{
 			invoker = function.invoker;
 		}
 
-		FaceFunc(R(*function)(TArgs...))
+		Func(R(*function)(TArgs...))
 		{
 			invoker = new StaticInvoker<R, TArgs...>(function);
 		}
 
 		template<typename C>
-		FaceFunc(C* sender, R(C::*function)(TArgs...))
+		Func(C* sender, R(C::*function)(TArgs...))
 		{
 			invoker = new MemberInvoker<C, R, TArgs...>(sender, function);
 		}
 
 		template<typename C>
-		FaceFunc(const C& function)
+		Func(const C& function)
 		{
 			invoker = new ObjectInvoker<C, R, TArgs...>(function);
 		}
@@ -162,12 +162,12 @@ namespace Face
 			return invoker->Invoke(ForwardValue<TArgs>(args)...);
 		}
 
-		bool operator==(const FaceFunc<R(TArgs...)>& function)const
+		bool operator==(const Func<R(TArgs...)>& function)const
 		{
 			return invoker == function.invoker;
 		}
 
-		bool operator!=(const FaceFunc<R(TArgs...)>& function)const
+		bool operator!=(const Func<R(TArgs...)>& function)const
 		{
 			return invoker != function.invoker;
 		}
@@ -179,13 +179,13 @@ namespace Face
 	};
 
 	template<typename R, typename C, typename ...TArgs>
-	typename FaceFunc<R(TArgs...)> ToMemberFunction(C* sender, R(C::*function)(TArgs...))
+	typename Func<R(TArgs...)> ToMemberFunction(C* sender, R(C::*function)(TArgs...))
 	{
-		return FaceFunc<R(TArgs...)>(sender, function);
+		return Func<R(TArgs...)>(sender, function);
 	}
 
 	template<typename R, typename ...TArgs>
-	typename FaceFunc<R(TArgs...)> ToFunction(R(*function)(TArgs...))
+	typename Func<R(TArgs...)> ToFunction(R(*function)(TArgs...))
 	{
 		return function;
 	}
@@ -194,24 +194,24 @@ namespace Face
 #define MEMBER_FUNCTION Face::ToMemberFunction
 
 	template<typename T>
-	struct FaceBinding
+	struct Binding
 	{
 	};
 
 	template<typename R, typename T0, typename ...TArgs>
-	struct FaceBinding<R(T0, TArgs...)>
+	struct Binding<R(T0, TArgs...)>
 	{
 		typedef R FunctionType(T0, TArgs...);
 		typedef R CurriedType(TArgs...);
 		typedef T0 FirstParameterType;
 
-		class Binder : public Face::FaceObject
+		class Binder : public Object
 		{
 		protected:
-			FaceFunc<FunctionType> target;
+			Func<FunctionType> target;
 			T0 firstArgument;
 		public:
-			Binder(const FaceFunc<FunctionType>& _target, T0 _firstArgument)
+			Binder(const Func<FunctionType>& _target, T0 _firstArgument)
 				:target(_target)
 				, firstArgument(ForwardValue<T0>(_firstArgument))
 			{
@@ -223,17 +223,17 @@ namespace Face
 			}
 		};
 
-		class Currier : public Face::FaceObject
+		class Currier : public Object
 		{
 		protected:
-			FaceFunc<FunctionType>		target;
+			Func<FunctionType>		target;
 		public:
-			Currier(const FaceFunc<FunctionType>& _target)
+			Currier(const Func<FunctionType>& _target)
 				:target(_target)
 			{
 			}
 
-			FaceFunc<CurriedType> operator()(T0 firstArgument)const
+			Func<CurriedType> operator()(T0 firstArgument)const
 			{
 				return Binder(target, firstArgument);
 			}
@@ -254,17 +254,17 @@ namespace Face
 		f3(); // --> Func3(1, 2, 3)
 	*/
 	template<typename T>
-	FaceFunc<FaceFunc<typename FaceBinding<T>::CurriedType>(typename FaceBinding<T>::FirstParameterType)>
+	Func<Func<typename Binding<T>::CurriedType>(typename Binding<T>::FirstParameterType)>
 		Curry(T* function)
 	{
-		return typename FaceBinding<T>::Currier(function);
+		return typename Binding<T>::Currier(function);
 	}
 
 	template<typename T>
-	FaceFunc<FaceFunc<typename FaceBinding<T>::CurriedType>(typename FaceBinding<T>::FirstParameterType)>
-		Curry(const FaceFunc<T>& function)
+	Func<Func<typename Binding<T>::CurriedType>(typename Binding<T>::FirstParameterType)>
+		Curry(const Func<T>& function)
 	{
-		return typename FaceBinding<T>::Currier(function);
+		return typename Binding<T>::Currier(function);
 	}
 }
 #endif

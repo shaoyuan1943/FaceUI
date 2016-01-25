@@ -21,12 +21,12 @@
 
 // errors macros
 #if defined _DEBUG
-#define CHECK_ERROR(CONDITION,DESCRIPTION) do{if(!(CONDITION))throw Face::FaceError(DESCRIPTION);}while(0)
+#define CHECK_ERROR(CONDITION,DESCRIPTION) do{if(!(CONDITION))throw Face::Error(DESCRIPTION);}while(0)
 #elif defined NDEBUG
 #define CHECK_ERROR(CONDITION,DESCRIPTION)
 #endif
 
-#define CHECK_FAIL(DESCRIPTION) do{throw Face::FaceError(DESCRIPTION);}while(0)
+#define CHECK_FAIL(DESCRIPTION) do{throw Face::Error(DESCRIPTION);}while(0)
 
 // block macros
 #define SAFE_DELETE_ARRAY(array)	do						\
@@ -88,5 +88,13 @@
 						private: varType varName;\
 						public: virtual const varType& Get##funName(void) const { return varName; }\
 						public: virtual void Set##funName(const varType& var){ varName = var; }
+
+#define SYNTHESIZE_PRI_CONST_REF_GET(varType, varName, funName)\
+						private: varType varName;\
+						public: virtual const varType& Get##funName(void) const { return varName; }\
+
+#define SYNTHESIZE_PRI_CONST_REF_SET(varType, varName, funName)\
+						private: varType varName;\
+						public: virtual const varType& Set##funName(void) const { return varName; }\
 
 #endif

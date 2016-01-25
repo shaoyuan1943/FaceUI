@@ -4,30 +4,30 @@
 
 namespace Face
 {
-	class FACE_API FacePoint : public tagPOINT
+	class FACE_API Point : public tagPOINT
 	{
 	public:
-		FacePoint();
-		FacePoint(const POINT& src);
-		FacePoint(int x, int y);
-		FacePoint(LPARAM lParam);
+		Point();
+		Point(const POINT& src);
+		Point(int x, int y);
+		Point(LPARAM lParam);
 	};
 
-	class FACE_API FaceSize : public tagSIZE
+	class FACE_API Size : public tagSIZE
 	{
 	public:
-		FaceSize();
-		FaceSize(const SIZE& src);
-		FaceSize(const RECT rc);
-		FaceSize(int cx, int cy);
+		Size();
+		Size(const SIZE& src);
+		Size(const RECT rc);
+		Size(int cx, int cy);
 	};
 
-	class FACE_API FaceRect : public tagRECT
+	class FACE_API Rect : public tagRECT
 	{
 	public:
-		FaceRect();
-		FaceRect(const RECT& src);
-		FaceRect(int iLeft, int iTop, int iRight, int iBottom);
+		Rect();
+		Rect(const RECT& src);
+		Rect(int iLeft, int iTop, int iRight, int iBottom);
 
 		int GetWidth() const;
 		int GetHeight() const;
@@ -39,7 +39,7 @@ namespace Face
 		void Offset(int cx, int cy);
 		void Inflate(int cx, int cy);
 		void Deflate(int cx, int cy);
-		void Union(FaceRect& rc);
+		void Union(Rect& rc);
 	};
 }
 #endif

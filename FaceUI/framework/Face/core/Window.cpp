@@ -18,71 +18,31 @@ namespace Face
 		return hWnd_;
 	}
 
-	void Window::SetWndClassName(WString wndClassName)
-	{
-		CHECK_ERROR(wndClassName.Length(), L"Window class name not allowed empty");
-		if (wndClassName != wndClassName_)
-		{
-			wndClassName_ = wndClassName;
-		}
-	}
-	
-	WString& Window::GetWndClassName()
-	{
-		return wndClassName_;
-	}
-
-	void Window::SetSuperClassName(WString superClassName)
-	{
-		if (superClassName.Length() > 0 && superClassName != superClassName_)
-		{
-			superClassName_ = superClassName;
-		}
-	}
-
-	WString& Window::GetSuperClassName()
-	{
-		return superClassName_;
-	}
-
-	void Window::SetWndClassStyle(fuint style)
-	{
-		if (style != classStyle_)
-		{
-			classStyle_ = style;
-		}
-	}
-
-	fuint Window::GetWndClassStyle()
-	{
-		return classStyle_;
-	}
-
-	bool Window::RegisterWndClass()
+	bool Window::RegisterWndClass(LPCTSTR className, fuint style)
 	{
 		WNDCLASS wc = { 0 };
-		wc.style = GetWndClassStyle();
+		wc.style = style;
 		wc.cbClsExtra = 0;
 		wc.cbWndExtra = 0;
 		wc.hIcon = nullptr;
 		wc.lpfnWndProc = Window::__WndProc;
-		wc.hInstance = FaceApp::getInstance()->GetAppInstance();
+		wc.hInstance = App::getInstance()->GetAppInstance();
 		wc.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 		wc.hbrBackground = nullptr;
 		wc.lpszMenuName = nullptr;
-		wc.lpszClassName = GetWndClassName().Buffer();
+		wc.lpszClassName = className;
 		ATOM ret = ::RegisterClass(&wc);
 		CHECK_ERROR(ret != 0 || ::GetLastError() == ERROR_CLASS_ALREADY_EXISTS, L"Register WNDCLASS failed");
 		return ret != 0 || ::GetLastError() == ERROR_CLASS_ALREADY_EXISTS;
 	}
 
-	bool Window::SuperClass()
+	bool Window::SuperClass(LPCTSTR superClassName, LPCTSTR className)
 	{
 		WNDCLASSEX wc = { 0 };
 		wc.cbSize = sizeof(WNDCLASSEX);
-		if (!::GetClassInfoEx(nullptr, GetSuperClassName().Buffer(), &wc))
+		if (!::GetClassInfoEx(nullptr, superClassName, &wc))
 		{
-			if (!::GetClassInfoEx(FaceApp::getInstance()->GetAppInstance(), GetSuperClassName().Buffer(), &wc))
+			if (!::GetClassInfoEx(App::getInstance()->GetAppInstance(), superClassName, &wc))
 			{
 				CHECK_ERROR(0, L"Unable to locate window class");
 				return false;
@@ -90,33 +50,31 @@ namespace Face
 		}
 		oldWndProc_ = wc.lpfnWndProc;
 		wc.lpfnWndProc = Window::__ControlProc;
-		wc.hInstance = FaceApp::getInstance()->GetAppInstance();
-		wc.lpszClassName = GetWndClassName().Buffer();
+		wc.hInstance = App::getInstance()->GetAppInstance();
+		wc.lpszClassName = className;
 		ATOM ret = ::RegisterClassEx(&wc);
 		CHECK_ERROR(ret != 0 || ::GetLastError() == ERROR_CLASS_ALREADY_EXISTS, L"Super class Failed");
 		return ret != 0 || ::GetLastError() == ERROR_CLASS_ALREADY_EXISTS;
 	}
 
-	HWND Window::Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD dwExStyle, int x /* = CW_USEDEFAULT */, int y /* = CW_USEDEFAULT */, int cx /* = CW_USEDEFAULT */, int cy /* = CW_USEDEFAULT */)
+	HWND Window::Create(HWND hwndParent, LPCTSTR className, LPCTSTR pstrName, LPCTSTR superClassName/* = L"" */, DWORD dwStyle/* = UI_WNDSTYLE_FRAME */, DWORD dwExStyle/* = UI_WNDSTYLE_EX_FRAME */, fuint classStyle/* = UI_CLASSSTYLE_FRAME */)
 	{
-		if (GetSuperClassName().Length() > 0 && !SuperClass())
+		CHECK_ERROR(className || className != L"", L"Create window failed.");
+		CHECK_ERROR(pstrName || pstrName != L"", L"Create window failed.");
+		if (!SuperClass(superClassName, className))
 		{
 			return nullptr;
 		}
 
-		if (GetSuperClassName().Length() <= 0 && !RegisterWndClass())
+		if (!RegisterWndClass(className, classStyle))
 		{
 			return nullptr;
 		}
 
-		hWnd_ = ::CreateWindowEx(dwExStyle, GetWndClassName().Buffer(), pstrName, dwStyle, x, y, cx, cy, hwndParent, nullptr, FaceApp::getInstance()->GetAppInstance(), this);
+		hWnd_ = ::CreateWindowEx(dwExStyle, className, pstrName, dwStyle, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwndParent, nullptr, App::getInstance()->GetAppInstance(), this);
 		CHECK_ERROR(hWnd_, L"Create window failed");
+		wndClassName_ = className;
 		return hWnd_;
-	}
-
-	HWND Window::Create(HWND hwndParent, LPCTSTR pstrName, DWORD dwStyle, DWORD dwExStyle, const RECT rc)
-	{
-		return Create(hwndParent, pstrName, dwStyle, dwExStyle, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
 	}
 
 	LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -238,7 +196,7 @@ namespace Face
 		PostMessage(WM_CLOSE, (WPARAM)ret, 0L);
 	}
 
-	void Window::CenterWnd()
+	void Window::Center()
 	{
 		CHECK_ERROR(::IsWindow(hWnd_), L"Not window");
 		CHECK_ERROR(GetWindowStyle(hWnd_) & WS_CHILD == 0, L"It's be child");
@@ -264,23 +222,23 @@ namespace Face
 		else
 			::GetWindowRect(hWndCenter, &rcCenter);
 
-		int DlgWidth = rcDlg.right - rcDlg.left;
-		int DlgHeight = rcDlg.bottom - rcDlg.top;
+		int dlgWidth = rcDlg.right - rcDlg.left;
+		int dlgHeight = rcDlg.bottom - rcDlg.top;
 
 		// Find dialog's upper left based on rcCenter
-		int xLeft = (rcCenter.left + rcCenter.right) / 2 - DlgWidth / 2;
-		int yTop = (rcCenter.top + rcCenter.bottom) / 2 - DlgHeight / 2;
+		int xLeft = (rcCenter.left + rcCenter.right) / 2 - dlgWidth / 2;
+		int yTop = (rcCenter.top + rcCenter.bottom) / 2 - dlgHeight / 2;
 
 		// The dialog is outside the screen, move it inside
 		if (xLeft < rcArea.left)
 			xLeft = rcArea.left;
-		else if (xLeft + DlgWidth > rcArea.right)
-			xLeft = rcArea.right - DlgWidth;
+		else if (xLeft + dlgWidth > rcArea.right)
+			xLeft = rcArea.right - dlgWidth;
 
 		if (yTop < rcArea.top) 
 			yTop = rcArea.top;
-		else if (yTop + DlgHeight > rcArea.bottom)
-			yTop = rcArea.bottom - DlgHeight;
+		else if (yTop + dlgHeight > rcArea.bottom)
+			yTop = rcArea.bottom - dlgHeight;
 
 		::SetWindowPos(hWnd_, nullptr, xLeft, yTop, -1, -1, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 	}
@@ -299,12 +257,12 @@ namespace Face
 
 	void Window::SetIcon(fuint res)
 	{
-		HICON hIcon = (HICON)::LoadImage(FaceApp::getInstance()->GetAppInstance(), MAKEINTRESOURCE(res), IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
+		HICON hIcon = (HICON)::LoadImage(App::getInstance()->GetAppInstance(), MAKEINTRESOURCE(res), IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
 
 		CHECK_ERROR(hIcon, L"Icon handler is null");
 
 		::SendMessage(hWnd_, WM_SETICON, (WPARAM)TRUE, (LPARAM)hIcon);
-		hIcon = (HICON)::LoadImage(FaceApp::getInstance()->GetAppInstance(), MAKEINTRESOURCE(res), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+		hIcon = (HICON)::LoadImage(App::getInstance()->GetAppInstance(), MAKEINTRESOURCE(res), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 
 		CHECK_ERROR(hIcon, L"Icon handler is null");
 
@@ -314,7 +272,7 @@ namespace Face
 	void Window::FullScreen()
 	{
 		::GetClientRect(hWnd_, &restoreFullRect_);
-		FacePoint point;
+		Point point;
 		::ClientToScreen(hWnd_, &point);
 		restoreFullRect_.left = point.x;
 		restoreFullRect_.top = point.y;
@@ -323,7 +281,7 @@ namespace Face
 		MONITORINFO oMonitor = {};
 		oMonitor.cbSize = sizeof(oMonitor);
 		::GetMonitorInfo(::MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST), &oMonitor);
-		FaceRect rcWork = oMonitor.rcWork;
+		Rect rcWork = oMonitor.rcWork;
 
 		::SetWindowPos(hWnd_, nullptr, rcWork.left, rcWork.top, rcWork.GetWidth(), rcWork.GetHeight(), SWP_SHOWWINDOW | SWP_NOZORDER);
 	}

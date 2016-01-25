@@ -10,7 +10,7 @@ namespace Face
 		Note: 非线程安全
 	*/
 	template<typename T>
-	class FaceSingleton : public Face::FaceNotCopyable
+	class Singleton : public Face::NotCopyable
 	{
 	public:
 		virtual void Init()
@@ -29,11 +29,11 @@ namespace Face
 			return object_;
 		}
 	protected:
-		FaceSingleton()
+		Singleton()
 		{
 		}
 
-		~FaceSingleton()
+		~Singleton()
 		{
 			Destory();
 			SAFE_DELETE(object_);
@@ -43,6 +43,6 @@ namespace Face
 	};
 
 	template<typename T>
-	T* FaceSingleton<T>::object_ = nullptr;
+	T* Singleton<T>::object_ = nullptr;
 }
 #endif
