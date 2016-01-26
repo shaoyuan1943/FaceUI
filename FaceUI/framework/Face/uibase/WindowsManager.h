@@ -9,6 +9,13 @@ namespace Face
 	class WndConfig;
 	class MessageListener;
 	class WindowImpl;
+
+	class FACE_API ITranslateAccelerator : public NotCopyable
+	{
+	public:
+		virtual LRESULT TranslateAccelerator(MSG *pMsg) = 0;
+	};
+
 	class FACE_API WndsMgr : public Singleton<WndsMgr>
 	{
 	public:
@@ -18,19 +25,26 @@ namespace Face
 		void AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo);
 		WndConfig* GetWndConfig(LPCTSTR wndClassName);
 		WndConfig* GetMainWndConfig();
+		void MessageLoop();
+
+		void RegisterTranslateAccelerator(ITranslateAccelerator *acclerator);
+		void RemoveTranslateAccelerator(ITranslateAccelerator *acclerator);
+		bool TranslateMessage(const LPMSG pMsg);
+		void TranslateAccelerator(MSG *msg);
 
 		MessageListener* GetMessageListener(LPCTSTR wndClassName);
 
 		void ShowWindow(LPCTSTR wndClassName, MessageListener *listener, bool bShow = true, bool bTakeFocus = true);
 		fuint ShowModal(HWND hParent, LPCTSTR wndClassName, MessageListener *listener);
-		void CloseWindow(fuint ret = IDOK);
+		void CloseWindow(LPCTSTR wndClassName, fuint ret = IDOK);
 
 		void OnWndFinalMessage(LPCTSTR wndClassName);
 	private:
+		typedef std::list<ITranslateAccelerator*> MsgAcceleratorList;
 		typedef std::unordered_map<std::wstring, WndConfig*> WndsConfigMap;
-		typedef std::unordered_map<std::wstring, MessageListener*> WindowsMessageListenersMap;
+
 		WndsConfigMap *wndsConfigMap_;
-		WindowsMessageListenersMap *windowsListenerMap_;
+		MsgAcceleratorList *acceleratorList_;
 
 	};
 }

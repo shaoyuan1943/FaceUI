@@ -82,16 +82,10 @@
     <ClInclude Include="app\Application.h">
       <Filter>app</Filter>
     </ClInclude>
-    <ClInclude Include="uibase\FontObject.h">
-      <Filter>uibase</Filter>
-    </ClInclude>
     <ClInclude Include="uibase\FontsManager.h">
       <Filter>uibase</Filter>
     </ClInclude>
     <ClInclude Include="uibase\WindowsManager.h">
-      <Filter>uibase</Filter>
-    </ClInclude>
-    <ClInclude Include="uibase\WindowObject.h">
       <Filter>uibase</Filter>
     </ClInclude>
     <ClInclude Include="3rdparty\rapidxml\rapidxml.hpp">
@@ -121,6 +115,21 @@
     <ClInclude Include="core\MessgaeListener.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="uibase\WindowConfig.h">
+      <Filter>uibase</Filter>
+    </ClInclude>
+    <ClInclude Include="uibase\FontConfig.h">
+      <Filter>uibase</Filter>
+    </ClInclude>
+    <ClInclude Include="core\PaintManager.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Builder.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Control.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -140,16 +149,10 @@
     <ClCompile Include="app\Application.cpp">
       <Filter>app</Filter>
     </ClCompile>
-    <ClCompile Include="uibase\FontObject.cpp">
-      <Filter>uibase</Filter>
-    </ClCompile>
     <ClCompile Include="uibase\FontsManager.cpp">
       <Filter>uibase</Filter>
     </ClCompile>
     <ClCompile Include="uibase\WindowsManager.cpp">
-      <Filter>uibase</Filter>
-    </ClCompile>
-    <ClCompile Include="uibase\WindowObject.cpp">
       <Filter>uibase</Filter>
     </ClCompile>
     <ClCompile Include="core\Window.cpp">
@@ -162,6 +165,21 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\MessgaeListener.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="uibase\WindowConfig.cpp">
+      <Filter>uibase</Filter>
+    </ClCompile>
+    <ClCompile Include="uibase\FontConfig.cpp">
+      <Filter>uibase</Filter>
+    </ClCompile>
+    <ClCompile Include="core\PaintManager.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Builder.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Control.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

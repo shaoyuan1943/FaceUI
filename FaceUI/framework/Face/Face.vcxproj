@@ -100,16 +100,19 @@
     <ClInclude Include="base\Singleton.h" />
     <ClInclude Include="base\Template.h" />
     <ClInclude Include="base\Type.h" />
+    <ClInclude Include="core\Builder.h" />
+    <ClInclude Include="core\Control.h" />
     <ClInclude Include="core\MessgaeListener.h" />
+    <ClInclude Include="core\PaintManager.h" />
     <ClInclude Include="core\Window.h" />
     <ClInclude Include="core\WindowImpl.h" />
     <ClInclude Include="FaceUI.h" />
     <ClInclude Include="parse\ParseWindowIndexFileDelegate.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="uibase\FontObject.h" />
+    <ClInclude Include="uibase\FontConfig.h" />
     <ClInclude Include="uibase\FontsManager.h" />
-    <ClInclude Include="uibase\WindowObject.h" />
+    <ClInclude Include="uibase\WindowConfig.h" />
     <ClInclude Include="uibase\WindowsManager.h" />
     <ClInclude Include="utils\Define.h" />
     <ClInclude Include="utils\FileSystem.h" />
@@ -120,7 +123,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app\Application.cpp" />
+    <ClCompile Include="core\Builder.cpp" />
+    <ClCompile Include="core\Control.cpp" />
     <ClCompile Include="core\MessgaeListener.cpp" />
+    <ClCompile Include="core\PaintManager.cpp" />
     <ClCompile Include="core\Window.cpp" />
     <ClCompile Include="core\WindowImpl.cpp" />
     <ClCompile Include="dllmain.cpp">
@@ -138,9 +144,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="uibase\FontObject.cpp" />
+    <ClCompile Include="uibase\FontConfig.cpp" />
     <ClCompile Include="uibase\FontsManager.cpp" />
-    <ClCompile Include="uibase\WindowObject.cpp" />
+    <ClCompile Include="uibase\WindowConfig.cpp" />
     <ClCompile Include="uibase\WindowsManager.cpp" />
     <ClCompile Include="utils\FileSystem.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>

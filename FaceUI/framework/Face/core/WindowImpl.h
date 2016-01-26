@@ -5,11 +5,13 @@
 namespace Face
 {
 	class MessageListener;
+	class PaintMgr;
 	class FACE_API WindowImpl : public Face::Window
 	{
 	public:
 		WindowImpl();
 		virtual ~WindowImpl();
+		PaintMgr* GetPaintMgr();
 
 		virtual LRESULT OnCreate(WPARAM wParam, LPARAM lParam, BOOL& handled);
 		virtual LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
@@ -21,6 +23,8 @@ namespace Face
 
 	private:
 		MessageListener *listener_{ nullptr };
+	protected:
+		PaintMgr _pm_;
 	};
 }
 #endif

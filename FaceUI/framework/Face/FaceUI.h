@@ -19,6 +19,7 @@
 #include <Shlwapi.h>
 #include <list>
 #include <map>
+#include <tuple>
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -55,13 +56,17 @@
 
 #include "app/Application.h"
 
-#include "uibase/FontObject.h"
+#include "uibase/FontConfig.h"
 #include "uibase/FontsManager.h"
 
-#include "uibase/WindowObject.h"
+#include "uibase/WindowConfig.h"
 #include "uibase/WindowsManager.h"
 
+#include "core/Control.h"
+#include "core/PaintManager.h"
 #include "core/Window.h"
 #include "core/WindowImpl.h"
 #include "core/MessgaeListener.h"
+#include "core/Builder.h"
+
 //#endif

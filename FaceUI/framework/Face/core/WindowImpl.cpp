@@ -17,14 +17,20 @@ namespace Face
 		}
 	}
 
+	PaintMgr* WindowImpl::GetPaintMgr()
+	{
+		return &_pm_;
+	}
+
 	LRESULT WindowImpl::OnCreate(WPARAM wParam, LPARAM lParam, BOOL& handled)
 	{
 		auto setting = WndsMgr::getInstance()->GetWndConfig(GetWndClassName().Buffer());
 		CHECK_ERROR(setting, L"Create window failed.");
 		listener_ = setting->GetMsgListener();
 		// TODO:开始创建Direct窗口
-
+		HWND hwnd = nullptr;
 		listener_->OnWndCreated();
+		_pm_.OnWndCreated(hwnd);
 		return 0;
 	}
 
@@ -163,6 +169,8 @@ namespace Face
 		if (bHandled)
 			return lRes;
 
+		if (_pm_.MessageHandler(uMsg, wParam, lParam, lRes))
+			return lRes;
 
 		return __super::HandleMessage(uMsg, wParam, lParam);
 	}
