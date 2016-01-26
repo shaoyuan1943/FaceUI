@@ -5,37 +5,22 @@
 namespace Face
 {
 	class WindowImpl;
-	class FACE_API MessageListener
+	class FACE_API MessageListener : public Face::NotCopyable
 	{
 	public:
 		MessageListener();
 		virtual ~MessageListener();
 
-	public:
+		virtual void OnWndCreated();
+		virtual void OnWndClose();
+		virtual void OnWndDestory();
+		virtual void OnWndSize();
+		virtual void OnChar(WPARAM code);
+		virtual void OnKeyDown(WPARAM code);
+		virtual void OnSysCommand(WPARAM code);
+	
 		virtual void OnFinalMessage(HWND hWnd);
-		virtual LRESULT OnCreate(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnClose(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnDestroy(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcActivate(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcCalcSize(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcPaint(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnGetMinMaxInfo(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnMouseWheel(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnMouseHover(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnSize(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnChar(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnSysCommand(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnKeyDown(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnKillFocus(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnSetFocus(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnLButtonDown(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnLButtonUp(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnMouseMove(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT HandleCustomMessage(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-
-	protected:
-		WindowImpl *wndOwner_{ nullptr };
+		virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 	};
 }
 #endif

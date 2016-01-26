@@ -8,7 +8,7 @@ namespace Face
 {
 	class WindowImpl;
 	class MessageListener;
-	class FACE_API WndConfig : public Object
+	class FACE_API WndConfig : public Face::NotCopyable
 	{
 		friend class WndsMgr;
 		friend class ParseResourceIndexFileDelegate;

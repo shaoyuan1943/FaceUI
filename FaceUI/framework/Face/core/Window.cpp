@@ -52,7 +52,7 @@ namespace Face
 		wc.lpfnWndProc = Window::__ControlProc;
 		wc.hInstance = App::getInstance()->GetAppInstance();
 		wc.lpszClassName = className;
-		ATOM ret = ::RegisterClassEx(&wc);
+		ATOM ret = ::RegisterClassEx(&wc); 
 		CHECK_ERROR(ret != 0 || ::GetLastError() == ERROR_CLASS_ALREADY_EXISTS, L"Super class Failed");
 		return ret != 0 || ::GetLastError() == ERROR_CLASS_ALREADY_EXISTS;
 	}

@@ -4,7 +4,7 @@
 
 namespace Face
 {
-	class FACE_API Window
+	class FACE_API Window : public Face::NotCopyable
 	{
 		friend class WndsMgr;
 	public:
