@@ -77,7 +77,7 @@ namespace Face
 		return hWnd_;
 	}
 
-	LRESULT Window::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+	LRESULT Window::WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		return ::CallWindowProc(oldWndProc_, hWnd_, uMsg, wParam, lParam);
 	}
@@ -110,7 +110,7 @@ namespace Face
 
 		if (pThis != nullptr)
 		{
-			return pThis->HandleMessage(uMsg, wParam, lParam);
+			return pThis->WindowProc(uMsg, wParam, lParam);
 		}
 		else
 		{
@@ -142,7 +142,7 @@ namespace Face
 		}
 		if (pThis != NULL)
 		{
-			return pThis->HandleMessage(uMsg, wParam, lParam);
+			return pThis->WindowProc(uMsg, wParam, lParam);
 		}
 		else {
 			return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
@@ -199,7 +199,7 @@ namespace Face
 	void Window::Center()
 	{
 		CHECK_ERROR(::IsWindow(hWnd_), L"Not window");
-		CHECK_ERROR(GetWindowStyle(hWnd_) & WS_CHILD == 0, L"It's be child");
+		CHECK_ERROR((GetWindowStyle(hWnd_) & WS_CHILD) == 0, L"It's be child");
 
 		RECT rcDlg = { 0 };
 		::GetWindowRect(hWnd_, &rcDlg);

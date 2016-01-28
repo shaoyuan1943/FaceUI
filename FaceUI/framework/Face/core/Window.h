@@ -36,7 +36,7 @@ namespace Face
 	protected:
 		HWND Create(HWND hwndParent, LPCTSTR className, LPCTSTR pstrName, LPCTSTR superClassName = L"", DWORD dwStyle = UI_WNDSTYLE_FRAME, DWORD dwExStyle = UI_WNDSTYLE_EX_FRAME, fuint classStyle = UI_CLASSSTYLE_FRAME);
 
-		virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 		virtual void OnFinalMessage(HWND hWnd);
 
 		static LRESULT CALLBACK __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

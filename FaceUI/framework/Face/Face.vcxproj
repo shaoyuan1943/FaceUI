@@ -102,9 +102,9 @@
     <ClInclude Include="base\Type.h" />
     <ClInclude Include="core\Builder.h" />
     <ClInclude Include="core\Control.h" />
-    <ClInclude Include="core\MessgaeListener.h" />
-    <ClInclude Include="core\PaintManager.h" />
+    <ClInclude Include="core\WindowControl.h" />
     <ClInclude Include="core\Window.h" />
+    <ClInclude Include="core\WindowControlEvent.h" />
     <ClInclude Include="core\WindowImpl.h" />
     <ClInclude Include="FaceUI.h" />
     <ClInclude Include="parse\ParseWindowIndexFileDelegate.h" />
@@ -125,9 +125,9 @@
     <ClCompile Include="app\Application.cpp" />
     <ClCompile Include="core\Builder.cpp" />
     <ClCompile Include="core\Control.cpp" />
-    <ClCompile Include="core\MessgaeListener.cpp" />
-    <ClCompile Include="core\PaintManager.cpp" />
+    <ClCompile Include="core\WindowControl.cpp" />
     <ClCompile Include="core\Window.cpp" />
+    <ClCompile Include="core\WindowControlEvent.cpp" />
     <ClCompile Include="core\WindowImpl.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>

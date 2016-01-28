@@ -9,6 +9,12 @@ namespace Face
 	public:
 		Control();
 		virtual ~Control();
+
+		OBJECT_CREATE(Control);
+
+		/*
+			内部事件转换成外部事件
+		*/
 	};
 }
 #endif //_CONTROL_H_

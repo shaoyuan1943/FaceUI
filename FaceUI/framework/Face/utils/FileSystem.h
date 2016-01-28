@@ -28,7 +28,7 @@ namespace Face
 		bool	 operator<=(const FilePath& filePath_){ return Compare(*this, filePath_) <= 0; }
 		bool	 operator> (const FilePath& filePath_){ return Compare(*this, filePath_) >  0; }
 		bool	 operator>=(const FilePath& filePath_){ return Compare(*this, filePath_) >= 0; }
-		FilePath	operator/(const String& relativePath)const;
+		FilePath	operator/(const WString& relativePath)const;
 
 		bool	IsFile()const;
 		bool	IsFolder()const;

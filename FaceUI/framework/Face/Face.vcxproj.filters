@@ -112,22 +112,22 @@
     <ClInclude Include="core\WindowImpl.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\MessgaeListener.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="uibase\WindowConfig.h">
       <Filter>uibase</Filter>
     </ClInclude>
     <ClInclude Include="uibase\FontConfig.h">
       <Filter>uibase</Filter>
     </ClInclude>
-    <ClInclude Include="core\PaintManager.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\Builder.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="core\Control.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\WindowControl.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\WindowControlEvent.h">
       <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
@@ -164,22 +164,22 @@
     <ClCompile Include="core\WindowImpl.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="core\MessgaeListener.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="uibase\WindowConfig.cpp">
       <Filter>uibase</Filter>
     </ClCompile>
     <ClCompile Include="uibase\FontConfig.cpp">
       <Filter>uibase</Filter>
     </ClCompile>
-    <ClCompile Include="core\PaintManager.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="core\Builder.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\Control.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\WindowControl.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\WindowControlEvent.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

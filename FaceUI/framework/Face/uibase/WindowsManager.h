@@ -32,10 +32,8 @@ namespace Face
 		bool TranslateMessage(const LPMSG pMsg);
 		void TranslateAccelerator(MSG *msg);
 
-		MessageListener* GetMessageListener(LPCTSTR wndClassName);
-
-		void ShowWindow(LPCTSTR wndClassName, MessageListener *listener, bool bShow = true, bool bTakeFocus = true);
-		fuint ShowModal(HWND hParent, LPCTSTR wndClassName, MessageListener *listener);
+		void ShowWindow(LPCTSTR wndClassName, bool bShow = true, bool bTakeFocus = true);
+		fuint ShowModal(HWND hParent, LPCTSTR wndClassName);
 		void CloseWindow(LPCTSTR wndClassName, fuint ret = IDOK);
 
 		void OnWndFinalMessage(LPCTSTR wndClassName);

@@ -7,6 +7,7 @@
 // os include files
 #include <windows.h>
 #include <windowsx.h>
+#include <WinUser.h>
 #include <stddef.h>
 #include <tchar.h>
 #include <memory.h>
@@ -62,11 +63,11 @@
 #include "uibase/WindowConfig.h"
 #include "uibase/WindowsManager.h"
 
+#include "core/WindowControlEvent.h"
 #include "core/Control.h"
-#include "core/PaintManager.h"
+#include "core/WindowControl.h"
 #include "core/Window.h"
 #include "core/WindowImpl.h"
-#include "core/MessgaeListener.h"
 #include "core/Builder.h"
 
 //#endif

@@ -4,27 +4,42 @@
 
 namespace Face
 {
-	class MessageListener;
-	class PaintMgr;
+	class WindowControl;
 	class FACE_API WindowImpl : public Face::Window
 	{
 	public:
 		WindowImpl();
 		virtual ~WindowImpl();
-		PaintMgr* GetPaintMgr();
+		WindowControl* GetPaintMgr();
 
-		virtual LRESULT OnCreate(WPARAM wParam, LPARAM lParam, BOOL& handled);
-		virtual LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnGetMinMaxInfo(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-		virtual LRESULT OnSysCommand(WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-
+		// 对外接口
 		virtual void OnFinalMessage(HWND hWnd);
-		virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+		virtual void OnWndCreated();
+		virtual void OnWndClose();
+		virtual void OnWndDestory();
+		virtual void OnWndSize();
+		virtual void OnChar(WPARAM code);
+		virtual void OnKeyDown(WPARAM code);
+		virtual void OnSysCommand(WPARAM code);
+		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	private:
-		MessageListener *listener_{ nullptr };
+		void OnCreate(WPARAM wParam, LPARAM lParam);
+		LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam);
+		void OnGetMinMaxInfo(WPARAM wParam, LPARAM lParam);
+		void OnClose(WPARAM wParam, LPARAM lParam);
+		void OnDestory(WPARAM wParam, LPARAM lParam);
+		void OnNcCalcSize(WPARAM wParam, LPARAM lParam);
+		void OnPaint(WPARAM wParam, LPARAM lParam);
+		void OnSize(WPARAM param, LPARAM lParam);
+
+		LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 	protected:
-		PaintMgr _pm_;
+		virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
+		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
+	protected:
+		WindowControl _wc_;
+		HDC hPaintDC_{ nullptr };
 	};
 }
 #endif

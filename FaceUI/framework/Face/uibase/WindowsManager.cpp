@@ -20,11 +20,6 @@ namespace Face
 				{
 					SAFE_DELETE(wc->wnd_);
 				}
-
-				if (wc->listener_)
-				{
-					SAFE_DELETE(wc->listener_);
-				}
 			}
 
 			SAFE_DELETE(wc);
@@ -53,24 +48,6 @@ namespace Face
 
 		auto wo = GetWndConfig(wndClassName);
 		SAFE_DELETE(wo->wnd_);
-		SAFE_DELETE(wo->listener_);
-
-		wo->wnd_ = nullptr;
-		wo->listener_ = nullptr;
-	}
-
-	MessageListener* WndsMgr::GetMessageListener(LPCTSTR wndClassName)
-	{
-		CHECK_ERROR(wndClassName, L"");
-		CHECK_ERROR(wndClassName != L"", L"");
-
-		auto it = wndsConfigMap_->find(wndClassName);
-		if (it != wndsConfigMap_->end())
-		{
-			return it->second->listener_;
-		}
-
-		return nullptr;
 	}
 
 	WndConfig* WndsMgr::GetWndConfig(LPCTSTR wndClassName)
@@ -99,11 +76,10 @@ namespace Face
 		return nullptr;
 	}
 
-	void WndsMgr::ShowWindow(LPCTSTR wndClassName, MessageListener *listener, bool bShow/* = true */, bool bTakeFocus/* = true */)
+	void WndsMgr::ShowWindow(LPCTSTR wndClassName, bool bShow/* = true */, bool bTakeFocus/* = true */)
 	{
 		CHECK_ERROR(wndClassName, L"");
 		CHECK_ERROR(wndClassName != L"", L"");
-		CHECK_ERROR(listener, L"");
 
 		WndConfig *config = nullptr;
 		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
@@ -118,14 +94,13 @@ namespace Face
 		if (config)
 		{
 			auto wndImpl = new WindowImpl;
-			config->listener_ = listener;
 			config->wnd_ = wndImpl;
 			wndImpl->Create(nullptr, wndClassName, config->wndName_.Buffer(), L"", config->style_, config->exStyle_, config->classStyle_);
 			wndImpl->ShowWindow();
 		}
 	}
 
-	fuint WndsMgr::ShowModal(HWND hParent, LPCTSTR wndClassName, MessageListener *listener)
+	fuint WndsMgr::ShowModal(HWND hParent, LPCTSTR wndClassName)
 	{
 		CHECK_ERROR(hParent, L"Create model window failed.");
 		CHECK_ERROR(wndClassName || wndClassName != L"", L"Create model window failed.");
@@ -142,7 +117,6 @@ namespace Face
 		if (config)
 		{
 			auto wndImpl = new WindowImpl;
-			config->listener_ = listener;
 			config->wnd_ = wndImpl;
 			wndImpl->Create(hParent, wndClassName, config->wndName_.Buffer(), L"", config->style_, config->exStyle_, config->classStyle_);
 			return wndImpl->ShowModal();
@@ -158,7 +132,7 @@ namespace Face
 			auto wc = it->second;
 			if (wcscmp(wc->wndClassName_.Buffer(), wndClassName) == 0)
 			{
-				if (wc && wc->wnd_ && wc->listener_)
+				if (wc && wc->wnd_)
 				{
 					wc->wnd_->Close(ret);
 					return;
@@ -215,13 +189,13 @@ namespace Face
 		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
 		{
 			auto wc = it->second;
-			if (wc && wc->wnd_ && wc->listener_ && wc->wnd_->GetHWND() == pMsg->hwnd)
+			if (wc && wc->wnd_ && wc->wnd_->GetHWND() == pMsg->hwnd)
 			{
 				// 处理加速键消息
 				TranslateAccelerator(pMsg);
 
 				//  处理FaceUI关心的消息
-				if (wc->wnd_->GetPaintMgr()->PreHandlerMessage(pMsg->message, pMsg->wParam, pMsg->lParam))
+				if (wc->wnd_->PreHandlerMessage(pMsg->message, pMsg->wParam, pMsg->lParam))
 				{
 					return true;
 				}

@@ -5,6 +5,14 @@
 namespace Face
 {
 	class Control;
+	enum ParserType
+	{
+		FROM_NONE = 1,
+		FROM_WNDCLASSNAME,
+		FROM_XMLFILE,
+		FROM_XMLCONTENT,
+	};
+
 	class FACE_API ICustomBuilder : public NotCopyable
 	{
 	public:
@@ -24,6 +32,9 @@ namespace Face
 			psz: 窗口类名、xml文件路径、xml文件内容
 		*/
 		Control* Create(LPCTSTR psz, ICustomBuilder *customBuilder = nullptr);
+
+	private:
+		ParserType _GetParserType(LPCTSTR psz);
 	};
 }
 #endif

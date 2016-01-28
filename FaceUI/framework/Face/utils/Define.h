@@ -52,7 +52,7 @@
 #define SYNTHESIZE_PRO(varType, varName, funName)\
 						protected: varType varName;\
 						public: virtual varType Get##funName(void) const { return varName; }\
-						public: virtual void Get##funName(varType var){ varName = var; }
+						public: virtual void Set##funName(varType var){ varName = var; }
 
 #define SYNTHESIZE_PRI(varType, varName, funName)\
 						private: varType varName;\
@@ -96,5 +96,7 @@
 #define SYNTHESIZE_PRI_CONST_REF_SET(varType, varName, funName)\
 						private: varType varName;\
 						public: virtual const varType& Set##funName(void) const { return varName; }\
+
+#define OBJECT_CREATE(T)	static T* Create(){ return new T;}
 
 #endif
