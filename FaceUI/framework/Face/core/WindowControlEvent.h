@@ -4,7 +4,15 @@
 
 namespace Face
 {
-	class FACE_API WndContrlEvent : public NotCopyable
-	{};
+	class FACE_API WindowControlEvent : public NotCopyable
+	{
+	public:
+		WindowControlEvent();
+		virtual ~WindowControlEvent();
+
+		virtual void OnWindowInit();
+		virtual void OnButtonClicked(TNotify& notify);
+		virtual void Notify(TNotify& notify);
+	};
 }
 #endif //_WINDOWCONTROLEVENT_H_

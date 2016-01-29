@@ -386,4 +386,7 @@ namespace Face
 
 	void WindowImpl::OnSysCommand(WPARAM code)
 	{}
+
+	void WindowImpl::Notify(TNotify& notify)
+	{}
 }

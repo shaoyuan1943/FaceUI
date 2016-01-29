@@ -5,14 +5,14 @@
 namespace Face
 {
 	class WindowControl;
-	class FACE_API WindowImpl : public Face::Window
+	class FACE_API WindowImpl : public Face::Window, Face::WindowControlEvent
 	{
 	public:
 		WindowImpl();
 		virtual ~WindowImpl();
 		WindowControl* GetPaintMgr();
 
-		// 对外接口
+		// 对外接口，可以在这里处理各种消息
 		virtual void OnFinalMessage(HWND hWnd);
 		virtual void OnWndCreated();
 		virtual void OnWndClose();
@@ -23,6 +23,8 @@ namespace Face
 		virtual void OnSysCommand(WPARAM code);
 		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+		// 时间
+		virtual void Notify(TNotify& notify);
 	private:
 		void OnCreate(WPARAM wParam, LPARAM lParam);
 		LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam);

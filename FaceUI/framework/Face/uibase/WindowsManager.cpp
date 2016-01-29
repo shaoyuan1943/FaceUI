@@ -6,6 +6,7 @@ namespace Face
 	{
 		wndsConfigMap_ = new WndsConfigMap;
 		acceleratorList_ = new MsgAcceleratorList;
+		eventMap_ = new WndsEventMap;
 	}
 
 	void WndsMgr::Destory()
@@ -203,5 +204,90 @@ namespace Face
 		}
 
 		return false;
+	}
+	
+	bool WndsMgr::RegisterWndEvent(HWND hwnd, WindowControlEvent *event)
+	{
+		CHECK_ERROR(hwnd, L"");
+		CHECK_ERROR(event, L"");
+
+		auto it = eventMap_->find(hwnd);
+		if (it->second)
+		{
+			return false;
+		}
+
+		eventMap_->insert(std::make_pair(hwnd, event));
+		return true;
+	}
+
+	bool WndsMgr::RemoveWndEvent(WindowControlEvent *event)
+	{
+		CHECK_ERROR(event, L"");
+
+		for (auto it = eventMap_->begin(); it != eventMap_->end(); it++)
+		{
+			if (it->second == event)
+			{
+				eventMap_->erase(it);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	bool WndsMgr::RemoveWndEvent(HWND hwnd)
+	{
+		CHECK_ERROR(hwnd, L"");
+
+		auto it = eventMap_->find(hwnd);
+		if (it->second)
+		{
+			eventMap_->erase(it);
+			return true;
+		}
+
+		return false;
+	}
+
+	WindowControlEvent* WndsMgr::GetWndEvent(HWND hwnd)
+	{
+		CHECK_ERROR(hwnd, L"");
+
+		auto it = eventMap_->find(hwnd);
+		if (it->second)
+		{
+			return it->second;
+		}
+
+		return nullptr;
+	}
+
+	void WndsMgr::NotifyHandler(HWND hwnd, Control* notifyControl, int msg, WPARAM wParam /* = 0 */, LPARAM lParam /* = 0 */)
+	{
+		CHECK_ERROR(hwnd, L"");
+		CHECK_ERROR(notifyControl, L"");
+		CHECK_ERROR(notifyControl, L"");
+
+		auto handler = GetWndEvent(hwnd);
+		if (!handler)
+		{
+			return;
+		}
+
+		TNotify notify;
+		notify.pSender = notifyControl;
+		notify.sType = msg;
+		notify.wParam = wParam;
+		notify.lParam = lParam;
+		Match(msg)
+		{
+			Case(NOTIFY_LCLICK)
+				handler->OnButtonClicked(notify);
+			Otherwise()
+				handler->Notify(notify);
+		}
+		EndMatch
 	}
 }

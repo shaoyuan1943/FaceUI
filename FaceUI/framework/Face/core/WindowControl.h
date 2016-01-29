@@ -15,7 +15,8 @@ namespace Face
 		~WindowControl();
 
 		void OnWndCreated(HWND hwnd);
-		
+		inline HWND GetHWND() { return hPaintWnd_; };
+
 		// 可拖动改变窗口大小的边距
 		SYNTHESIZE_PRI_CONST_REF(Rect, dragBorderSize_, DragBorderSize);
 		// 可拖动的标题栏大小的边距

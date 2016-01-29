@@ -6,9 +6,11 @@
 
 namespace Face
 {
+	class Control;
 	class WndConfig;
-	class MessageListener;
 	class WindowImpl;
+	class MessageListener;
+	class WindowControlEvent;
 
 	class FACE_API ITranslateAccelerator : public NotCopyable
 	{
@@ -32,17 +34,26 @@ namespace Face
 		bool TranslateMessage(const LPMSG pMsg);
 		void TranslateAccelerator(MSG *msg);
 
+		bool RegisterWndEvent(HWND hwnd, WindowControlEvent *event);
+		bool RemoveWndEvent(HWND hwnd);
+		bool RemoveWndEvent(WindowControlEvent *event);
+
+		void NotifyHandler(HWND hwnd, Control* notifyControl, int msg, WPARAM wParam = 0, LPARAM lParam = 0);
+
 		void ShowWindow(LPCTSTR wndClassName, bool bShow = true, bool bTakeFocus = true);
 		fuint ShowModal(HWND hParent, LPCTSTR wndClassName);
 		void CloseWindow(LPCTSTR wndClassName, fuint ret = IDOK);
 
 		void OnWndFinalMessage(LPCTSTR wndClassName);
 	private:
+		WindowControlEvent* GetWndEvent(HWND hwnd);
+	private:
 		typedef std::list<ITranslateAccelerator*> MsgAcceleratorList;
 		typedef std::unordered_map<std::wstring, WndConfig*> WndsConfigMap;
-
+		typedef std::unordered_map<HWND, WindowControlEvent*> WndsEventMap;
 		WndsConfigMap *wndsConfigMap_;
 		MsgAcceleratorList *acceleratorList_;
+		WndsEventMap *eventMap_;
 
 	};
 }

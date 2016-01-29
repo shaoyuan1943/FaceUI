@@ -99,4 +99,77 @@
 
 #define OBJECT_CREATE(T)	static T* Create(){ return new T;}
 
+namespace Face
+{
+	typedef struct tagTEvent
+	{
+		int Type;
+		Control* pSender;
+		DWORD dwTimestamp;
+		POINT ptMouse;
+		TCHAR boardKey;
+		WORD keyState;
+		WPARAM wParam;
+		LPARAM lParam;
+	} TEvent;
+
+	typedef struct tagTNotify
+	{
+		WString sType;
+		Control* pSender;
+		DWORD dwTimestamp;
+		POINT ptMouse;
+		WPARAM wParam;
+		LPARAM lParam;
+	} TNotify;
+
+	typedef enum EVENT_TYPE
+	{
+		// 按键事件
+		EVENT_KEYDOWN = 1,
+		EVENT_KEYUP,
+		EVENT_CHAR,
+		EVENT_SYSKEY,
+		//
+
+		// 鼠标事件
+		EVENT_MOUSEMOVE,
+		EVENT_MOUSELEAVE,
+		EVENT_MOUSEENTER,
+		EVENT_MOUSEHOVER,
+
+		EVENT_BUTTONDOWN,
+		EVENT_BUTTONUP,
+
+		EVENT_RBUTTONDOWN,
+		EVENT_RBUTTONUP,
+
+		EVENT_DBLCLICK,
+		EVENT_DBRCLICK,
+
+		EVENT_SCROLLWHEEL,
+		//
+
+		EVENT_KILLFOCUS,
+		EVENT_SETFOCUS,
+		EVENT_WINDOWSIZE,
+		EVENT_SETCURSOR,
+		EVENT_TIMER,
+		EVENT_NOTIFY,
+		EVENT_COMMAND,
+	};
+
+	typedef enum NOTIFY_TYPE
+	{
+		// 鼠标左键单击和双击
+		NOTIFY_LCLICK = 10000,
+		NOTIFY_DBLCLICK,
+
+		// 鼠标右键单击和双击
+		NOTIFY_RCLICK,
+		NOTIFY_DBRCLICK,
+
+	};
+}
+
 #endif
