@@ -5,6 +5,9 @@
 namespace Face
 {
 	class WindowControl;
+	/*
+		控件基类，所有的控件需强制继承此类
+	*/
 	class FACE_API Control : public NotCopyable
 	{
 	public:

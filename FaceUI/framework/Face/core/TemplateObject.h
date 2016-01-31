@@ -4,6 +4,10 @@
 
 namespace Face
 {
+	/*
+		一个XML文件都会被解析成TemplateObject，然后再通过TemplateObject解析成Controls，
+		而这个TemplateObject可以保存在一个cache里，这样重复创建时直接通过key就可以找到TemplateObject创建Controls
+	*/ 
 	class TemplateObject
 	{
 		friend class XMLBuilder;

@@ -101,6 +101,7 @@
     <ClInclude Include="base\Template.h" />
     <ClInclude Include="base\Type.h" />
     <ClInclude Include="core\Builder.h" />
+    <ClInclude Include="core\Container.h" />
     <ClInclude Include="core\Control.h" />
     <ClInclude Include="core\TemplateObject.h" />
     <ClInclude Include="core\WindowControl.h" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="app\Application.cpp" />
     <ClCompile Include="core\Builder.cpp" />
+    <ClCompile Include="core\Container.cpp" />
     <ClCompile Include="core\Control.cpp" />
     <ClCompile Include="core\TemplateObject.cpp" />
     <ClCompile Include="core\WindowControl.cpp" />

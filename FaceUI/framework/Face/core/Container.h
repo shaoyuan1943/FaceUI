@@ -5,6 +5,9 @@
 namespace Face
 {
 	class Control;
+	/*
+		容器基类，所有的容器必须继承IContainer并实现之
+	*/
 	class IContainer
 	{
 	public:

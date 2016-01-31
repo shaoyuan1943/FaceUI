@@ -9,8 +9,6 @@ namespace Face
 		eventMap_ = new WndsEventMap;
 		controlsMap_ = new ControlsCreaterMap;
 		RegisterControls();
-
-		// ¿ªÊ¼×¢²á¿Ø¼þ
 	}
 
 	void WndsMgr::RegisterControls()

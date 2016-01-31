@@ -8,6 +8,9 @@ namespace Face
 {
 	class WindowImpl;
 	class MessageListener;
+	/*
+		´°¿Ú»ù´¡ÅäÖÃÀà
+	*/
 	class FACE_API WndConfig : public Face::NotCopyable
 	{
 		friend class WndsMgr;

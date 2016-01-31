@@ -133,6 +133,9 @@
     <ClInclude Include="core\TemplateObject.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\Container.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -186,6 +189,9 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\TemplateObject.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Container.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

@@ -25,13 +25,18 @@ namespace Face
 		virtual LRESULT TranslateAccelerator(MSG *pMsg) = 0;
 	};
 
+	/*
+		FaceUI中窗口和控件的管理类
+		消息转发类
+		提供了加速键消息处理列表、窗口事件列表、以及第三方控件创建列表
+	*/
 	class FACE_API WndsMgr : public Singleton<WndsMgr>
 	{
 	public:
 		typedef Control* (_cdecl *CONTROL_CREATER)();
 		typedef std::list<ITranslateAccelerator*> MsgAcceleratorList;
-		typedef std::unordered_map<std::wstring, WndConfig*> WndsConfigMap;
-		typedef std::unordered_map<HWND, WindowControlEvent*> WndsEventMap;
+		typedef std::map<WString, WndConfig*> WndsConfigMap;
+		typedef std::map<HWND, WindowControlEvent*> WndsEventMap;
 		typedef std::map<std::wstring, CONTROL_CREATER> ControlsCreaterMap;
 		
 

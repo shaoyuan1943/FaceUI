@@ -18,7 +18,7 @@ namespace Face
 		TEXTMETRIC& GetTextMetric(String& _fontId);
 
 	private:
-		typedef std::unordered_map<const wchar_t*, FontConfig*> FontsObjectMap;
+		typedef std::map<WString, FontConfig*> FontsObjectMap;
 		FontsObjectMap* fontsMap_;
 	};
 }

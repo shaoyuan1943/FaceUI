@@ -5,6 +5,14 @@
 namespace Face
 {
 	class WindowControl;
+	/*
+		窗口类的实现，在FaceUI中，一个完成的窗口被拆分中Window，WindowImpl, WindowControl, WindowControlEvent
+		Window：窗口基类，它提供了一个窗口最基本的功能和win32窗口接口
+		WindowImpl：窗口实现类，它实现了FaceUI窗口，窗口绘制、windows消息
+		WindowControl：在其他DirectUI库中，Window既是传统窗口又是Direct窗口，在FaceUI中被拆分开，Window，WindowImpl是
+		传统的窗口，而WindowControl则是窗口控件，与窗口有关的Direct属性或者操作全部都在WindowControl中。
+		WindowControlEvent：WindowControl（Window控件）的消息实体.
+	*/
 	class FACE_API WindowImpl : public Face::Window, Face::WindowControlEvent
 	{
 	public:
@@ -42,6 +50,7 @@ namespace Face
 	protected:
 		WindowControl _wc_;
 		HDC hPaintDC_{ nullptr };
+		WString name;
 	};
 }
 #endif
