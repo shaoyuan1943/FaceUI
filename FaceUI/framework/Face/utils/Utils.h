@@ -4,6 +4,18 @@
 
 namespace Face
 {
+	class Size;
+	class Rect;
+	class Point;
+	class FACE_API Utils
+	{
+	public:
+		static void ToSize(LPCTSTR str, Size *size);
+		static void ToRect(LPCTSTR str, Rect *rect);
+		static void ToPoint(LPCTSTR str, Point *point);
+		static void ToColor(LPCTSTR str, COLORREF& color);
+	};
+
 	class FACE_API Point : public tagPOINT
 	{
 	public:

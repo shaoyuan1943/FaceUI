@@ -1,6 +1,6 @@
 
-//#ifndef _FACE_BASE_H_
-//#define _FACE_BASE_H_
+#ifndef _FACE_H_
+#define _FACE_H_
 
 // include files
 
@@ -65,9 +65,10 @@
 
 #include "core/WindowControlEvent.h"
 #include "core/Control.h"
+#include "core/Container.h"
 #include "core/WindowControl.h"
 #include "core/Window.h"
 #include "core/WindowImpl.h"
 #include "core/Builder.h"
 
-//#endif
+#endif

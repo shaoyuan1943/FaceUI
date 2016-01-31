@@ -8,6 +8,7 @@ namespace Face
 		window 类的分割，将Direct Window分割成传统窗口类和Window控件
 		前者处理Window基本内容，后者处理与这个窗口相应的各种属性和消息。
 	*/ 
+	class Size;
 	class FACE_API WindowControl : public NotCopyable
 	{
 	public:
@@ -16,6 +17,7 @@ namespace Face
 
 		void OnWndCreated(HWND hwnd);
 		inline HWND GetHWND() { return hPaintWnd_; };
+		void SetAttribute(LPCTSTR key, LPCTSTR value);
 
 		// 可拖动改变窗口大小的边距
 		SYNTHESIZE_PRI_CONST_REF(Rect, dragBorderSize_, DragBorderSize);
@@ -28,12 +30,18 @@ namespace Face
 		// 窗口圆角大小
 		SYNTHESIZE_PRI_CONST_REF(Size, roundCorner_, RoundCorner);
 
+		SYNTHESIZE_PRI(Control*, rootControl_, RootControl);
+
+		void SetWindowSize(int cx, int cy);
+		const Size* GetWindowSize();
+
 		void SetCapture();
 		void ReleaseCapture();
 		bool IsCapture();
 	private:
 		HWND hPaintWnd_{ nullptr };
 		bool isCapture_{ false };
+		Size wndSize_;
 
 		// 事件
 	};

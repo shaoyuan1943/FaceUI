@@ -4,19 +4,16 @@
 
 namespace Face
 {
+	class xml_node;
 	class Control;
+	class TemplateObject;
+	class WindowControl;
 	enum ParserType
 	{
 		FROM_NONE = 1,
 		FROM_WNDCLASSNAME,
 		FROM_XMLFILE,
 		FROM_XMLCONTENT,
-	};
-
-	class FACE_API ICustomBuilder : public NotCopyable
-	{
-	public:
-		virtual Control* CreateCustomControls(LPCTSTR pstrClass) = 0;
 	};
 
 	class FACE_API XMLBuilder : public Singleton<XMLBuilder>
@@ -31,10 +28,19 @@ namespace Face
 		/*
 			psz: 窗口类名、xml文件路径、xml文件内容
 		*/
-		Control* Create(LPCTSTR psz, ICustomBuilder *customBuilder = nullptr);
+		Control* Create(LPCTSTR psz, WindowControl *wc);
 
 	private:
 		ParserType _GetParserType(LPCTSTR psz);
+		TemplateObject* _ParseByWndClassName(WndConfig *wc);
+		TemplateObject* _ParseByXMLFile(WString& xmlFile);
+		TemplateObject* _ParseByXMLContent(LPTSTR content);
+
+		Control* _Create(TemplateObject *templateObject, WindowControl *wc, Control *parent = nullptr);
+
+	private:
+		typedef std::map<WString, TemplateObject*> XMLTemplateObjectMap;
+		XMLTemplateObjectMap xmlTemplateMap_;
 	};
 }
 #endif

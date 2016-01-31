@@ -130,6 +130,9 @@
     <ClInclude Include="core\WindowControlEvent.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\TemplateObject.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -180,6 +183,9 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\WindowControlEvent.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\TemplateObject.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

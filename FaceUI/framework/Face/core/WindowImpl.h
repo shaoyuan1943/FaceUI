@@ -10,7 +10,7 @@ namespace Face
 	public:
 		WindowImpl();
 		virtual ~WindowImpl();
-		WindowControl* GetPaintMgr();
+		WindowControl* GetWndControl();
 
 		// 对外接口，可以在这里处理各种消息
 		virtual void OnFinalMessage(HWND hWnd);
@@ -23,7 +23,7 @@ namespace Face
 		virtual void OnSysCommand(WPARAM code);
 		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-		// 时间
+		// 事件
 		virtual void Notify(TNotify& notify);
 	private:
 		void OnCreate(WPARAM wParam, LPARAM lParam);

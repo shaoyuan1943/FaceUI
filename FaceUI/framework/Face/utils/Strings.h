@@ -566,6 +566,7 @@ namespace Face
 	};
 
 	typedef Face::String WString;
+
 }
 
 #endif

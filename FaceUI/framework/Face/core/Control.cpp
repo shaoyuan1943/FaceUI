@@ -8,10 +8,21 @@ namespace Face
 	Control::~Control()
 	{}
 
+	LPVOID Control::GetInterface(LPCTSTR pstrName)
+	{
+		if (pstrName == L"Control")
+		{
+			return this;
+		}
+
+		return nullptr;
+	}
+
 	void Control::EventHandler(TEvent& event)
 	{
 		bool bHandled = false;
-		switch (event.Type)
+		NOTIFY notify = NOTIFY::NOTIFY_UNKNOW;
+		switch (event.type)
 		{
 			case EVENT_SETCURSOR:
 			{
@@ -21,7 +32,8 @@ namespace Face
 			}
 			case EVENT_KEYUP:
 			{
-				WndsMgr::getInstance()->NotifyHandler(wc_->GetHWND(), this, 123, event.wParam, event.lParam);
+
+				WndsMgr::getInstance()->NotifyHandler(wc_->GetHWND(), this, notify, event.wParam, event.lParam);
 				break;
 			}
 			case EVENT_SETFOCUS:
@@ -50,6 +62,11 @@ namespace Face
 	}
 
 	void Control::Invalidate()
+	{
+
+	}
+
+	void Control::SetAttribute(LPCTSTR key, LPCTSTR value)
 	{
 
 	}

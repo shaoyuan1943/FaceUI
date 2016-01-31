@@ -12,6 +12,13 @@ namespace Face
 	class MessageListener;
 	class WindowControlEvent;
 
+	// 用户可以实现自己自定义控件的创建接口
+	class FACE_API ICustomBuilder : public NotCopyable
+	{
+	public:
+		virtual Control* CreateCustomControls(LPCTSTR pstrClassName) = 0;
+	};
+
 	class FACE_API ITranslateAccelerator : public NotCopyable
 	{
 	public:
@@ -21,6 +28,13 @@ namespace Face
 	class FACE_API WndsMgr : public Singleton<WndsMgr>
 	{
 	public:
+		typedef Control* (_cdecl *CONTROL_CREATER)();
+		typedef std::list<ITranslateAccelerator*> MsgAcceleratorList;
+		typedef std::unordered_map<std::wstring, WndConfig*> WndsConfigMap;
+		typedef std::unordered_map<HWND, WindowControlEvent*> WndsEventMap;
+		typedef std::map<std::wstring, CONTROL_CREATER> ControlsCreaterMap;
+		
+
 		virtual void Init(); 
 		virtual void Destory();
 
@@ -38,23 +52,24 @@ namespace Face
 		bool RemoveWndEvent(HWND hwnd);
 		bool RemoveWndEvent(WindowControlEvent *event);
 
-		void NotifyHandler(HWND hwnd, Control* notifyControl, int msg, WPARAM wParam = 0, LPARAM lParam = 0);
+		void NotifyHandler(HWND hwnd, Control* notifyControl, NOTIFY msg, WPARAM wParam = 0, LPARAM lParam = 0);
 
 		void ShowWindow(LPCTSTR wndClassName, bool bShow = true, bool bTakeFocus = true);
 		fuint ShowModal(HWND hParent, LPCTSTR wndClassName);
 		void CloseWindow(LPCTSTR wndClassName, fuint ret = IDOK);
 
 		void OnWndFinalMessage(LPCTSTR wndClassName);
+		void RegisterCustomControlsBuilder(ICustomBuilder *creater);
+		Control* CreateControl(LPCTSTR pszType);
 	private:
+		void RegisterControls();
 		WindowControlEvent* GetWndEvent(HWND hwnd);
 	private:
-		typedef std::list<ITranslateAccelerator*> MsgAcceleratorList;
-		typedef std::unordered_map<std::wstring, WndConfig*> WndsConfigMap;
-		typedef std::unordered_map<HWND, WindowControlEvent*> WndsEventMap;
-		WndsConfigMap *wndsConfigMap_;
-		MsgAcceleratorList *acceleratorList_;
-		WndsEventMap *eventMap_;
-
+		WndsConfigMap *wndsConfigMap_{ nullptr };
+		MsgAcceleratorList *acceleratorList_{ nullptr };
+		WndsEventMap *eventMap_{ nullptr };
+		ControlsCreaterMap *controlsMap_{ nullptr };
+		ICustomBuilder *customBuilder_{ nullptr };
 	};
 }
 

@@ -7,6 +7,36 @@ namespace Face
 		wndsConfigMap_ = new WndsConfigMap;
 		acceleratorList_ = new MsgAcceleratorList;
 		eventMap_ = new WndsEventMap;
+		controlsMap_ = new ControlsCreaterMap;
+		RegisterControls();
+
+		// ¿ªÊ¼×¢²á¿Ø¼þ
+	}
+
+	void WndsMgr::RegisterControls()
+	{
+		controlsMap_->insert(std::make_pair(L"Control", &Control::Create));
+	}
+
+	void WndsMgr::RegisterCustomControlsBuilder(ICustomBuilder *creater)
+	{
+		CHECK_ERROR(creater, L"");
+		customBuilder_ = creater;
+	}
+
+	Control* WndsMgr::CreateControl(LPCTSTR pszType)
+	{
+		CHECK_ERROR(pszType, L"");
+		CHECK_ERROR(pszType != L"", L"");
+
+		auto it = controlsMap_->find(pszType);
+		if (it->second)
+		{
+			auto fn = it->second;
+			return fn();
+		}
+
+		return nullptr;// customBuilder_->CreateCustomControls(pszType);
 	}
 
 	void WndsMgr::Destory()
@@ -264,7 +294,7 @@ namespace Face
 		return nullptr;
 	}
 
-	void WndsMgr::NotifyHandler(HWND hwnd, Control* notifyControl, int msg, WPARAM wParam /* = 0 */, LPARAM lParam /* = 0 */)
+	void WndsMgr::NotifyHandler(HWND hwnd, Control* notifyControl, NOTIFY msg, WPARAM wParam /* = 0 */, LPARAM lParam /* = 0 */)
 	{
 		CHECK_ERROR(hwnd, L"");
 		CHECK_ERROR(notifyControl, L"");
@@ -278,7 +308,7 @@ namespace Face
 
 		TNotify notify;
 		notify.pSender = notifyControl;
-		notify.sType = msg;
+		notify.type = msg;
 		notify.wParam = wParam;
 		notify.lParam = lParam;
 		Match(msg)

@@ -13,7 +13,7 @@ namespace Face
 
 	}
 	
-	WindowControl* WindowImpl::GetPaintMgr()
+	WindowControl* WindowImpl::GetWndControl()
 	{
 		return &_wc_;
 	}

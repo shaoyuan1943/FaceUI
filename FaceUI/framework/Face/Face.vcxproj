@@ -58,7 +58,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FACE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./;./utils/;./base/;./parse/;./3rdparty/rapidxml/;./3rdparty/pattern-matching;./3rdparty/pattern-matching/preprocessor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>../build/Face.pch</PrecompiledHeaderOutputFile>
@@ -102,6 +102,7 @@
     <ClInclude Include="base\Type.h" />
     <ClInclude Include="core\Builder.h" />
     <ClInclude Include="core\Control.h" />
+    <ClInclude Include="core\TemplateObject.h" />
     <ClInclude Include="core\WindowControl.h" />
     <ClInclude Include="core\Window.h" />
     <ClInclude Include="core\WindowControlEvent.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="app\Application.cpp" />
     <ClCompile Include="core\Builder.cpp" />
     <ClCompile Include="core\Control.cpp" />
+    <ClCompile Include="core\TemplateObject.cpp" />
     <ClCompile Include="core\WindowControl.cpp" />
     <ClCompile Include="core\Window.cpp" />
     <ClCompile Include="core\WindowControlEvent.cpp" />

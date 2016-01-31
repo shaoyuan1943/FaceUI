@@ -34,10 +34,10 @@ namespace Face
 		CHECK_ERROR(xml.size(), L"Error in resource.xml file.");
 		xml_document<wchar_t> doc;
 		doc.parse<0>(xml.data());
-		xml_node<wchar_t> *root = doc.first_node(L"Component");
+		rapidxml::xml_node<wchar_t> *root = doc.first_node(L"Component");
 		CHECK_ERROR(root, L"Error in resource.xml file.");
-		xml_node<wchar_t> *wndNode = root->first_node(L"Windows");
-		xml_node<wchar_t> *fontNode = root->first_node(L"Fonts");
+		rapidxml::xml_node<wchar_t> *wndNode = root->first_node(L"Windows");
+		rapidxml::xml_node<wchar_t> *fontNode = root->first_node(L"Fonts");
 		
 		CHECK_ERROR(wndNode, L"Error in resource.xml file.");
 		CHECK_ERROR(fontNode, L"Error in resource.xml file.");
@@ -88,7 +88,7 @@ namespace Face
 				EndMatch
 			}
 		};
-		for (xml_node<wchar_t> *node = wndNode->first_node(); node != nullptr; node = node->next_sibling())
+		for (rapidxml::xml_node<wchar_t> *node = wndNode->first_node(); node != nullptr; node = node->next_sibling())
 		{
 			auto pwo = new WndConfig;
 			pwo->isMainWnd_ = wcscmp(node->name(), L"MainWindow") == 0 ? true:false;
@@ -120,7 +120,7 @@ namespace Face
 			WndsMgr::getInstance()->AddWndConfig(pwo->wndClassName_.Buffer(), pwo);
 		}
 
-		for (xml_node<wchar_t> *node = fontNode->first_node(); node != nullptr; node = node->next_sibling())
+		for (rapidxml::xml_node<wchar_t> *node = fontNode->first_node(); node != nullptr; node = node->next_sibling())
 		{
 			auto pFont = new FontConfig;
 			for (xml_attribute<wchar_t> *attr = node->first_attribute(); attr != nullptr; attr = attr->next_attribute())

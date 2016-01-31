@@ -13,4 +13,7 @@ namespace Face
 
 	void WindowControlEvent::OnButtonClicked(TNotify& notify)
 	{}
+
+	void WindowControlEvent::OnWindowInit()
+	{}
 }

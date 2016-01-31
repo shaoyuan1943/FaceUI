@@ -2,6 +2,57 @@
 
 namespace Face
 {
+	void Utils::ToSize(LPCTSTR str, Size *size)
+	{
+		LPTSTR pstr = nullptr;
+		size->cx = _tcstol(str, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+
+		size->cy = _tcstol(pstr + 1, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+	}
+
+	void Utils::ToRect(LPCTSTR str, Rect *rect)
+	{
+		LPTSTR pstr = nullptr;
+		rect->left = _tcstol(str, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+
+		rect->top = _tcstol(pstr + 1, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+
+		rect->right = _tcstol(pstr + 1, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+
+		rect->bottom = _tcstol(pstr + 1, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+	}
+
+	void Utils::ToPoint(LPCTSTR str, Point *point)
+	{
+		LPTSTR pstr = nullptr;
+		point->x = _tcstol(str, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+
+		point->y = _tcstol(pstr + 1, &pstr, 10);
+		CHECK_ERROR(pstr, L"");
+	}
+
+	void Utils::ToColor(LPCTSTR str, COLORREF& color)
+	{
+		WString str2 = str;
+		str2.Lower();
+
+		int r = 0, g = 0, b = 0, a = 255;
+		int seg = 0;
+		if (str2[0] == L'#')
+		{
+			seg = swscanf(str2.Buffer(), L"#%02x%02x%02x%02x", &a, &r, &g, &b);
+		}
+
+		color = RGB(r, g, b) | (a << 24);
+	}
+
 	Point::Point()
 	{
 		x = y = 0;

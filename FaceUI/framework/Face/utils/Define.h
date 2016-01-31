@@ -101,32 +101,13 @@
 
 namespace Face
 {
-	typedef struct tagTEvent
-	{
-		int Type;
-		Control* pSender;
-		DWORD dwTimestamp;
-		POINT ptMouse;
-		TCHAR boardKey;
-		WORD keyState;
-		WPARAM wParam;
-		LPARAM lParam;
-	} TEvent;
-
-	typedef struct tagTNotify
-	{
-		WString sType;
-		Control* pSender;
-		DWORD dwTimestamp;
-		POINT ptMouse;
-		WPARAM wParam;
-		LPARAM lParam;
-	} TNotify;
+	class Control;
 
 	typedef enum EVENT_TYPE
 	{
+		EVENT_UNKNOW = 0,
 		// 按键事件
-		EVENT_KEYDOWN = 1,
+		EVENT_KEYDOWN,
 		EVENT_KEYUP,
 		EVENT_CHAR,
 		EVENT_SYSKEY,
@@ -157,19 +138,42 @@ namespace Face
 		EVENT_TIMER,
 		EVENT_NOTIFY,
 		EVENT_COMMAND,
-	};
+	} EVENT;
 
 	typedef enum NOTIFY_TYPE
 	{
+		NOTIFY_UNKNOW = 10000,
 		// 鼠标左键单击和双击
-		NOTIFY_LCLICK = 10000,
+		NOTIFY_LCLICK,
 		NOTIFY_DBLCLICK,
 
 		// 鼠标右键单击和双击
 		NOTIFY_RCLICK,
 		NOTIFY_DBRCLICK,
 
-	};
+	} NOTIFY;
+
+	typedef struct tagTEvent
+	{
+		EVENT type;
+		Control* pSender;
+		DWORD dwTimestamp;
+		POINT ptMouse;
+		TCHAR boardKey;
+		WORD keyState;
+		WPARAM wParam;
+		LPARAM lParam;
+	} TEvent;
+
+	typedef struct tagTNotify
+	{
+		NOTIFY type;
+		Control* pSender;
+		DWORD dwTimestamp;
+		POINT ptMouse;
+		WPARAM wParam;
+		LPARAM lParam;
+	} TNotify;
 }
 
 #endif
