@@ -24,6 +24,8 @@ namespace Face
 		void SetInstance(HINSTANCE instance);
 		HINSTANCE GetAppInstance();
 
+		WString GetFullPathByName(WString& path);
+		WString GetFullPathByName(LPCTSTR path);
 		void Run();
 	private:
 		FilePath skinPath_;

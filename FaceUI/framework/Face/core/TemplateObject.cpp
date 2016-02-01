@@ -48,7 +48,7 @@ namespace Face
 		return childsList_.size();
 	}
 
-	TemplateObject* TemplateObject::GetChild(int index)
+	TemplateObject* TemplateObject::GetChild(unsigned int index)
 	{
 		int i = 0;
 		if (index >= 0 && childsList_.size() > index)

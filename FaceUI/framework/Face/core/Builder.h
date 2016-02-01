@@ -32,8 +32,7 @@ namespace Face
 
 	private:
 		ParserType _GetParserType(LPCTSTR psz);
-		TemplateObject* _ParseByWndClassName(WndConfig *wc);
-		TemplateObject* _ParseByXMLFile(WString& xmlFile);
+		TemplateObject* _ParseByXMLFile(const WString& xmlFile);
 		TemplateObject* _ParseByXMLContent(LPTSTR content);
 
 		Control* _Create(TemplateObject *templateObject, WindowControl *wc, Control *parent = nullptr);

@@ -58,4 +58,16 @@ namespace Face
 		return instance_;
 	}
 
+	// Ïà¶ÔÂ·¾¶
+	WString App::GetFullPathByName(WString& path)
+	{
+		WString full = App::getInstance()->GetResourcePath().GetFullPath();
+		full = full + path;
+		return full;
+	}
+
+	WString App::GetFullPathByName(LPCTSTR path)
+	{
+		return GetFullPathByName(WString(path));
+	}
 }

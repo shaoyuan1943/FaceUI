@@ -23,7 +23,7 @@ namespace Face
 
 		int GetChildCount();
 
-		TemplateObject* GetChild(int index);
+		TemplateObject* GetChild(unsigned int index);
 
 		void InsertChild(TemplateObject *child, int index = -1);
 	private:

@@ -74,8 +74,8 @@ namespace Face
 				{
 					return nullptr;
 				}
-				
-				templ = _ParseByWndClassName(wndConfig);
+
+				templ = _ParseByXMLFile(wndConfig->GetWndXMLFile());
 				return _Create(templ, wc);
 			}
 			case Face::FROM_XMLFILE:
@@ -141,7 +141,7 @@ namespace Face
 		return _Parser(root, nullptr);
 	}
 
-	TemplateObject* XMLBuilder::_ParseByXMLFile(WString& xmlFile)
+	TemplateObject* XMLBuilder::_ParseByXMLFile(const WString& xmlFile)
 	{
 		using namespace rapidxml;
 		
@@ -158,26 +158,6 @@ namespace Face
 			xmlTemplateMap_.insert(std::make_pair(xmlFile.Buffer(), templ));
 		}
 
-		return templ;
-	}
-
-	TemplateObject* XMLBuilder::_ParseByWndClassName(WndConfig *wc)
-	{
-		using namespace rapidxml;
-		
-		rapidxml::file<wchar_t> xml(String::W2A(wc->GetWndXMLFile().Buffer()).c_str());
-		CHECK_ERROR(xml.size(), L"Error in window file.");
-		xml_document<wchar_t> doc;
-		doc.parse<0>(xml.data());
-		Node *root = doc.first_node();
-		CHECK_ERROR(root, L"Error in xml file.");
-
-		auto templ = _Parser(root, nullptr);
-		if (templ)
-		{
-			xmlTemplateMap_.insert(std::make_pair(wc->GetWndClassName().Buffer(), templ));
-		}
-		
 		return templ;
 	}
 

@@ -62,6 +62,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>./;./utils/;./base/;./parse/;./3rdparty/rapidxml/;./3rdparty/pattern-matching;./3rdparty/pattern-matching/preprocessor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile>../build/Face.pch</PrecompiledHeaderOutputFile>
+      <DisableSpecificWarnings>4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
