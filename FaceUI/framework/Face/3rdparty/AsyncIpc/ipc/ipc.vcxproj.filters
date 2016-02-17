@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ipc">
+      <UniqueIdentifier>{e70582e1-e6af-4bde-9881-706dd6704a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="build">
+      <UniqueIdentifier>{1535d84c-3a6e-47e7-ac29-be88e042a049}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ipc_channel_handle.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_utils.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_sender.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_common.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_thread.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_listener.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_message.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_channel_reader.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>build</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_endpoint.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_channel.h">
+      <Filter>ipc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ipc_utils.cpp">
+      <Filter>ipc</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc_thread.cpp">
+      <Filter>ipc</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc_message.cpp">
+      <Filter>ipc</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc_channel_reader.cpp">
+      <Filter>ipc</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>build</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc_endpoint.cpp">
+      <Filter>ipc</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc_channel.cpp">
+      <Filter>ipc</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
