@@ -1,19 +1,14 @@
 #include "stdafx.h"
+#include "match.hpp"
 
 namespace Face
 {
 	void WndsMgr::Init()
 	{
-		wndsConfigMap_ = new WndsConfigMap;
-		acceleratorList_ = new MsgAcceleratorList;
-		eventMap_ = new WndsEventMap;
-		controlsMap_ = new ControlsCreaterMap;
-		RegisterControls();
-	}
-
-	void WndsMgr::RegisterControls()
-	{
-		controlsMap_->insert(std::make_pair(L"Control", &Control::Create));
+		wndsConfigMap_		= new WndsConfigMap;
+		acceleratorList_	= new MsgAcceleratorList;
+		eventMap_			= new WndsEventMap;
+		regControlsMap_		= new ControlsMap;
 	}
 
 	void WndsMgr::RegisterCustomControlsBuilder(ICustomBuilder *creater)
@@ -27,14 +22,13 @@ namespace Face
 		CHECK_ERROR(pszType, L"");
 		CHECK_ERROR(pszType != L"", L"");
 
-		auto it = controlsMap_->find(pszType);
-		if (it->second)
+		auto control = regControlsMap_->find(pszType);
+		if (control != regControlsMap_->end())
 		{
-			auto fn = it->second;
-			return fn();
+			return control->second();
 		}
 
-		return nullptr;// customBuilder_->CreateCustomControls(pszType);
+		return customBuilder_->CreateCustomControls(pszType);
 	}
 
 	void WndsMgr::Destory()

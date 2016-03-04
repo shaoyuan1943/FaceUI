@@ -33,12 +33,21 @@ namespace Face
 	class FACE_API WndsMgr : public Singleton<WndsMgr>
 	{
 	public:
+		template<typename T>
+		class ControlFactory
+		{
+		public:
+			ControlFactory(const WString& key)
+			{
+				WndsMgr::getInstance()->regControlsMap_->emplace(key, []()->Control* {return new T; });
+			}
+		};
+
 		typedef Control* (_cdecl *CONTROL_CREATER)();
 		typedef std::list<ITranslateAccelerator*> MsgAcceleratorList;
 		typedef std::map<WString, WndConfig*> WndsConfigMap;
 		typedef std::map<HWND, WindowControlEvent*> WndsEventMap;
-		typedef std::map<std::wstring, CONTROL_CREATER> ControlsCreaterMap;
-		
+		typedef std::map<WString, std::function<Control*()> > ControlsMap;
 
 		virtual void Init(); 
 		virtual void Destory();
@@ -70,12 +79,15 @@ namespace Face
 		void RegisterControls();
 		WindowControlEvent* GetWndEvent(HWND hwnd);
 	private:
-		WndsConfigMap *wndsConfigMap_{ nullptr };
-		MsgAcceleratorList *acceleratorList_{ nullptr };
-		WndsEventMap *eventMap_{ nullptr };
-		ControlsCreaterMap *controlsMap_{ nullptr };
-		ICustomBuilder *customBuilder_{ nullptr };
+		WndsConfigMap		*wndsConfigMap_{ nullptr };
+		MsgAcceleratorList	*acceleratorList_{ nullptr };
+		WndsEventMap		*eventMap_{ nullptr };
+		ICustomBuilder		*customBuilder_{ nullptr };
+		ControlsMap			*regControlsMap_{ nullptr };
 	};
 }
+
+#define REGISTER_VALUE_NAME(T) reg_msg_##T##_
+#define REGISTER_CREATER(T, key) Face::WndsMgr::ControlFactory<T> REGISTER_VALUE_NAME(T)(key);
 
 #endif //_WINDOWMANAGER_H_

@@ -6,7 +6,7 @@ namespace Face
 {
 	class WindowControl;
 	/*
-		窗口类的实现，在FaceUI中，一个完成的窗口被拆分中Window，WindowImpl, WindowControl, WindowControlEvent
+		窗口类的实现，在FaceUI中，一个完整的窗口被拆分成Window，WindowImpl, WindowControl, WindowControlEvent
 		Window：窗口基类，它提供了一个窗口最基本的功能和win32窗口接口
 		WindowImpl：窗口实现类，它实现了FaceUI窗口，窗口绘制、windows消息
 		WindowControl：在其他DirectUI库中，Window既是传统窗口又是Direct窗口，在FaceUI中被拆分开，Window，WindowImpl是

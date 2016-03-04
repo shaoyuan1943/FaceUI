@@ -20,7 +20,6 @@ namespace Face
 		virtual void Invalidate();
 		virtual void SetAttribute(LPCTSTR key, LPCTSTR value);
 
-		OBJECT_CREATE(Control);
 		SYNTHESIZE_PRI(WindowControl*, wc_, WindowControl);
 		SYNTHESIZE_PRI(Control*, parent_, Parent);
 		SYNTHESIZE_PRI(bool, focused_, Focus);

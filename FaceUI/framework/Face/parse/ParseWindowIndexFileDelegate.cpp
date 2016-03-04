@@ -3,6 +3,7 @@
 #include "rapidxml.hpp"
 #include "rapidxml_utils.hpp"
 #include "ParseWindowIndexFileDelegate.h"
+#include "match.hpp"
 
 namespace Face
 {

@@ -2,8 +2,12 @@
 
 namespace Face
 {
+	REGISTER_CREATER(Control, L"Control");
+
 	Control::Control()
-	{}
+	{
+		Face::WndsMgr::ControlFactory<Control>(L"343");
+	}
 
 	Control::~Control()
 	{}
