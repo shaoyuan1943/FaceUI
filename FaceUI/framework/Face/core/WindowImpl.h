@@ -34,16 +34,15 @@ namespace Face
 		// ÊÂ¼þ
 		virtual void Notify(TNotify& notify);
 	private:
-		void OnCreate(WPARAM wParam, LPARAM lParam);
 		LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam);
+		LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
+		void OnCreate(WPARAM wParam, LPARAM lParam);
 		void OnGetMinMaxInfo(WPARAM wParam, LPARAM lParam);
 		void OnClose(WPARAM wParam, LPARAM lParam);
 		void OnDestory(WPARAM wParam, LPARAM lParam);
 		void OnNcCalcSize(WPARAM wParam, LPARAM lParam);
 		void OnPaint(WPARAM wParam, LPARAM lParam);
 		void OnSize(WPARAM param, LPARAM lParam);
-
-		LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 	protected:
 		virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
