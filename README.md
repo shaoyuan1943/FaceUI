@@ -11,3 +11,7 @@ Direct2D界面库
 
 2016.03.14 15:16  
 1. FaceUI恢复正常开发进度
+
+2016.03.16 18:17  
+1. 将WndsMgr修改为UIMgr。  
+2. 移除了OnFinalMessage函数，传统Window实体只实现OnWndCreated和OnWndDestory函数，其他的消息处理留给上一层的WindowImpl实现体。

@@ -7,11 +7,6 @@ namespace Face
 
 	WindowImpl::~WindowImpl()
 	{}
-	 
-	void WindowImpl::OnFinalMessage(HWND hWnd)
-	{
-
-	}
 	
 	WindowControl* WindowImpl::GetWndControl()
 	{
@@ -20,7 +15,7 @@ namespace Face
 
 	void WindowImpl::OnCreate(WPARAM wParam, LPARAM lParam)
 	{
-		auto setting = WndsMgr::getInstance()->GetWndConfig(GetWndClassName().Buffer());
+		auto setting = UIMgr::getInstance()->GetWndConfig(GetWndClassName().Buffer());
 		CHECK_ERROR(setting, L"Create window failed.");
 		
 		_wc_.OnWndCreated(this->GetHWND());
@@ -109,14 +104,13 @@ namespace Face
 		HWND hwndParent = GetWindowOwner(*this);
 		if (hwndParent != nullptr)
 			::SetFocus(hwndParent);
-		this->OnWndClose();
+		this->OnWndClosed();
 	}
 
 	void WindowImpl::OnDestory(WPARAM wParam, LPARAM lParam)
 	{
 		::ReleaseDC(*this, hPaintDC_);
 		hPaintDC_ = nullptr;
-		this->OnWndDestory();
 	}
 
 	void WindowImpl::OnNcCalcSize(WPARAM wParam, LPARAM lParam)
@@ -164,6 +158,7 @@ namespace Face
 			HRGN hRgn = ::CreateRoundRectRgn(rcWnd.left, rcWnd.top, rcWnd.right, rcWnd.bottom, round.cx, round.cy);
 			::SetWindowRgn(*this, hRgn, TRUE);
 			::DeleteObject(hRgn);
+			this->OnWndSized();
 		}
 	}
 
@@ -273,7 +268,6 @@ namespace Face
 			case WM_SIZE:			
 			{
 				OnSize(wParam, lParam);
-				OnWndSize();
 				bHandled = true;
 				break;
 			}
@@ -293,14 +287,14 @@ namespace Face
 				break;
 			}
 			case WM_CHAR:	
-				OnChar(wParam);
+				OnWndChar(wParam);
 				break;
 			case WM_SYSCOMMAND:		
 				if (wParam == SC_CLOSE)
 				{
 					SendMessage(WM_CLOSE);
 				}
-				OnSysCommand(wParam);
+				OnWndSysCommand(wParam);
 				bHandled = true;
 				break;
 			case WM_KEYUP:
@@ -308,7 +302,7 @@ namespace Face
 				bHandled = true;
 				break;
 			case WM_KEYDOWN:
-				OnKeyDown(wParam);
+				OnWndKeyDown(wParam);
 				bHandled = true;
 				break;
 			case WM_LBUTTONUP:	
@@ -359,7 +353,7 @@ namespace Face
 	}
 
 	// 窗口关闭操作
-	void WindowImpl::OnWndClose()
+	void WindowImpl::OnWndClosed()
 	{}
 
 	// 窗口创建完成，这里只能做FindControl操作
@@ -371,20 +365,20 @@ namespace Face
 	{}
 
 	// 窗口尺寸改变消息
-	void WindowImpl::OnWndSize()
+	void WindowImpl::OnWndSized()
 	{
 		// TODO：在这里给控件发送大小改变的消息
 	}
 
 	// 按下字符键消息
-	void WindowImpl::OnChar(WPARAM code)
+	void WindowImpl::OnWndChar(WPARAM code)
 	{}
 
 	// 按键消息
-	void WindowImpl::OnKeyDown(WPARAM code)
+	void WindowImpl::OnWndKeyDown(WPARAM code)
 	{}
 
-	void WindowImpl::OnSysCommand(WPARAM code)
+	void WindowImpl::OnWndSysCommand(WPARAM code)
 	{}
 
 	void WindowImpl::Notify(TNotify& notify)

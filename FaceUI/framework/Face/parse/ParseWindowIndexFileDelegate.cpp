@@ -118,7 +118,7 @@ namespace Face
 				CHECK_ERROR(pwo->wndClassName_.Length(), L"Error in resource.xml");
 				CHECK_ERROR(pwo->wndXmlFile_.Length(), L"Error in resource.xml");
 			}
-			WndsMgr::getInstance()->AddWndConfig(pwo->wndClassName_.Buffer(), pwo);
+			UIMgr::getInstance()->AddWndConfig(pwo->wndClassName_.Buffer(), pwo);
 		}
 
 		for (rapidxml::xml_node<wchar_t> *node = fontNode->first_node(); node != nullptr; node = node->next_sibling())

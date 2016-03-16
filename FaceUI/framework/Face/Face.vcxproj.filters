@@ -85,9 +85,6 @@
     <ClInclude Include="uibase\FontsManager.h">
       <Filter>uibase</Filter>
     </ClInclude>
-    <ClInclude Include="uibase\WindowsManager.h">
-      <Filter>uibase</Filter>
-    </ClInclude>
     <ClInclude Include="3rdparty\rapidxml\rapidxml.hpp">
       <Filter>3rdparty\rapidxml</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
     <ClInclude Include="core\Container.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="uibase\UIManager.h">
+      <Filter>uibase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -156,9 +156,6 @@
       <Filter>app</Filter>
     </ClCompile>
     <ClCompile Include="uibase\FontsManager.cpp">
-      <Filter>uibase</Filter>
-    </ClCompile>
-    <ClCompile Include="uibase\WindowsManager.cpp">
       <Filter>uibase</Filter>
     </ClCompile>
     <ClCompile Include="core\Window.cpp">
@@ -193,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="core\Container.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="uibase\UIManager.cpp">
+      <Filter>uibase</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@ namespace Face
 
 	Control::Control()
 	{
-		Face::WndsMgr::ControlFactory<Control>(L"343");
+		Face::UIMgr::ControlFactory<Control>(L"343");
 	}
 
 	Control::~Control()
@@ -37,7 +37,7 @@ namespace Face
 			case EVENT_KEYUP:
 			{
 
-				WndsMgr::getInstance()->NotifyHandler(wc_->GetHWND(), this, notify, event.wParam, event.lParam);
+				UIMgr::getInstance()->NotifyHandler(wc_->GetHWND(), this, notify, event.wParam, event.lParam);
 				break;
 			}
 			case EVENT_SETFOCUS:

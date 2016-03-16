@@ -18,6 +18,12 @@ namespace Face
 		return hWnd_;
 	}
 
+	void Window::OnWndDestory()
+	{}
+
+	void Window::OnWndCreated()
+	{}
+
 	bool Window::RegisterWndClass(LPCTSTR className, fuint style)
 	{
 		WNDCLASS wc = { 0 };
@@ -82,9 +88,6 @@ namespace Face
 		return ::CallWindowProc(oldWndProc_, hWnd_, uMsg, wParam, lParam);
 	}
 
-	void Window::OnFinalMessage(HWND hWnd)
-	{}
-
 	LRESULT CALLBACK Window::__WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		Window *pThis = nullptr;
@@ -94,6 +97,7 @@ namespace Face
 			pThis = static_cast<Window*>(lpcs->lpCreateParams);
 			pThis->hWnd_ = hWnd;
 			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LPARAM>(pThis));
+			pThis->OnWndCreated();
 		}
 		else
 		{
@@ -103,7 +107,7 @@ namespace Face
 				LRESULT lRes = ::CallWindowProc(pThis->oldWndProc_, hWnd, uMsg, wParam, lParam);
 				::SetWindowLongPtr(pThis->hWnd_, GWLP_USERDATA, 0L);
 				pThis->hWnd_ = nullptr;
-				pThis->OnFinalMessage(hWnd);	//OnFinalMessage做最后处理
+				pThis->OnWndDestory();
 				return lRes;
 			}
 		}
@@ -127,6 +131,7 @@ namespace Face
 			pThis = static_cast<Window*>(lpcs->lpCreateParams);
 			::SetProp(hWnd, L"WndX", (HANDLE)pThis);
 			pThis->hWnd_ = hWnd;
+			pThis->OnWndCreated();
 		}
 		else
 		{
@@ -136,7 +141,7 @@ namespace Face
 				LRESULT lRes = ::CallWindowProc(pThis->oldWndProc_, hWnd, uMsg, wParam, lParam);
 				::SetProp(hWnd, L"WndX", nullptr);
 				pThis->hWnd_ = NULL;
-				pThis->OnFinalMessage(hWnd);
+				pThis->OnWndDestory();
 				return lRes;
 			}
 		}

@@ -6,7 +6,7 @@ namespace Face
 {
 	class FACE_API Window : public Face::NotCopyable
 	{
-		friend class WndsMgr;
+		friend class UIMgr;
 	public:
 		Window();
 		virtual ~Window();
@@ -20,9 +20,7 @@ namespace Face
 		fuint ShowModal();
 		void Close(fuint ret = IDOK);
 		void Center();
-
 		void SetIcon(fuint res);
-
 		void FullScreen();
 		void RestoreFullScreen();
 
@@ -37,10 +35,13 @@ namespace Face
 		HWND Create(HWND hwndParent, LPCTSTR className, LPCTSTR pstrName, LPCTSTR superClassName = L"", DWORD dwStyle = UI_WNDSTYLE_FRAME, DWORD dwExStyle = UI_WNDSTYLE_EX_FRAME, fuint classStyle = UI_CLASSSTYLE_FRAME);
 
 		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
-		virtual void OnFinalMessage(HWND hWnd);
 
 		static LRESULT CALLBACK __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static LRESULT CALLBACK __ControlProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		// 窗口实体的消息处理
+		virtual void OnWndCreated();
+		virtual void OnWndDestory();
 	private:
 		HWND hWnd_{ nullptr };
 		WNDPROC oldWndProc_;

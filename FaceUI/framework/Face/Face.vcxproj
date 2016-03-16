@@ -116,7 +116,7 @@
     <ClInclude Include="uibase\FontConfig.h" />
     <ClInclude Include="uibase\FontsManager.h" />
     <ClInclude Include="uibase\WindowConfig.h" />
-    <ClInclude Include="uibase\WindowsManager.h" />
+    <ClInclude Include="uibase\UIManager.h" />
     <ClInclude Include="utils\Define.h" />
     <ClInclude Include="utils\FileSystem.h" />
     <ClInclude Include="utils\Lock.h" />
@@ -152,7 +152,7 @@
     <ClCompile Include="uibase\FontConfig.cpp" />
     <ClCompile Include="uibase\FontsManager.cpp" />
     <ClCompile Include="uibase\WindowConfig.cpp" />
-    <ClCompile Include="uibase\WindowsManager.cpp" />
+    <ClCompile Include="uibase\UIManager.cpp" />
     <ClCompile Include="utils\FileSystem.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>

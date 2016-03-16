@@ -19,20 +19,9 @@ namespace Face
 		WindowImpl();
 		virtual ~WindowImpl();
 		WindowControl* GetWndControl();
-
-		// 对外接口，可以在这里处理各种消息
-		virtual void OnFinalMessage(HWND hWnd);
-		virtual void OnWndCreated();
-		virtual void OnWndClose();
-		virtual void OnWndDestory();
-		virtual void OnWndSize();
-		virtual void OnChar(WPARAM code);
-		virtual void OnKeyDown(WPARAM code);
-		virtual void OnSysCommand(WPARAM code);
-		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-		// 事件
+		// 控件事件处理，包括普通控件和windows控件
 		virtual void Notify(TNotify& notify);
+		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	private:
 		LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam);
 		LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
@@ -46,6 +35,17 @@ namespace Face
 	protected:
 		virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		// 这两个消息是从Window流下来的
+		virtual void OnWndCreated();
+		virtual void OnWndDestory();
+
+		// 可以处理的消息
+		virtual void OnWndClosed();
+		virtual void OnWndSized();
+		virtual void OnWndChar(WPARAM code);
+		virtual void OnWndKeyDown(WPARAM code);
+		virtual void OnWndSysCommand(WPARAM code);
 	protected:
 		WindowControl _wc_;
 		HDC hPaintDC_{ nullptr };

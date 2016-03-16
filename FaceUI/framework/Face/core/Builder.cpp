@@ -69,7 +69,7 @@ namespace Face
 		{
 			case Face::FROM_WNDCLASSNAME:
 			{
-				auto wndConfig = WndsMgr::getInstance()->GetWndConfig(psz);
+				auto wndConfig = UIMgr::getInstance()->GetWndConfig(psz);
 				if (!wndConfig)
 				{
 					return nullptr;
@@ -104,7 +104,7 @@ namespace Face
 	ParserType XMLBuilder::_GetParserType(LPCTSTR psz)
 	{
 		ParserType parserType = FROM_NONE;
-		auto wc = WndsMgr::getInstance()->GetWndConfig(psz);
+		auto wc = UIMgr::getInstance()->GetWndConfig(psz);
 		if (wc)
 		{
 			parserType = FROM_WNDCLASSNAME;
@@ -176,7 +176,7 @@ namespace Face
 			templateObject = templateObject->GetChild(0);
 		}
 
-		control = WndsMgr::getInstance()->CreateControl(templateObject->GetType());
+		control = UIMgr::getInstance()->CreateControl(templateObject->GetType());
 		CHECK_ERROR(control, L"");
 		control->SetWindowControl(wc);
 		auto begin = templateObject->attributeMap_.begin();

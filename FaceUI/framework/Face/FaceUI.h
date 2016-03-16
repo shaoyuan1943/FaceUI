@@ -60,7 +60,7 @@
 #include "uibase/FontsManager.h"
 
 #include "uibase/WindowConfig.h"
-#include "uibase/WindowsManager.h"
+#include "uibase/UIManager.h"
 
 #include "core/WindowControlEvent.h"
 #include "core/Control.h"

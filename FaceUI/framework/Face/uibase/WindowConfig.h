@@ -13,7 +13,7 @@ namespace Face
 	*/
 	class FACE_API WndConfig : public Face::NotCopyable
 	{
-		friend class WndsMgr;
+		friend class UIMgr;
 		friend class ParseResourceIndexFileDelegate;
 	public:
 		WndConfig();
@@ -25,11 +25,11 @@ namespace Face
 
 		inline WindowImpl* GetWndImpl() { return wnd_; };
 	private:
-		bool	isMainWnd_;
-		fuint	style_{ 0 };
-		fuint	exStyle_{ 0 };
-		fuint	classStyle_{ 0 };
-		WindowImpl		*wnd_{ nullptr };
+		bool		isMainWnd_;
+		fuint		style_{ 0 };
+		fuint		exStyle_{ 0 };
+		fuint		classStyle_{ 0 };
+		WindowImpl	*wnd_{ nullptr };
 	};
 }
 #endif // _WNDCONFIG_H_

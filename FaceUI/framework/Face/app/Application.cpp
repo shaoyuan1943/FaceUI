@@ -42,7 +42,7 @@ namespace Face
 	{
 
 
-		WndsMgr::getInstance()->MessageLoop();
+		UIMgr::getInstance()->MessageLoop();
 	}
 
 	void App::SetInstance(HINSTANCE instance)
