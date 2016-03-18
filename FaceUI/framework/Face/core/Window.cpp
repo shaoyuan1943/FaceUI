@@ -24,6 +24,11 @@ namespace Face
 	void Window::OnWndCreated()
 	{}
 
+	const WString& Window::GetWndClassName()
+	{
+		return wndClassName_;
+	}
+
 	bool Window::RegisterWndClass(LPCTSTR className, fuint style)
 	{
 		WNDCLASS wc = { 0 };

@@ -5,7 +5,7 @@
 namespace Face
 {
 	/*
-		这里是窗口控件处理消息的地方
+		这里是窗口控件处理消息和事件的地方
 	*/
 	class FACE_API WindowControlEvent : public NotCopyable
 	{

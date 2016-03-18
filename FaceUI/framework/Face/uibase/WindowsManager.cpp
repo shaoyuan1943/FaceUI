@@ -3,7 +3,7 @@
 
 namespace Face
 {
-	void UIMgr::Init()
+	void WndsMgr::Init()
 	{
 		wndsConfigMap_		= new WndsConfigMap;
 		acceleratorList_	= new MsgAcceleratorList;
@@ -11,7 +11,27 @@ namespace Face
 		regControlsMap_		= new ControlsMap;
 	}
 
-	void UIMgr::Destory()
+	void WndsMgr::RegisterCustomControlsBuilder(ICustomBuilder *creater)
+	{
+		CHECK_ERROR(creater, L"");
+		customBuilder_ = creater;
+	}
+
+	Control* WndsMgr::CreateControl(LPCTSTR pszType)
+	{
+		CHECK_ERROR(pszType, L"");
+		CHECK_ERROR(pszType != L"", L"");
+
+		auto control = regControlsMap_->find(pszType);
+		if (control != regControlsMap_->end())
+		{
+			return control->second();
+		}
+
+		return customBuilder_->CreateCustomControls(pszType);
+	}
+
+	void WndsMgr::Destory()
 	{
 		// TODO: delete
 		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
@@ -36,7 +56,7 @@ namespace Face
 		acceleratorList_->clear();
 	}
 
-	void UIMgr::AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo)
+	void WndsMgr::AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo)
 	{
 		CHECK_ERROR(wndClassName, L"");
 		CHECK_ERROR(_pWo, L"");
@@ -44,7 +64,16 @@ namespace Face
 		wndsConfigMap_->insert(std::make_pair(wndClassName, _pWo));
 	}
 
-	WndConfig* UIMgr::GetWndConfig(LPCTSTR wndClassName)
+	void WndsMgr::OnWndFinalMessage(LPCTSTR wndClassName)
+	{
+		CHECK_ERROR(wndClassName, L"");
+		CHECK_ERROR(wndClassName != L"", L"");
+
+		auto wo = GetWndConfig(wndClassName);
+		SAFE_DELETE(wo->wnd_);
+	}
+
+	WndConfig* WndsMgr::GetWndConfig(LPCTSTR wndClassName)
 	{
 		CHECK_ERROR(wndClassName, L"");
 		auto it = wndsConfigMap_->find(wndClassName);
@@ -56,7 +85,7 @@ namespace Face
 		return nullptr;
 	}
 
-	WndConfig* UIMgr::GetMainWndConfig()
+	WndConfig* WndsMgr::GetMainWndConfig()
 	{
 		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
 		{
@@ -70,7 +99,7 @@ namespace Face
 		return nullptr;
 	}
 
-	void UIMgr::ShowWindow(LPCTSTR wndClassName, bool bShow/* = true */, bool bTakeFocus/* = true */)
+	void WndsMgr::ShowWindow(LPCTSTR wndClassName, bool bShow/* = true */, bool bTakeFocus/* = true */)
 	{
 		CHECK_ERROR(wndClassName, L"");
 		CHECK_ERROR(wndClassName != L"", L"");
@@ -94,7 +123,7 @@ namespace Face
 		}
 	}
 
-	fuint UIMgr::ShowModal(HWND hParent, LPCTSTR wndClassName)
+	fuint WndsMgr::ShowModal(HWND hParent, LPCTSTR wndClassName)
 	{
 		CHECK_ERROR(hParent, L"Create model window failed.");
 		CHECK_ERROR(wndClassName || wndClassName != L"", L"Create model window failed.");
@@ -118,7 +147,7 @@ namespace Face
 		return IDCANCEL;
 	}
 
-	void UIMgr::CloseWindow(LPCTSTR wndClassName, fuint ret/* = IDOK */)
+	void WndsMgr::CloseWindow(LPCTSTR wndClassName, fuint ret/* = IDOK */)
 	{
 		CHECK_ERROR(wndClassName || wndClassName != L"", L"Close window window failed.");
 		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
@@ -135,12 +164,12 @@ namespace Face
 		}
 	}
 
-	void UIMgr::MessageLoop()
+	void WndsMgr::MessageLoop()
 	{
 		MSG msg = { 0 };
 		while (::GetMessage(&msg, NULL, 0, 0))
 		{
-			if (!UIMgr::getInstance()->TranslateMessage(&msg))
+			if (!WndsMgr::getInstance()->TranslateMessage(&msg))
 			{
 				::TranslateMessage(&msg);
 				::DispatchMessage(&msg);
@@ -148,13 +177,13 @@ namespace Face
 		}
 	}
 
-	void UIMgr::RegisterTranslateAccelerator(ITranslateAccelerator *acclerator)
+	void WndsMgr::RegisterTranslateAccelerator(ITranslateAccelerator *acclerator)
 	{
 		CHECK_ERROR(acclerator, L"TranslateAccelerator not be null.");
 		acceleratorList_->push_back(acclerator);
 	}
 
-	void UIMgr::RemoveTranslateAccelerator(ITranslateAccelerator *acclerator)
+	void WndsMgr::RemoveTranslateAccelerator(ITranslateAccelerator *acclerator)
 	{
 		CHECK_ERROR(acclerator, L"TranslateAccelerator not be null.");
 		auto it = std::find(acceleratorList_->begin(), acceleratorList_->end(), acclerator);
@@ -165,7 +194,7 @@ namespace Face
 		}
 	}
 
-	void UIMgr::TranslateAccelerator(MSG *msg)
+	void WndsMgr::TranslateAccelerator(MSG *msg)
 	{
 		CHECK_ERROR(msg, L"Message not be null.");
 		for (auto it = acceleratorList_->begin(); it != acceleratorList_->end(); it++)
@@ -174,7 +203,7 @@ namespace Face
 		}
 	}
 
-	bool UIMgr::TranslateMessage(const LPMSG pMsg)
+	bool WndsMgr::TranslateMessage(const LPMSG pMsg)
 	{
 		UINT uStyle = GetWindowStyle(pMsg->hwnd);
 		UINT uChildRes = uStyle & WS_CHILD;
@@ -199,7 +228,7 @@ namespace Face
 		return false;
 	}
 	
-	bool UIMgr::RegisterWndEvent(HWND hwnd, WindowControlEvent *event)
+	bool WndsMgr::RegisterWndEvent(HWND hwnd, WindowControlEvent *event)
 	{
 		CHECK_ERROR(hwnd, L"");
 		CHECK_ERROR(event, L"");
@@ -214,7 +243,7 @@ namespace Face
 		return true;
 	}
 
-	bool UIMgr::RemoveWndEvent(WindowControlEvent *event)
+	bool WndsMgr::RemoveWndEvent(WindowControlEvent *event)
 	{
 		CHECK_ERROR(event, L"");
 
@@ -230,7 +259,7 @@ namespace Face
 		return false;
 	}
 
-	bool UIMgr::RemoveWndEvent(HWND hwnd)
+	bool WndsMgr::RemoveWndEvent(HWND hwnd)
 	{
 		CHECK_ERROR(hwnd, L"");
 
@@ -244,7 +273,7 @@ namespace Face
 		return false;
 	}
 
-	WindowControlEvent* UIMgr::GetWndEvent(HWND hwnd)
+	WindowControlEvent* WndsMgr::GetWndEvent(HWND hwnd)
 	{
 		CHECK_ERROR(hwnd, L"");
 
@@ -257,7 +286,7 @@ namespace Face
 		return nullptr;
 	}
 
-	void UIMgr::NotifyHandler(HWND hwnd, Control* notifyControl, NOTIFY msg, WPARAM wParam /* = 0 */, LPARAM lParam /* = 0 */)
+	void WndsMgr::NotifyHandler(HWND hwnd, Control* notifyControl, NOTIFY msg, WPARAM wParam /* = 0 */, LPARAM lParam /* = 0 */)
 	{
 		CHECK_ERROR(hwnd, L"");
 		CHECK_ERROR(notifyControl, L"");

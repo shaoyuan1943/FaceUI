@@ -12,6 +12,13 @@ namespace Face
 	class MessageListener;
 	class WindowControlEvent;
 
+	// 用户可以实现自己自定义控件的创建接口
+	class FACE_API ICustomBuilder : public NotCopyable
+	{
+	public:
+		virtual Control* CreateCustomControls(LPCTSTR pstrClassName) = 0;
+	};
+
 	class FACE_API ITranslateAccelerator : public NotCopyable
 	{
 	public:
@@ -23,7 +30,7 @@ namespace Face
 		消息转发类
 		提供了加速键消息处理列表、窗口事件列表、以及第三方控件创建列表
 	*/
-	class FACE_API UIMgr : public Singleton<UIMgr>
+	class FACE_API WndsMgr : public Singleton<WndsMgr>
 	{
 	public:
 		template<typename T>
@@ -32,7 +39,7 @@ namespace Face
 		public:
 			ControlFactory(const WString& key)
 			{
-				UIMgr::getInstance()->regControlsMap_->emplace(key, []()->Control* {return new T; });
+				WndsMgr::getInstance()->regControlsMap_->emplace(key, []()->Control* {return new T; });
 			}
 		};
 
@@ -64,17 +71,23 @@ namespace Face
 		void ShowWindow(LPCTSTR wndClassName, bool bShow = true, bool bTakeFocus = true);
 		fuint ShowModal(HWND hParent, LPCTSTR wndClassName);
 		void CloseWindow(LPCTSTR wndClassName, fuint ret = IDOK);
+
+		void OnWndFinalMessage(LPCTSTR wndClassName);
+		void RegisterCustomControlsBuilder(ICustomBuilder *creater);
+		Control* CreateControl(LPCTSTR pszType);
 	private:
+		void RegisterControls();
 		WindowControlEvent* GetWndEvent(HWND hwnd);
 	private:
 		WndsConfigMap		*wndsConfigMap_{ nullptr };
 		MsgAcceleratorList	*acceleratorList_{ nullptr };
 		WndsEventMap		*eventMap_{ nullptr };
+		ICustomBuilder		*customBuilder_{ nullptr };
 		ControlsMap			*regControlsMap_{ nullptr };
 	};
 }
 
 #define REGISTER_VALUE_NAME(T) reg_msg_##T##_
-#define REGISTER_CREATER(T, key) Face::UIMgr::ControlFactory<T> REGISTER_VALUE_NAME(T)(key);
+#define REGISTER_CREATER(T, key) Face::WndsMgr::ControlFactory<T> REGISTER_VALUE_NAME(T)(key);
 
 #endif //_WINDOWMANAGER_H_

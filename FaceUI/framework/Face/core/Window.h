@@ -14,8 +14,9 @@ namespace Face
 		HWND GetHWND() const;
 		operator HWND() const;
 
-		SYNTHESIZE_PRI_CONST_REF_GET(WString, wndClassName_, WndClassName);
+		const WString& GetWndClassName();
 
+		// 对传统window的操作
 		void ShowWindow(bool bShow = true, bool bTakeFocus = true);
 		fuint ShowModal();
 		void Close(fuint ret = IDOK);
@@ -46,6 +47,7 @@ namespace Face
 		HWND hWnd_{ nullptr };
 		WNDPROC oldWndProc_;
 		Rect restoreFullRect_;
+		WString wndClassName_{ WString(L""); };
 	};
 }
 #endif
