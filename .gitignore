@@ -94,6 +94,7 @@ build/
 *.exp
 *.ilk
 *.pch
+*.opendb
 
 # Visual Studio profiler
 *.psess
