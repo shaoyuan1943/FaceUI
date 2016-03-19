@@ -34,12 +34,11 @@ namespace Face
 		virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-		// 这两个消息是从Window流下来的
+		// 窗口消息
 		virtual void OnWndCreated();
 		virtual void OnWndDestory();
 		virtual void OnWndInited();
 
-		// 可以处理的消息
 		virtual void OnWndClosed();
 		virtual void OnWndSized();
 		virtual void OnWndChar(WPARAM code);

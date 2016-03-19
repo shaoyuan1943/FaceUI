@@ -19,3 +19,7 @@ Direct2D界面库
 2016.03.20 02:24  
 1. 更改了工程目录，添加window目录。   
 2. 修改了WindowImpl的实现，将WindowImpl定义为window控件和window窗口的集合体，提供对外可重写的接口。
+
+2016.03.20 03:13  
+1. 修改了UIMgr类，剔除了多余的东西。  
+2. 对WindowImpl类稍作整理。

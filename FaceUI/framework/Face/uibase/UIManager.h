@@ -15,7 +15,7 @@ namespace Face
 	class FACE_API ITranslateAccelerator : public NotCopyable
 	{
 	public:
-		virtual LRESULT TranslateAccelerator(MSG *pMsg) = 0;
+		virtual LRESULT TranslateAccelerator(const LPMSG pMsg) = 0;
 	};
 
 	/*
@@ -46,32 +46,32 @@ namespace Face
 		virtual void Destory();
 
 		Control* CreateControl(LPCTSTR lpszType);
+
+		// 窗口相关
 		void AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo);
 		WndConfig* GetWndConfig(LPCTSTR wndClassName);
 		WndConfig* GetMainWndConfig();
-		void MessageLoop();
-
-		void RegisterTranslateAccelerator(ITranslateAccelerator *acclerator);
-		void RemoveTranslateAccelerator(ITranslateAccelerator *acclerator);
-		bool TranslateMessage(const LPMSG pMsg);
-		void TranslateAccelerator(MSG *msg);
-
-		bool RegisterWndEvent(HWND hwnd, WindowControlEvent *event);
-		bool RemoveWndEvent(HWND hwnd);
-		bool RemoveWndEvent(WindowControlEvent *event);
-
-		void NotifyHandler(HWND hwnd, Control* notifyControl, NOTIFY msg, WPARAM wParam = 0, LPARAM lParam = 0);
-
 		void ShowWindow(LPCTSTR wndClassName, bool bShow = true, bool bTakeFocus = true);
 		fuint ShowModal(HWND hParent, LPCTSTR wndClassName);
 		void CloseWindow(LPCTSTR wndClassName, fuint ret = IDOK);
+
+		// 消息相关
+		void MessageLoop();
+		bool TranslateMessage(const LPMSG pMsg);
+		void TranslateAccelerator(const LPMSG pMsg);
+		// 自定义加速键消息
+		void RegisterTranslateAccelerator(ITranslateAccelerator *acclerator);
+		void RemoveTranslateAccelerator(ITranslateAccelerator *acclerator);
+		void RemoveAllTranslateAccelerator();
+
+		void NotifyHandler(HWND hwnd, Control* notifyControl, NOTIFY msg, WPARAM wParam = 0, LPARAM lParam = 0);
 	private:
+		// 辅助函数
 		WindowControlEvent* GetWndEvent(HWND hwnd);
 	private:
-		WndsConfigMap		*wndsConfigMap_{ nullptr };
-		MsgAcceleratorList	*acceleratorList_{ nullptr };
-		WndsEventMap		*eventMap_{ nullptr };
-		ControlsMap			*regControlsMap_{ nullptr };
+		std::unique_ptr<WndsConfigMap>		wndsConfigMap_;
+		std::unique_ptr<MsgAcceleratorList> acceleratorList_;
+		std::unique_ptr<ControlsMap>		regControlsMap_;
 	};
 }
 
