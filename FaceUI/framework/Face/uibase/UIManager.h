@@ -45,6 +45,7 @@ namespace Face
 		virtual void Init(); 
 		virtual void Destory();
 
+		Control* CreateControl(LPCTSTR lpszType);
 		void AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo);
 		WndConfig* GetWndConfig(LPCTSTR wndClassName);
 		WndConfig* GetMainWndConfig();

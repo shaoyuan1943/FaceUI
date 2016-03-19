@@ -2,14 +2,14 @@
 #include "match.hpp"
 
 namespace Face
-{
+{ 
 	WindowControl::WindowControl()
 	{}
 
 	WindowControl::~WindowControl()
 	{}
 
-	void WindowControl::OnWndCreated(HWND hwnd)
+	void WindowControl::SetWndHWND(HWND hwnd)
 	{
 		CHECK_ERROR(hwnd, L"HWND not be null.");
 

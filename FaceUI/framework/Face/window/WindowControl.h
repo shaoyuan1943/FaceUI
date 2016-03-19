@@ -15,8 +15,7 @@ namespace Face
 		WindowControl();
 		~WindowControl();
 
-		void OnWndCreated(HWND hwnd);
-		inline HWND GetHWND() { return hPaintWnd_; };
+		void SetWndHWND(HWND hwnd);
 		void SetAttribute(LPCTSTR key, LPCTSTR value);
 
 		// 可拖动改变窗口大小的边距

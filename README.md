@@ -15,3 +15,7 @@ Direct2D界面库
 2016.03.16 18:17  
 1. 将WndsMgr修改为UIMgr。  
 2. 移除了OnFinalMessage函数，传统Window实体只实现OnWndCreated和OnWndDestory函数，其他的消息处理留给上一层的WindowImpl实现体。
+
+2016.03.20 02:24  
+1. 更改了工程目录，添加window目录。   
+2. 修改了WindowImpl的实现，将WindowImpl定义为window控件和window窗口的集合体，提供对外可重写的接口。

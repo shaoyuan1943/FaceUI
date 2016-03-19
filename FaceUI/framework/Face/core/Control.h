@@ -4,6 +4,7 @@
 
 namespace Face
 {
+	class WindowImpl;
 	class WindowControl;
 	/*
 		控件基类，所有的控件需强制继承此类
@@ -20,7 +21,7 @@ namespace Face
 		virtual void Invalidate();
 		virtual void SetAttribute(LPCTSTR key, LPCTSTR value);
 
-		SYNTHESIZE_PRI(WindowControl*, wc_, WindowControl);
+		SYNTHESIZE_PRI(WindowImpl*, wndImpl_, WindowImpl);
 		SYNTHESIZE_PRI(Control*, parent_, Parent);
 		SYNTHESIZE_PRI(bool, focused_, Focus);
 

@@ -105,10 +105,6 @@
     <ClInclude Include="core\Container.h" />
     <ClInclude Include="core\Control.h" />
     <ClInclude Include="core\TemplateObject.h" />
-    <ClInclude Include="core\WindowControl.h" />
-    <ClInclude Include="core\Window.h" />
-    <ClInclude Include="core\WindowControlEvent.h" />
-    <ClInclude Include="core\WindowImpl.h" />
     <ClInclude Include="FaceUI.h" />
     <ClInclude Include="parse\ParseWindowIndexFileDelegate.h" />
     <ClInclude Include="stdafx.h" />
@@ -123,6 +119,10 @@
     <ClInclude Include="utils\Object.h" />
     <ClInclude Include="utils\Strings.h" />
     <ClInclude Include="utils\Utils.h" />
+    <ClInclude Include="window\Window.h" />
+    <ClInclude Include="window\WindowControl.h" />
+    <ClInclude Include="window\WindowControlEvent.h" />
+    <ClInclude Include="window\WindowImpl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="app\Application.cpp" />
@@ -130,10 +130,6 @@
     <ClCompile Include="core\Container.cpp" />
     <ClCompile Include="core\Control.cpp" />
     <ClCompile Include="core\TemplateObject.cpp" />
-    <ClCompile Include="core\WindowControl.cpp" />
-    <ClCompile Include="core\Window.cpp" />
-    <ClCompile Include="core\WindowControlEvent.cpp" />
-    <ClCompile Include="core\WindowImpl.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -163,6 +159,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="utils\Utils.cpp" />
+    <ClCompile Include="window\Window.cpp" />
+    <ClCompile Include="window\WindowControl.cpp" />
+    <ClCompile Include="window\WindowControlEvent.cpp" />
+    <ClCompile Include="window\WindowImpl.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

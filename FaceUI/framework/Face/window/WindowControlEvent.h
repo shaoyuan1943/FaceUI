@@ -13,6 +13,7 @@ namespace Face
 		WindowControlEvent();
 		virtual ~WindowControlEvent();
 
+		
 		virtual void OnWindowInit();
 		virtual void OnButtonClicked(TNotify& notify);
 		virtual void Notify(TNotify& notify);

@@ -37,7 +37,7 @@ namespace Face
 			case EVENT_KEYUP:
 			{
 
-				UIMgr::getInstance()->NotifyHandler(wc_->GetHWND(), this, notify, event.wParam, event.lParam);
+				UIMgr::getInstance()->NotifyHandler(wndImpl_->GetHWND(), this, notify, event.wParam, event.lParam);
 				break;
 			}
 			case EVENT_SETFOCUS:

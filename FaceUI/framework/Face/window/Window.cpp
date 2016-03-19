@@ -16,11 +16,11 @@ namespace Face
 	Window::operator HWND()const
 	{
 		return hWnd_;
-	}
+	} 
 
 	void Window::OnWndDestory()
 	{}
-
+	
 	void Window::OnWndCreated()
 	{}
 

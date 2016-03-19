@@ -35,6 +35,9 @@
     <Filter Include="controls">
       <UniqueIdentifier>{4e33b70f-24f5-49b1-afd3-4f46caa2117d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="window">
+      <UniqueIdentifier>{7a7f45e9-2083-452d-923f-380174e65800}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -100,14 +103,8 @@
     <ClInclude Include="3rdparty\pattern-matching\match.hpp">
       <Filter>3rdparty\match</Filter>
     </ClInclude>
-    <ClInclude Include="core\Window.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="utils\Utils.h">
       <Filter>utils</Filter>
-    </ClInclude>
-    <ClInclude Include="core\WindowImpl.h">
-      <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="uibase\WindowConfig.h">
       <Filter>uibase</Filter>
@@ -121,12 +118,6 @@
     <ClInclude Include="core\Control.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\WindowControl.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\WindowControlEvent.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\TemplateObject.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -135,6 +126,18 @@
     </ClInclude>
     <ClInclude Include="uibase\UIManager.h">
       <Filter>uibase</Filter>
+    </ClInclude>
+    <ClInclude Include="window\Window.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="window\WindowControl.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="window\WindowControlEvent.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="window\WindowImpl.h">
+      <Filter>window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,14 +161,8 @@
     <ClCompile Include="uibase\FontsManager.cpp">
       <Filter>uibase</Filter>
     </ClCompile>
-    <ClCompile Include="core\Window.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="utils\Utils.cpp">
       <Filter>utils</Filter>
-    </ClCompile>
-    <ClCompile Include="core\WindowImpl.cpp">
-      <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="uibase\WindowConfig.cpp">
       <Filter>uibase</Filter>
@@ -179,12 +176,6 @@
     <ClCompile Include="core\Control.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="core\WindowControl.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\WindowControlEvent.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="core\TemplateObject.cpp">
       <Filter>core</Filter>
     </ClCompile>
@@ -193,6 +184,18 @@
     </ClCompile>
     <ClCompile Include="uibase\UIManager.cpp">
       <Filter>uibase</Filter>
+    </ClCompile>
+    <ClCompile Include="window\Window.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="window\WindowControl.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="window\WindowControlEvent.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="window\WindowImpl.cpp">
+      <Filter>window</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

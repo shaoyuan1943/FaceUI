@@ -62,12 +62,12 @@
 #include "uibase/WindowConfig.h"
 #include "uibase/UIManager.h"
 
-#include "core/WindowControlEvent.h"
+#include "window//WindowControlEvent.h"
 #include "core/Control.h"
 #include "core/Container.h"
-#include "core/WindowControl.h"
-#include "core/Window.h"
-#include "core/WindowImpl.h"
+#include "window/WindowControl.h"
+#include "window/Window.h"
+#include "window/WindowImpl.h"
 #include "core/Builder.h"
 
 #endif

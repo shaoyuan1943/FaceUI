@@ -7,18 +7,13 @@ namespace Face
 
 	WindowImpl::~WindowImpl()
 	{}
-	
-	WindowControl* WindowImpl::GetWndControl()
-	{
-		return &_wc_;
-	}
 
 	void WindowImpl::OnCreate(WPARAM wParam, LPARAM lParam)
 	{
 		auto setting = UIMgr::getInstance()->GetWndConfig(GetWndClassName().Buffer());
 		CHECK_ERROR(setting, L"Create window failed.");
 		
-		_wc_.OnWndCreated(this->GetHWND());
+		WindowControl::SetWndHWND(this->GetHWND());
 		this->OnWndCreated();
 	}
 
@@ -33,7 +28,7 @@ namespace Face
 
 		if (!::IsZoomed(*this))
 		{
-			RECT rcSizeBox = _wc_.GetDragBorderSize();
+			RECT rcSizeBox = GetDragBorderSize();
 			if (pt.y < rcClient.top + rcSizeBox.top)
 			{
 				if (pt.x < rcClient.left + rcSizeBox.left)
@@ -57,7 +52,7 @@ namespace Face
 				return HTRIGHT;
 		}
 
-		RECT rcCaption = _wc_.GetCaption();
+		RECT rcCaption = GetCaption();
 		if (pt.x >= rcClient.left + rcCaption.left
 			&& pt.x < rcClient.right - rcCaption.right
 			&& pt.y >= rcCaption.top
@@ -94,8 +89,8 @@ namespace Face
 		lpMMI->ptMaxTrackSize.y = rcWork.GetHeight();
 
 		// TODO 使用窗口属性控制最小窗口尺寸
-		lpMMI->ptMinTrackSize.x = _wc_.GetMinSize().cx;
-		lpMMI->ptMinTrackSize.y = _wc_.GetMinSize().cy;
+		lpMMI->ptMinTrackSize.x = GetMinSize().cx;
+		lpMMI->ptMinTrackSize.y = GetMinSize().cy;
 	}
 
 	void WindowImpl::OnClose(WPARAM wParam, LPARAM lParam)
@@ -148,7 +143,7 @@ namespace Face
 
 	void WindowImpl::OnSize(WPARAM param, LPARAM lParam)
 	{
-		Size round = _wc_.GetRoundCorner();
+		Size round = GetRoundCorner();
 		if (!::IsIconic(*this) && (round.cx != 0 || round.cy != 0)) 
 		{
 			Rect rcWnd;
@@ -277,7 +272,7 @@ namespace Face
 			{
 				if (LOWORD(lParam) != HTCLIENT)
 					break;
-				if (_wc_.IsCapture())
+				if (IsCapture())
 				{
 					bHandled = true;
 					return TRUE;
@@ -360,6 +355,9 @@ namespace Face
 	void WindowImpl::OnWndCreated()
 	{}
 
+	void WindowImpl::OnWndInited()
+	{}
+
 	// 窗口销毁
 	void WindowImpl::OnWndDestory()
 	{}
@@ -379,8 +377,5 @@ namespace Face
 	{}
 
 	void WindowImpl::OnWndSysCommand(WPARAM code)
-	{}
-
-	void WindowImpl::Notify(TNotify& notify)
 	{}
 }

@@ -48,9 +48,9 @@ namespace Face
 	void XMLBuilder::Destory()
 	{}
 
-	Control* XMLBuilder::Create(LPCTSTR psz, WindowControl *wc)
+	Control* XMLBuilder::Create(LPCTSTR psz, WindowImpl *wndImpl)
 	{
-		CHECK_ERROR(wc, L"");
+		CHECK_ERROR(wndImpl, L"");
 		ParserType parserType = _GetParserType(psz);
 		if (parserType == FROM_NONE)
 		{
@@ -62,7 +62,7 @@ namespace Face
 		if (it != xmlTemplateMap_.end())
 		{
 			templ = it->second;
-			return _Create(templ, wc);
+			return _Create(templ, wndImpl);
 		}
 
 		switch (parserType)
@@ -76,7 +76,7 @@ namespace Face
 				}
 
 				templ = _ParseByXMLFile(wndConfig->GetWndXMLFile());
-				return _Create(templ, wc);
+				return _Create(templ, wndImpl);
 			}
 			case Face::FROM_XMLFILE:
 			{
@@ -84,7 +84,7 @@ namespace Face
 				if (path.IsFile())
 				{
 					templ = _ParseByXMLFile(path.GetFullPath());
-					return _Create(templ, wc);
+					return _Create(templ, wndImpl);
 				}
 				return nullptr;
 			}
@@ -92,7 +92,7 @@ namespace Face
 			{
 				LPTSTR content = const_cast<LPTSTR>(psz);
 				templ = _ParseByXMLContent(content);
-				return _Create(templ, wc);
+				return _Create(templ, wndImpl);
 			}
 			default:
 				return nullptr;
@@ -161,7 +161,7 @@ namespace Face
 		return templ;
 	}
 
-	Control* XMLBuilder::_Create(TemplateObject *templateObject, WindowControl *wc, Control *parent)
+	Control* XMLBuilder::_Create(TemplateObject *templateObject, WindowImpl *wndImpl, Control *parent)
 	{
 		Control *control = nullptr;
 		if (templateObject->GetType() == L"Window")
@@ -170,7 +170,7 @@ namespace Face
 			auto end = templateObject->attributeMap_.end();
 			while (begin != end)
 			{
-				wc->SetAttribute(begin->first.Buffer(), begin->second.Buffer());
+				wndImpl->SetAttribute(begin->first.Buffer(), begin->second.Buffer());
 				++begin;
 			}
 			templateObject = templateObject->GetChild(0);
@@ -178,7 +178,8 @@ namespace Face
 
 		control = UIMgr::getInstance()->CreateControl(templateObject->GetType());
 		CHECK_ERROR(control, L"");
-		control->SetWindowControl(wc);
+		control->SetWindowImpl(wndImpl);
+
 		auto begin = templateObject->attributeMap_.begin();
 		auto end = templateObject->attributeMap_.end();
 		while (begin != end)
@@ -193,7 +194,7 @@ namespace Face
 		{
 			for (int i = 0; i < childCount; i++)
 			{
-				Control *childControl = this->_Create(templateObject->GetChild(i), wc, control);
+				Control *childControl = this->_Create(templateObject->GetChild(i), wndImpl, control);
 				if (childControl)
 				{
 					container->Add(childControl);

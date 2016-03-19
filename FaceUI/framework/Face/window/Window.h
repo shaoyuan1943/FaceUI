@@ -25,6 +25,7 @@ namespace Face
 		void FullScreen();
 		void RestoreFullScreen();
 
+		// ¸¨Öúº¯Êý
 		LRESULT SendMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);
 		LRESULT PostMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);
 
@@ -47,7 +48,7 @@ namespace Face
 		HWND hWnd_{ nullptr };
 		WNDPROC oldWndProc_;
 		Rect restoreFullRect_;
-		WString wndClassName_{ WString(L""); };
+		WString wndClassName_{ WString(L"") };
 	};
 }
 #endif

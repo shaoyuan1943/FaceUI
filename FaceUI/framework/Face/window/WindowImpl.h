@@ -13,15 +13,13 @@ namespace Face
 		传统的窗口，而WindowControl则是窗口控件，与窗口有关的Direct属性或者操作全部都在WindowControl中。
 		WindowControlEvent：WindowControl（Window控件）的消息实体.
 	*/
-	class FACE_API WindowImpl : public Face::Window, Face::WindowControlEvent
+	class FACE_API WindowImpl : public Face::Window, public Face::WindowControlEvent, public Face::WindowControl
 	{
+		friend class UIMgr;
 	public:
 		WindowImpl();
 		virtual ~WindowImpl();
-		WindowControl* GetWndControl();
-		// 控件事件处理，包括普通控件和windows控件
-		virtual void Notify(TNotify& notify);
-		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+		
 	private:
 		LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam);
 		LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
@@ -39,6 +37,7 @@ namespace Face
 		// 这两个消息是从Window流下来的
 		virtual void OnWndCreated();
 		virtual void OnWndDestory();
+		virtual void OnWndInited();
 
 		// 可以处理的消息
 		virtual void OnWndClosed();
@@ -46,10 +45,9 @@ namespace Face
 		virtual void OnWndChar(WPARAM code);
 		virtual void OnWndKeyDown(WPARAM code);
 		virtual void OnWndSysCommand(WPARAM code);
+		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 	protected:
-		WindowControl _wc_;
 		HDC hPaintDC_{ nullptr };
-		WString name;
 	};
 }
 #endif

@@ -7,7 +7,7 @@ namespace Face
 	class xml_node;
 	class Control;
 	class TemplateObject;
-	class WindowControl;
+	class WindowImpl;
 	enum ParserType
 	{
 		FROM_NONE = 1,
@@ -28,14 +28,14 @@ namespace Face
 		/*
 			psz: 窗口类名、xml文件路径、xml文件内容
 		*/
-		Control* Create(LPCTSTR psz, WindowControl *wc);
+		Control* Create(LPCTSTR psz, WindowImpl *wndImpl);
 
 	private:
 		ParserType _GetParserType(LPCTSTR psz);
 		TemplateObject* _ParseByXMLFile(const WString& xmlFile);
 		TemplateObject* _ParseByXMLContent(LPTSTR content);
 
-		Control* _Create(TemplateObject *templateObject, WindowControl *wc, Control *parent = nullptr);
+		Control* _Create(TemplateObject *templateObject, WindowImpl *wndImpl, Control *parent = nullptr);
 
 	private:
 		typedef std::map<WString, TemplateObject*> XMLTemplateObjectMap;
