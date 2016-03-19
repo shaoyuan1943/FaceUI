@@ -5,35 +5,26 @@ namespace Face
 {
 	void UIMgr::Init()
 	{
-		wndsConfigMap_		= new WndsConfigMap;
-		acceleratorList_	= new MsgAcceleratorList;
-		eventMap_			= new WndsEventMap;
-		regControlsMap_		= new ControlsMap;
+		wndsConfigMap_		= std::unique_ptr<WndsConfigMap>(new WndsConfigMap);
+		acceleratorList_	= std::unique_ptr<MsgAcceleratorList>(new MsgAcceleratorList);
+		regControlsMap_		= std::unique_ptr<ControlsMap>(new ControlsMap);
 	}
 
 	void UIMgr::Destory()
 	{
-		// TODO: delete
-		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
-		{
-			auto wc = it->second;
-			if (wc)
-			{
-				if (wc->wnd_)
-				{
-					SAFE_DELETE(wc->wnd_);
-				}
-			}
-
-			SAFE_DELETE(wc);
-		}
-		wndsConfigMap_->clear();
 		
-		for (auto it = acceleratorList_->begin(); it != acceleratorList_->end(); it++)
+	}
+
+	Control* UIMgr::CreateControl(LPCTSTR lpszType)
+	{
+		CHECK_ERROR(lpszType != nullptr && lpszType != L"", L"");
+		auto it = regControlsMap_->find(lpszType);
+		if (it != regControlsMap_->end())
 		{
-			SAFE_DELETE(*it);
+			return it->second();
 		}
-		acceleratorList_->clear();
+
+		return nullptr;
 	}
 
 	void UIMgr::AddWndConfig(LPCTSTR wndClassName, WndConfig* _pWo)
@@ -134,19 +125,7 @@ namespace Face
 			}
 		}
 	}
-
-	void UIMgr::MessageLoop()
-	{
-		MSG msg = { 0 };
-		while (::GetMessage(&msg, NULL, 0, 0))
-		{
-			if (!UIMgr::getInstance()->TranslateMessage(&msg))
-			{
-				::TranslateMessage(&msg);
-				::DispatchMessage(&msg);
-			}
-		}
-	}
+	
 
 	void UIMgr::RegisterTranslateAccelerator(ITranslateAccelerator *acclerator)
 	{
@@ -165,12 +144,29 @@ namespace Face
 		}
 	}
 
-	void UIMgr::TranslateAccelerator(MSG *msg)
+	void UIMgr::RemoveAllTranslateAccelerator()
 	{
-		CHECK_ERROR(msg, L"Message not be null.");
 		for (auto it = acceleratorList_->begin(); it != acceleratorList_->end(); it++)
 		{
-			(*it)->TranslateAccelerator(msg);
+			if (*it)
+			{
+				SAFE_DELETE(*it);
+			}
+		}
+
+		acceleratorList_->clear();
+	}
+
+	void UIMgr::MessageLoop()
+	{
+		MSG msg = { 0 };
+		while (::GetMessage(&msg, NULL, 0, 0))
+		{
+			if (!UIMgr::getInstance()->TranslateMessage(&msg))
+			{
+				::TranslateMessage(&msg);
+				::DispatchMessage(&msg);
+			}
 		}
 	}
 
@@ -199,59 +195,26 @@ namespace Face
 		return false;
 	}
 	
-	bool UIMgr::RegisterWndEvent(HWND hwnd, WindowControlEvent *event)
+	void UIMgr::TranslateAccelerator(const LPMSG pMsg)
 	{
-		CHECK_ERROR(hwnd, L"");
-		CHECK_ERROR(event, L"");
-
-		auto it = eventMap_->find(hwnd);
-		if (it->second)
+		CHECK_ERROR(pMsg, L"Message not be null.");
+		for (auto it = acceleratorList_->begin(); it != acceleratorList_->end(); it++)
 		{
-			return false;
+			(*it)->TranslateAccelerator(pMsg);
 		}
-
-		eventMap_->insert(std::make_pair(hwnd, event));
-		return true;
-	}
-
-	bool UIMgr::RemoveWndEvent(WindowControlEvent *event)
-	{
-		CHECK_ERROR(event, L"");
-
-		for (auto it = eventMap_->begin(); it != eventMap_->end(); it++)
-		{
-			if (it->second == event)
-			{
-				eventMap_->erase(it);
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	bool UIMgr::RemoveWndEvent(HWND hwnd)
-	{
-		CHECK_ERROR(hwnd, L"");
-
-		auto it = eventMap_->find(hwnd);
-		if (it->second)
-		{
-			eventMap_->erase(it);
-			return true;
-		}
-
-		return false;
 	}
 
 	WindowControlEvent* UIMgr::GetWndEvent(HWND hwnd)
 	{
 		CHECK_ERROR(hwnd, L"");
-
-		auto it = eventMap_->find(hwnd);
-		if (it->second)
+		
+		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
 		{
-			return it->second;
+			auto wndImpl = it->second->GetWndImpl();
+			if (wndImpl && *wndImpl == hwnd)
+			{
+				return wndImpl;
+			}
 		}
 
 		return nullptr;
