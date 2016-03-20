@@ -10,7 +10,6 @@ namespace Face
 	public:
 		Window();
 		virtual ~Window();
-	public:
 		HWND GetHWND() const;
 		operator HWND() const;
 
@@ -40,10 +39,6 @@ namespace Face
 
 		static LRESULT CALLBACK __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		static LRESULT CALLBACK __ControlProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-		// 窗口实体的消息处理
-		virtual void OnWndCreated();
-		virtual void OnWndDestory();
 	private:
 		HWND hWnd_{ nullptr };
 		WNDPROC oldWndProc_;

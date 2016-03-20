@@ -23,3 +23,7 @@ Direct2D界面库
 2016.03.20 03:13  
 1. 修改了UIMgr类，剔除了多余的东西。  
 2. 对WindowImpl类稍作整理。
+
+2016.03.21 00:05  
+1. 修改函数命名。  
+2. 将OnWndCreated和OnWndDestory事件放回WindowImpl类中。

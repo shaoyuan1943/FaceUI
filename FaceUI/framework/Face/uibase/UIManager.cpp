@@ -175,17 +175,19 @@ namespace Face
 		UINT uStyle = GetWindowStyle(pMsg->hwnd);
 		UINT uChildRes = uStyle & WS_CHILD;
 		LRESULT lRes = 0;
+		bool bHandled = false;
 
 		for (auto it = wndsConfigMap_->begin(); it != wndsConfigMap_->end(); it++)
 		{
 			auto wc = it->second;
+
 			if (wc && wc->wnd_ && wc->wnd_->GetHWND() == pMsg->hwnd)
 			{
 				// 处理加速键消息
 				TranslateAccelerator(pMsg);
 
 				//  处理FaceUI关心的消息
-				if (wc->wnd_->PreHandlerMessage(pMsg->message, pMsg->wParam, pMsg->lParam))
+				if (wc->wnd_->OnWndPreprocessMessage(pMsg->message, pMsg->wParam, pMsg->lParam, bHandled))
 				{
 					return true;
 				}

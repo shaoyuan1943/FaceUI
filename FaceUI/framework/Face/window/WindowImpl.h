@@ -31,20 +31,18 @@ namespace Face
 		void OnPaint(WPARAM wParam, LPARAM lParam);
 		void OnSize(WPARAM param, LPARAM lParam);
 	protected:
-		virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
-		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
-
+		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam) final;
 		// ´°¿ÚÏûÏ¢
 		virtual void OnWndCreated();
 		virtual void OnWndDestory();
 		virtual void OnWndInited();
-
 		virtual void OnWndClosed();
 		virtual void OnWndSized();
 		virtual void OnWndChar(WPARAM code);
 		virtual void OnWndKeyDown(WPARAM code);
 		virtual void OnWndSysCommand(WPARAM code);
-		virtual bool PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnWndPreprocessMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
+		virtual LRESULT OnWndHandleCustomeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 	protected:
 		HDC hPaintDC_{ nullptr };
 	};

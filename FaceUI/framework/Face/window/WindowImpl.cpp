@@ -170,24 +170,13 @@ namespace Face
 		{
 			return lRes;
 		}
-		lRes = this->HandleCustomMessage(uMsg, wParam, lParam, bHandled);
+		lRes = this->OnWndHandleCustomeMessage(uMsg, wParam, lParam, bHandled);
 		if (bHandled == true)
 		{
 			return lRes;
 		}
 
 		return __super::WindowProc(uMsg, wParam, lParam);
-	}
-
-	bool WindowImpl::PreHandlerMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
-	{
-		return false;
-	}
-
-	LRESULT WindowImpl::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled)
-	{
-		bHandled = false;
-		return 0;
 	}
 
 	LRESULT WindowImpl::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled)
@@ -339,6 +328,16 @@ namespace Face
 			case WM_MOUSELEAVE:
 				bHandled = true;
 				break;
+			case WM_NCCREATE:
+			{
+				this->OnWndCreated();
+				break;
+			}
+			case WM_NCDESTROY:
+			{
+				this->OnWndDestory();
+				break; 
+			}
 			default:				
 				bHandled = false; 
 				break;
@@ -378,4 +377,16 @@ namespace Face
 
 	void WindowImpl::OnWndSysCommand(WPARAM code)
 	{}
+
+	LRESULT WindowImpl::OnWndPreprocessMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled)
+	{
+		bHandled = false;
+		return 0;
+	}
+
+	LRESULT WindowImpl::OnWndHandleCustomeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled)
+	{
+		bHandled = false;
+		return 0;
+	}
 }

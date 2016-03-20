@@ -18,12 +18,6 @@ namespace Face
 		return hWnd_;
 	} 
 
-	void Window::OnWndDestory()
-	{}
-	
-	void Window::OnWndCreated()
-	{}
-
 	const WString& Window::GetWndClassName()
 	{
 		return wndClassName_;
@@ -102,7 +96,6 @@ namespace Face
 			pThis = static_cast<Window*>(lpcs->lpCreateParams);
 			pThis->hWnd_ = hWnd;
 			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LPARAM>(pThis));
-			pThis->OnWndCreated();
 		}
 		else
 		{
@@ -112,7 +105,6 @@ namespace Face
 				LRESULT lRes = ::CallWindowProc(pThis->oldWndProc_, hWnd, uMsg, wParam, lParam);
 				::SetWindowLongPtr(pThis->hWnd_, GWLP_USERDATA, 0L);
 				pThis->hWnd_ = nullptr;
-				pThis->OnWndDestory();
 				return lRes;
 			}
 		}
@@ -136,7 +128,6 @@ namespace Face
 			pThis = static_cast<Window*>(lpcs->lpCreateParams);
 			::SetProp(hWnd, L"WndX", (HANDLE)pThis);
 			pThis->hWnd_ = hWnd;
-			pThis->OnWndCreated();
 		}
 		else
 		{
@@ -146,7 +137,6 @@ namespace Face
 				LRESULT lRes = ::CallWindowProc(pThis->oldWndProc_, hWnd, uMsg, wParam, lParam);
 				::SetProp(hWnd, L"WndX", nullptr);
 				pThis->hWnd_ = NULL;
-				pThis->OnWndDestory();
 				return lRes;
 			}
 		}
