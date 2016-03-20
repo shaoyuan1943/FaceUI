@@ -37,25 +37,11 @@ namespace Face
 		return instancePath_;
 	}
 
-
 	void App::Run()
 	{
 
 
 		UIMgr::getInstance()->MessageLoop();
-	}
-
-	void App::SetInstance(HINSTANCE instance)
-	{
-		if (instance != instance_)
-		{
-			instance_ = instance;
-		}
-	}
-
-	HINSTANCE App::GetAppInstance()
-	{
-		return instance_;
 	}
 
 	// Ïà¶ÔÂ·¾¶
@@ -64,10 +50,5 @@ namespace Face
 		WString full = App::getInstance()->GetResourcePath().GetFullPath();
 		full = full + path;
 		return full;
-	}
-
-	WString App::GetFullPathByName(LPCTSTR path)
-	{
-		return GetFullPathByName(WString(path));
 	}
 }

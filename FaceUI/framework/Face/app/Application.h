@@ -19,19 +19,14 @@ namespace Face
 	public:
 		void SetResourcePath(FilePath& _path);
 		FilePath& GetResourcePath();
-
 		FilePath& GetInstancePath();
-		void SetInstance(HINSTANCE instance);
-		HINSTANCE GetAppInstance();
-
+		SYNTHESIZE_PRO(HINSTANCE, instance_, AppInstance);
 		WString GetFullPathByName(WString& path);
-		WString GetFullPathByName(LPCTSTR path);
 		void Run();
 	private:
 		FilePath skinPath_;
 		ParseResourceIndexFileDelegate* parseDelegate_{ nullptr };
 		FilePath instancePath_;
-		HINSTANCE instance_;
 	};
 }
 
