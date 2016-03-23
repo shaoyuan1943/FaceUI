@@ -19,7 +19,15 @@ namespace Face
 	public:
 		WindowImpl();
 		virtual ~WindowImpl();
-		
+
+		// window´°¿Ú²Ù×÷
+		void ShowWindow(bool bShow = true, bool bTakeFocus = true);
+		fuint ShowModal();
+		void Close(fuint ret = IDOK);
+		void Center();
+		void SetIcon(fuint res);
+		void FullScreen();
+		void RestoreFullScreen();
 	private:
 		LRESULT OnNcHitTest(WPARAM wParam, LPARAM lParam);
 		LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
@@ -43,8 +51,10 @@ namespace Face
 		virtual void OnWndSysCommand(WPARAM code);
 		virtual LRESULT OnWndPreprocessMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 		virtual LRESULT OnWndHandleCustomeMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
+
 	protected:
 		HDC hPaintDC_{ nullptr };
+		Rect restoreFullRect_;
 	};
 }
 #endif

@@ -23,7 +23,7 @@ namespace Face
 		消息转发类
 		提供了加速键消息处理列表、窗口事件列表、以及第三方控件创建列表
 	*/
-	class FACE_API UIMgr : public Singleton<UIMgr>
+	class FACE_API UIMgr final: public Singleton<UIMgr>
 	{
 	public:
 		template<typename T>
@@ -34,6 +34,10 @@ namespace Face
 			{
 				UIMgr::getInstance()->regControlsMap_->emplace(key, []()->Control* {return new T; });
 			}
+
+		private:
+			ControlFactory(const ControlFactory&) = delete;
+			ControlFactory(ControlFactory&) = delete;
 		};
 
 		typedef Control* (_cdecl *CONTROL_CREATER)();

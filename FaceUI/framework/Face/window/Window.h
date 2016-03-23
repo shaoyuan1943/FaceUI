@@ -15,15 +15,6 @@ namespace Face
 
 		const WString& GetWndClassName();
 
-		// 对传统window的操作
-		void ShowWindow(bool bShow = true, bool bTakeFocus = true);
-		fuint ShowModal();
-		void Close(fuint ret = IDOK);
-		void Center();
-		void SetIcon(fuint res);
-		void FullScreen();
-		void RestoreFullScreen();
-
 		// 辅助函数
 		LRESULT SendMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);
 		LRESULT PostMessage(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0L);
@@ -31,10 +22,8 @@ namespace Face
 	private:
 		bool RegisterWndClass(LPCTSTR className, fuint style);
 		bool SuperClass(LPCTSTR superClassName, LPCTSTR className);
-
-	protected:
 		HWND Create(HWND hwndParent, LPCTSTR className, LPCTSTR pstrName, LPCTSTR superClassName = L"", DWORD dwStyle = UI_WNDSTYLE_FRAME, DWORD dwExStyle = UI_WNDSTYLE_EX_FRAME, fuint classStyle = UI_CLASSSTYLE_FRAME);
-
+	protected:
 		virtual LRESULT WindowProc(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		static LRESULT CALLBACK __WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -42,7 +31,6 @@ namespace Face
 	private:
 		HWND hWnd_{ nullptr };
 		WNDPROC oldWndProc_;
-		Rect restoreFullRect_;
 		WString wndClassName_{ WString(L"") };
 	};
 }
